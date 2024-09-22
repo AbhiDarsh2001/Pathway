@@ -7,18 +7,19 @@
 	background-size: cover;
 	align-items: center;
 	justify-content: center;
-  }
+}
   
-  .signup_form_container {
+.signup_form_container {
 	width: 750px;
-	height: 375px;
+	height: auto; /* Adjusted for dynamic height */
 	display: flex;
+	flex-direction: row; /* Keep the layout */
 	border-radius: 10px;
 	box-shadow: 0px 3px 3px -2px rgb(0 0 0 / 20%),
 	  0px 3px 4px 0px rgb(0 0 0 / 14%), 0px 1px 8px 0px rgb(0 0 0 / 12%);
-  }
+}
   
-  .left {
+.left {
 	flex: 1;
 	display: flex;
 	flex-direction: column;
@@ -27,16 +28,16 @@
 	background-color: #3bb19b;
 	border-top-left-radius: 10px;
 	border-bottom-left-radius: 10px;
-  }
+}
   
-  .left h1 {
+.left h1 {
 	margin-top: 0;
 	color: white;
 	font-size: 30px;
 	align-self: center;
-  }
+}
   
-  .left button[type="button"] {
+.left button[type="button"] {
 	background-color: #fff;
 	color: #333;
 	border: none;
@@ -45,13 +46,13 @@
 	cursor: pointer;
 	border-radius: 5px;
 	margin-bottom: 20px;
-  }
+}
   
-  .left button[type="button"]:hover {
+.left button[type="button"]:hover {
 	background-color: #f7f7f7;
-  }
+}
   
-  .google_login_button {
+.google_login_button {
 	background-color: #fff;
 	color: #333;
 	border: none;
@@ -60,13 +61,13 @@
 	cursor: pointer;
 	border-radius: 5px;
 	margin-bottom: 20px;
-  }
+}
   
-  .google_login_button:hover {
+.google_login_button:hover {
 	background-color: #f7f7f7;
-  }
+}
   
-  .right {
+.right {
 	flex: 2;
 	display: flex;
 	flex-direction: column;
@@ -76,40 +77,40 @@
 	border-top-right-radius: 10px;
 	border-bottom-right-radius: 10px;
 	padding: 20px;
-  }
+}
   
-  .form_container {
+.form_container {
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-  }
+}
   
-  .form_container h1 {
+.form_container h1 {
 	font-size: 20px;
 	margin-bottom: 10px;
-  }
+}
   
-  .input {
-	width: 150%;
+.input {
+	width: 100%; /* Adjusted for proper width */
 	height: 30px;
 	margin-bottom: 20px;
 	padding: 10px;
 	border: 1px solid #ccc;
 	border-radius: 5px;
-  }
+}
   
-  .input:focus {
+.input:focus {
 	border-color: #aaa;
 	box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  }
+}
   
-  .error_msg {
+.error_msg {
 	color: red;
 	font-size: 14px;
 	margin-bottom: 10px;
-  }
+}
   
-  .green_btn {
+.green_btn {
 	background-color: #3bb19b;
 	color: white;
 	border: none;
@@ -117,13 +118,13 @@
 	font-size: 16px;
 	cursor: pointer;
 	border-radius: 5px;
-  }
+}
   
-  .green_btn:hover {
+.green_btn:hover {
 	background-color: #2f9a8f;
-  }
+}
   
-  .white_btn {
+.white_btn {
 	background-color: #fff;
 	color: #333;
 	border: none;
@@ -131,8 +132,34 @@
 	font-size: 16px;
 	cursor: pointer;
 	border-radius: 5px;
-  }
+}
   
-  .white_btn:hover {
+.white_btn:hover {
 	background-color: #f7f7f7;
-  }
+}
+
+/* New Styles for Validation Messages */
+.validation_msg {
+	width: 100%; /* Full width for better alignment */
+	margin-bottom: 10px;
+	font-size: 14px;
+}
+
+.validation_msg p {
+	margin: 5px 0; /* Space between messages */
+}
+
+/* Styles for confirm password input */
+.confirm_password {
+	width: 100%;
+	height: 30px;
+	margin-bottom: 20px;
+	padding: 10px;
+	border: 1px solid #ccc;
+	border-radius: 5px;
+}
+
+.confirm_password:focus {
+	border-color: #aaa;
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}

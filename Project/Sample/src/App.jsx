@@ -1,21 +1,22 @@
-import { Route, Routes, Navigate } from "react-router-dom";
-import Main from "./Components/Main";
-import Signup from "./Components/Signup";
-import Login from "./Components/Login";
+import { Routes, Route } from "react-router-dom";
+import Login from "./Components/Login/index";
+import Signup from "./Components/Signup/index";
+import Main from "./Components/Main/index";
 import Home from "./Components/Home/home";
 
 function App() {
-	const user = localStorage.getItem("token");
-
-	return (
-		<Routes>
-			{user && <Route path="/" exact element={<Main />} />}
-			<Route path="/signup" exact element={<Signup />} />
-			<Route path="/login" exact element={<Login />} />
-			<Route path="/Home"exact element={<Home />} />
-			<Route path="/" element={<Navigate replace to="/login" />} />
-		</Routes>
-	);
+    return (
+        <Routes>
+            <Route path="/login" element={<Login />} />
+            <Route path="/signup" element={<Signup />} />
+            <Route path="/" element={<Main />} />
+			<Route path="/home" element={<Home />} />
+        </Routes>
+    );
 }
 
 export default App;
+
+
+
+
