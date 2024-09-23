@@ -79,6 +79,12 @@ const Login = () => {
                             required
                             className={styles.input}
                         />
+                        {/* Forgot Password Button */}
+                        <div style={{ textAlign: 'right', marginTop: '5px' }}>
+                            <Link to="/forgotpassword" style={{ textDecoration: 'none', color: '#007bff' }}>
+                                Forgot Password?
+                            </Link>
+                        </div>
                         {error && <div className={styles.error_msg}>{error}</div>}
                         <button type="submit" className={styles.green_btn}>
                             Sign In

@@ -20,6 +20,14 @@ const userSchema = mongoose.Schema({
         type: Boolean,
         default: false,
     },
+    resetCode:{
+        type:String,
+        default:''
+    },
+    resetCodeExpiration:{
+        type:Date,
+        default:Date.now
+    }
 }, { timestamps: true, versionKey: false });
 
 const User = mongoose.model('User', userSchema);

@@ -7,9 +7,7 @@ const Signup = () => {
     const [data, setData] = useState({
         name: "",
         email: "",
-        password: "",
-        confirmPassword: "", // Added for confirmation
-    });
+        password: ""    });
     const [error, setError] = useState("");
     const [passwordValidations, setPasswordValidations] = useState({
         length: false,

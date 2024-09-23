@@ -5,7 +5,7 @@ const jwt = require('jsonwebtoken');
 const bodyParser = require('body-parser');
 const bcrypt = require('bcrypt');
 const cors = require("cors");
-
+const nodemailer = require('nodemailer');
 const User = require('./models/RegisterModel.js');
 const app = express();
 
@@ -36,8 +36,8 @@ app.post('/authWithGoogle', async (req, res) => {
 
         if (!existingUser) {
             const result = await User.create({
-                name,
-                email,
+                name:name,
+                email:email,
                 password: ' ', // No password for Google auth
                 isAdmin: false,
             });
@@ -138,6 +138,75 @@ app.post('/login', async (req, res) => {
         res.status(500).json({ message: "Something went wrong." });
     }
 });
+
+app.post('/forgotpassword', async (req, res) => {
+    const { email } = req.body;
+    console.log(email);
+
+    const user = await User.findOne({ email });
+    if (!user) {
+        return res.status(400).send({ error: true, msg: 'Email id not registered' });
+    }
+
+    const resetCode = Math.floor(1000 + Math.random() * 9000).toString();
+    user.resetCode = resetCode;
+    user.resetCodeExpiration = Date.now() + 3600000; // 1 hour expiration
+    await user.save();
+
+    // Send email with nodemailer
+    const transporter = nodemailer.createTransport({
+        service: 'gmail',
+        auth: {
+            user: process.env.EMAIL, 
+            pass: process.env.PASSWORD,
+        },
+    });
+
+    const mailOptions = {
+        from: process.env.EMAIL,
+        to: user.email,
+        subject: 'Password Reset Code',
+        text:`Your password reset code is ${resetCode}`,
+    };
+
+    transporter.sendMail(mailOptions, (error, info) => {
+        if (error) {
+            return res.status(500).send({ error: true, msg: 'Error sending email' });
+        } else {
+            return res.status(200).send({ error: false, msg: 'Verification code sent to your email.' });
+        }
+    });
+});
+
+app.post('/verifycode', async (req, res) => {
+    const { email, code } = req.body;
+    console.log(code);
+
+    const user = await User.findOne({ email, resetCode: code, resetCodeExpiration: { $gt: Date.now() } });
+    if (!user) {
+        return res.status(400).send({ error: true, msg: 'Invalid or expired code' });
+    }
+
+    res.status(200).send({ error: false, msg: 'Code verified' });
+});
+
+app.post('/resetpassword', async (req, res) => {
+    const { email, password } = req.body;
+    console.log(password);
+
+    const user = await User.findOne({ email });
+    if (!user) {
+        return res.status(400).send({ error: true, msg: 'Email not found' });
+    }
+
+    user.password = password; 
+    user.resetCode = undefined;
+    user.resetCodeExpiration = undefined;
+    await user.save();
+
+    res.status(200).send({ error: false, msg: 'Password has been reset' });
+});
+
 
 // Start the server
 const PORT = process.env.PORT || 8080;
