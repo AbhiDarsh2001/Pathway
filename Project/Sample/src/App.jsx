@@ -6,6 +6,8 @@ import Home from "./Components/Home/home";
 import ForgotPassword from "./Components/ForgotPassword/ForgotPassword/ForgotPassword";
 import VerifyCode from "./Components/ForgotPassword/ForgotPassword/VerifyCode";
 import ResetPassword from "./Components/ForgotPassword/ForgotPassword/ResetPassword";
+import Dashboard from "./Pages/admin/Dashboard";
+import CourseForm from "./Pages/admin/courseform";
 function App() {
     return (
         <Routes>
@@ -16,6 +18,8 @@ function App() {
 			<Route path="/forgotpassword" element={<ForgotPassword />} />
 			<Route path="/verifycode" element={<VerifyCode/>}/>
 			<Route path="/resetpassword" element={<ResetPassword/>}/>
+			<Route path="/admin" element={<Dashboard />} />
+			<Route path="/addcourse" element = {<CourseForm />} />
         </Routes>
     );
 }

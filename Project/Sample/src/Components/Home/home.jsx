@@ -1,5 +1,6 @@
 // Home.jsx
 import React from 'react';
+import { Link } from "react-router-dom";
 import './home.css'; // style a separate CSS file
 
 const Home = () => {
@@ -35,7 +36,9 @@ const Home = () => {
                         <div className="search-bar">
                             <input type="text" placeholder="Search..." />
                         </div>
-                        <a href="#profile" className="profile-icon">Profile</a>
+                        <Link to="/Login" style={{ textDecoration: 'none', color: '#007bff' }}>
+                                Logout
+                            </Link>
                     </nav>
                 </header>
 

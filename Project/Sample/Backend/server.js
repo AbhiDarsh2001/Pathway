@@ -9,6 +9,11 @@ const nodemailer = require('nodemailer');
 const User = require('./models/RegisterModel.js');
 const app = express();
 
+
+
+//import Routes
+
+const CourseRoute = require('./routes/course.js')
 // Middleware for CORS
 app.use(cors({
     origin: ["http://localhost:5173"],
@@ -207,6 +212,10 @@ app.post('/resetpassword', async (req, res) => {
     res.status(200).send({ error: false, msg: 'Password has been reset' });
 });
 
+
+// use routes
+
+app.use('/course', CourseRoute);
 
 // Start the server
 const PORT = process.env.PORT || 8080;

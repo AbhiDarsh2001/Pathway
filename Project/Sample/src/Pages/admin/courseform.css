@@ -1,0 +1,100 @@
+/* General form container styling */
+.course-form-container {
+    max-width: 600px;
+    margin: 50px auto;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    font-family: 'Arial', sans-serif;
+  }
+  
+  /* Form title styling */
+  .course-form-container h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 24px;
+    color: #333;
+    font-weight: bold;
+  }
+  
+  /* Form field container */
+  .course-form-container form {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  /* Label styling */
+  .course-form-container label {
+    margin-bottom: 8px;
+    font-size: 14px;
+    font-weight: bold;
+    color: #333;
+  }
+  
+  /* Input and textarea styling */
+  .course-form-container input[type="text"],
+  .course-form-container textarea,
+  .course-form-container select {
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 14px;
+    width: 100%;
+    box-sizing: border-box;
+    transition: border-color 0.3s;
+  }
+  
+  /* Focused input/textarea styling */
+  .course-form-container input:focus,
+  .course-form-container textarea:focus,
+  .course-form-container select:focus {
+    border-color: #007bff;
+    outline: none;
+  }
+  
+  /* Button styling */
+  .course-form-container button {
+    padding: 10px 15px;
+    background-color: #007bff;
+    color: #fff;
+    font-size: 16px;
+    font-weight: bold;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  /* Button hover effect */
+  .course-form-container button:hover {
+    background-color: #0056b3;
+  }
+  
+  /* Disabled button style */
+  .course-form-container button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+  }
+  
+  /* Adjust textarea height */
+  .course-form-container textarea {
+    height: 100px;
+  }
+  
+  /* Responsive styling */
+  @media (max-width: 768px) {
+    .course-form-container {
+      padding: 15px;
+    }
+  
+    .course-form-container h2 {
+      font-size: 20px;
+    }
+  
+    .course-form-container button {
+      font-size: 14px;
+    }
+  }
+  
