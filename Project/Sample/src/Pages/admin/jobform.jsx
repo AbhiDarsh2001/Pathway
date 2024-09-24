@@ -1,16 +1,14 @@
 import React, { useState } from 'react';
-import './courseform.css';
+import './jobform.css';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
-const CourseForm = () => {
+const JobForm = () => {
   const [formData, setFormData] = useState({
     name: '',
     description: '',
     eligibility: '',
-    categories: '',
-    job: '',
-    entrance: '',
+    industry: '',
   });
 
   const [loading, setLoading] = useState(false);
@@ -31,11 +29,11 @@ const CourseForm = () => {
       const formattedData = {
         ...formData,
         // Convert job and entrance into arrays by splitting the comma-separated values
-        job: formData.job.split(',').map(item => item.trim()),
-        entrance: formData.entrance.split(',').map(item => item.trim()),
+        industry: formData.industry.split(',').map(item => item.trim()),
+        eligibility: formData.eligibility.split(',').map(item => item.trim()),
       };
 
-      const response = await axios.post('http://localhost:8080/course', formattedData); // Adjust backend endpoint
+      const response = await axios.post('http://localhost:8080/job', formattedData); // Adjust backend endpoint
       console.log(response.data);
       alert('Course submitted successfully');
 
@@ -43,12 +41,10 @@ const CourseForm = () => {
         name: '',
         description: '',
         eligibility: '',
-        categories: '',
-        job: '',
-        entrance: '',
+        industry: '',
       });
 
-      navigate('/addcourse');
+      navigate('/addjob');
     } catch (error) {
       console.error(error);
       alert('Error submitting: ' + (error.response?.data?.message || 'Unknown error'));
@@ -58,8 +54,8 @@ const CourseForm = () => {
   };
 
   return (
-    <div className="course-form-container">
-      <h2>Submit Course</h2>
+    <div className="job-form-container">
+      <h2>Submit Job</h2>
       <form onSubmit={handleSubmit}>
         <div>
           <label>Name:</label>
@@ -80,7 +76,7 @@ const CourseForm = () => {
             required
           />
         </div>
-        <div>
+        {/* <div>
           <label>Eligibility:</label>
           <textarea
             name="eligibility"
@@ -88,8 +84,8 @@ const CourseForm = () => {
             onChange={handleChange}
             required
           />
-        </div>
-        <div>
+        </div> */}
+        {/* <div>
           <label>Categories:</label>
           <select name="categories" value={formData.categories} onChange={handleChange} required>
             <option value="">Select Category</option>
@@ -98,25 +94,25 @@ const CourseForm = () => {
             <option value="Professional">Professional</option>
             <option value="Non-professional">Non-professional</option>
           </select>
-        </div>
+        </div> */}
         <div>
-          <label>Job (comma separated IDs):</label>
+          <label>Eligibility (comma separated IDs):</label>
           <input
             type="text"
-            name="job"
-            value={formData.job}
+            name="eligibility"
+            value={formData.eligibility}
             onChange={handleChange}
-            placeholder="e.g., job1, job2, job3"
+            placeholder="e.g., eligibility1, eligibility2"
           />
         </div>
         <div>
-          <label>Entrance (comma separated IDs):</label>
+          <label>Industries (comma separated IDs):</label>
           <input
             type="text"
-            name="entrance"
-            value={formData.entrance}
+            name="industry"
+            value={formData.industry}
             onChange={handleChange}
-            placeholder="e.g., entrance1, entrance2"
+            placeholder="e.g., industry1, industry2"
           />
         </div>
         <button type="submit" disabled={loading}>
@@ -127,4 +123,4 @@ const CourseForm = () => {
   );
 };
 
-export default CourseForm;
+export default JobForm;

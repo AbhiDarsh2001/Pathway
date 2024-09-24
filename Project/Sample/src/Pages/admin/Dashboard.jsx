@@ -7,7 +7,7 @@ import './dashboard.css';
 const Dashboard = () => {
 
     const navigate=useNavigate();
-    
+
   return (
     <div className="dashboard">
       <h2>Admin Dashboard Overview</h2>
@@ -15,7 +15,8 @@ const Dashboard = () => {
         {/* <div className="card">Users: 120</div> */}
         <button onClick={ () => navigate('/addcourse')}>Add course </button>
 
-        <div className="card">Jobs</div>
+        {/* <div className="stats">Jobs</div> */}
+        <button onClick={ () => navigate('/addjob')}>Add Job</button>
         {/* <div className="card">Comments: 100</div> */}
       </div>
     </div>

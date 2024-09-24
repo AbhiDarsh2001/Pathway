@@ -1,0 +1,100 @@
+/* General form container styling */
+.job-form-container {
+    max-width: 600px;
+    margin: 50px auto;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    font-family: 'Arial', sans-serif;
+  }
+  
+  /* Form title styling */
+  .job-form-container h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 24px;
+    color: #333;
+    font-weight: bold;
+  }
+  
+  /* Form field container */
+  .job-form-container form {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  /* Label styling */
+  .job-form-container label {
+    margin-bottom: 8px;
+    font-size: 14px;
+    font-weight: bold;
+    color: #333;
+  }
+  
+  /* Input and textarea styling */
+  .job-form-container input[type="text"],
+  .job-form-container textarea,
+  .job-form-container select {
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 14px;
+    width: 100%;
+    box-sizing: border-box;
+    transition: border-color 0.3s;
+  }
+  
+  /* Focused input/textarea styling */
+  .job-form-container input:focus,
+  .job-form-container textarea:focus,
+  .job-form-container select:focus {
+    border-color: #007bff;
+    outline: none;
+  }
+  
+  /* Button styling */
+  .job-form-container button {
+    padding: 10px 15px;
+    background-color: #007bff;
+    color: #fff;
+    font-size: 16px;
+    font-weight: bold;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  /* Button hover effect */
+  .job-form-container button:hover {
+    background-color: #0056b3;
+  }
+  
+  /* Disabled button style */
+  .job-form-container button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+  }
+  
+  /* Adjust textarea height */
+  .job-form-container textarea {
+    height: 100px;
+  }
+  
+  /* Responsive styling */
+  @media (max-width: 768px) {
+    .job-form-container {
+      padding: 15px;
+    }
+  
+    .job-form-container h2 {
+      font-size: 20px;
+    }
+  
+    .job-form-container button {
+      font-size: 14px;
+    }
+  }
+  

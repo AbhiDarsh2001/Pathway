@@ -12,8 +12,9 @@ const app = express();
 
 
 //import Routes
-
 const CourseRoute = require('./routes/course.js')
+const JobRoute = require('./routes/job.js')
+
 // Middleware for CORS
 app.use(cors({
     origin: ["http://localhost:5173"],
@@ -216,6 +217,7 @@ app.post('/resetpassword', async (req, res) => {
 // use routes
 
 app.use('/course', CourseRoute);
+app.use('/job', JobRoute);
 
 // Start the server
 const PORT = process.env.PORT || 8080;
