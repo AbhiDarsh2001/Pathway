@@ -2,12 +2,14 @@ import React, { useState } from 'react';
 import './jobform.css';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import Sidebar from './sidebar';
 
 const JobForm = () => {
   const [formData, setFormData] = useState({
     name: '',
     description: '',
     eligibility: '',
+    categories: '',
     industry: '',
   });
 
@@ -40,6 +42,7 @@ const JobForm = () => {
         name: '',
         description: '',
         eligibility: '',
+        categories: '',
         industry: '',
       });
 
@@ -54,14 +57,8 @@ const JobForm = () => {
 
   return (
     <div className="job-page-container">
-      {/* Header Bar */}
-      <div className="header-bar">
-        <h1>Job Management</h1>
-        <button className="admin-button" onClick={() => navigate('/admin')}>
-          Admin Dashboard
-        </button>
-      </div>
-
+      <Sidebar />
+      
       {/* Job Form */}
       <div className="job-form-container">
         <h2>Submit Job</h2>
@@ -87,16 +84,30 @@ const JobForm = () => {
           </div>
           <div>
             <label>Eligibility (comma separated):</label>
-            <input
-              type="text"
+            <textarea
               name="eligibility"
               value={formData.eligibility}
               onChange={handleChange}
-              placeholder="e.g., eligibility1, eligibility2"
+              required
             />
           </div>
           <div>
-            <label>Industries (comma separated):</label>
+            {/* <label>Categories:</label>
+            <select
+              name="categories"
+              value={formData.categories}
+              onChange={handleChange}
+              required
+            >
+              <option value="">Select Category</option>
+              <option value="Full-Time">Full-Time</option>
+              <option value="Part-Time">Part-Time</option>
+              <option value="Internship">Internship</option>
+              <option value="Contract">Contract</option>
+            </select> */}
+          </div>
+          <div>
+            <label>Industry (comma separated):</label>
             <input
               type="text"
               name="industry"

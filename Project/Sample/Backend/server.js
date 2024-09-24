@@ -14,6 +14,7 @@ const app = express();
 //import Routes
 const CourseRoute = require('./routes/course.js')
 const JobRoute = require('./routes/job.js')
+const Viewjob = require('./routes/viewjobs.js')
 
 // Middleware for CORS
 app.use(cors({
@@ -98,12 +99,12 @@ app.post('/signup', async (req, res) => {
             return res.status(400).json({ msg: 'User already exists' });
         }
 
-        const hashedPassword = await bcrypt.hash(password, 10);
+        // const hashedPassword = await bcrypt.hash(password, 10);
 
         const newUser = new User({
             name,
             email,
-            password: hashedPassword,
+            password: password,
             isAdmin: false,
         });
 
@@ -132,7 +133,7 @@ app.post('/login', async (req, res) => {
         }
 
         // Validate password
-        const validPassword = await bcrypt.compare(password, user.password);
+        const validPassword = password;
         if (!validPassword) {
             return res.status(400).json({ message: "Invalid email or password." });
         }
@@ -218,6 +219,7 @@ app.post('/resetpassword', async (req, res) => {
 
 app.use('/course', CourseRoute);
 app.use('/job', JobRoute);
+app.use('/viewjob',Viewjob);
 
 // Start the server
 const PORT = process.env.PORT || 8080;

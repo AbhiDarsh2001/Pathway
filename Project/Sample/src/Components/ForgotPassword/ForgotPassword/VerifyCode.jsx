@@ -34,13 +34,21 @@ const VerifyCode = () => {
             <h2 style={styles.heading}>Verify Code</h2>
             {error && <p style={styles.errorMsg}>{error}</p>}
             <TextField
-                label="Enter 4-digit code"
-                value={code}
-                onChange={handleCodeChange}
-                variant="outlined"
-                fullWidth
-                style={styles.textField}
-            />
+    label="Enter 4-digit code"
+    value={code}
+    onChange={handleCodeChange}
+    variant="outlined"
+    fullWidth
+    // style={{ width: '100%', fontSize: '20px', height: '60px' }} // Adjust the width, font size, and height as needed
+    InputProps={{
+        style: {
+            height: '60px', // Adjust height
+            fontSize: '20px', // Increase the font size
+            padding: '0px', // Adjust padding
+        }
+    }}
+/>
+
             <div style={styles.buttonContainer}>
                 <Button
                     onClick={handleVerifyCode}
@@ -88,6 +96,7 @@ const styles = {
     },
     textField: {
         marginBottom: '20px',
+        minHeight: '20px',
         borderRadius: '8px',
     },
     buttonContainer: {

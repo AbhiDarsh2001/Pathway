@@ -1,18 +1,13 @@
+// src/Pages/admin/Dashboard.jsx
 import React from 'react';
-import { useNavigate } from "react-router-dom";
+import Sidebar from './sidebar'; // Adjust the import path if necessary
 import './dashboard.css';
 
 const Dashboard = () => {
-  const navigate = useNavigate();
-
   return (
     <div className="dashboard-container">
       {/* Sidebar */}
-      <div className="sidebar">
-        <h3>Admin Functions</h3>
-        <button onClick={() => navigate('/addcourse')}>Add Course</button>
-        <button onClick={() => navigate('/addjob')}>Add Job</button>
-      </div>
+      <Sidebar />
 
       {/* Main Dashboard Content */}
       <div className="dashboard">

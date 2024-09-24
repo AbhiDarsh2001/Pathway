@@ -1,115 +1,114 @@
+/* General container styling */
+.job-page-container {
+    display: flex;
+    max-width: 100%;
+    margin: 0 auto;
+    font-family: 'Arial', sans-serif;
+}
+
 /* General form container styling */
 .job-form-container {
-    max-width: 600px;
-    margin: 50px auto;
-    padding: 30px;
-    background-color: #ffffff;
+    flex-grow: 1;
+    max-width: 700px; /* Adjusted max-width */
+    margin: 50px auto; /* Center form and add margin */
+    padding: 30px; /* Adjust padding */
+    background-color: #fff; /* Matching background with course form */
     border-radius: 12px;
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
-    font-family: 'Arial', sans-serif;
     transition: box-shadow 0.3s ease;
-  }
-  
-  .job-form-container:hover {
+}
+
+/* Add hover effect */
+.job-form-container:hover {
     box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
-  }
-  
-  /* Form title styling */
-  .job-form-container h2 {
+}
+
+/* Form title styling */
+.job-form-container h2 {
     text-align: center;
-    margin-bottom: 30px;
-    font-size: 26px;
-    color: #2c3e50;
+    margin-bottom: 20px;
+    font-size: 24px;
+    color: #333;
     font-weight: bold;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-  }
-  
-  /* Form field container */
-  .job-form-container form {
+}
+
+/* Form field container */
+.job-form-container form {
     display: flex;
     flex-direction: column;
-  }
-  
-  /* Label styling */
-  .job-form-container label {
+}
+
+/* Label styling */
+.job-form-container label {
     margin-bottom: 8px;
-    font-size: 15px;
+    font-size: 14px;
     font-weight: bold;
     color: #333;
-  }
-  
-  /* Input and textarea styling */
-  .job-form-container input[type="text"],
-  .job-form-container textarea,
-  .job-form-container select {
-    padding: 12px;
-    margin-bottom: 20px;
+}
+
+/* Input and textarea styling */
+.job-form-container input[type="text"],
+.job-form-container textarea,
+.job-form-container select {
+    padding: 10px;
+    margin-bottom: 15px;
     border: 1px solid #ccc;
-    border-radius: 6px;
+    border-radius: 5px;
     font-size: 14px;
     width: 100%;
     box-sizing: border-box;
-    transition: border-color 0.3s, box-shadow 0.3s;
-  }
-  
-  /* Input hover/focus effect */
-  .job-form-container input:hover,
-  .job-form-container textarea:hover,
-  .job-form-container select:hover,
-  .job-form-container input:focus,
-  .job-form-container textarea:focus,
-  .job-form-container select:focus {
-    border-color: #3498db;
-    box-shadow: 0 4px 12px rgba(52, 152, 219, 0.2);
+    transition: border-color 0.3s;
+}
+
+/* Focused input/textarea styling */
+.job-form-container input:focus,
+.job-form-container textarea:focus,
+.job-form-container select:focus {
+    border-color: #3498db; /* Adjust to blue to match the course form */
     outline: none;
-  }
-  
-  /* Button styling */
-  .job-form-container button {
-    padding: 12px 18px;
-    background-color: #3498db;
-    color: white;
+}
+
+/* Button styling */
+.job-form-container button {
+    padding: 10px 15px;
+    background-color: #3498db; /* Adjusted to match course form */
+    color: #fff;
     font-size: 16px;
     font-weight: bold;
     border: none;
-    border-radius: 6px;
+    border-radius: 5px;
     cursor: pointer;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    transition: background-color 0.3s, transform 0.3s;
-    box-shadow: 0 4px 10px rgba(52, 152, 219, 0.3);
-  }
-  
-  /* Button hover effect */
-  .job-form-container button:hover {
-    background-color: #2980b9;
-    transform: translateY(-2px);
-  }
-  
-  /* Disabled button style */
-  .job-form-container button:disabled {
-    background-color: #bdc3c7;
+    transition: background-color 0.3s;
+}
+
+/* Button hover effect */
+.job-form-container button:hover {
+    background-color: #2980b9; /* Matching hover color */
+}
+
+/* Disabled button style */
+.job-form-container button:disabled {
+    background-color: #ccc;
     cursor: not-allowed;
-  }
-  
-  /* Adjust textarea height */
-  .job-form-container textarea {
-    height: 120px;
-  }
-  
-  /* Responsive styling */
-  @media (max-width: 768px) {
+}
+
+/* Adjust textarea height */
+.job-form-container textarea {
+    height: 100px;
+}
+
+/* Responsive styling */
+@media (max-width: 768px) {
     .job-form-container {
-      padding: 20px;
+      margin: 20px;
+      padding: 15px;
     }
-  
+
     .job-form-container h2 {
-      font-size: 22px;
+      font-size: 20px;
     }
-  
+
     .job-form-container button {
-      font-size: 15px;
+      font-size: 14px;
     }
-  }
-  
+}

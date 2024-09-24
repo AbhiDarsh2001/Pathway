@@ -9,6 +9,9 @@ import ResetPassword from "./Components/ForgotPassword/ForgotPassword/ResetPassw
 import Dashboard from "./Pages/admin/Dashboard";
 import CourseForm from "./Pages/admin/courseform";
 import JobForm from "./Pages/admin/jobform";
+import JobList from "./Pages/admin/joblist";
+import VJobDetails from "./Pages/admin/viewjob";
+
 
 function App() {
     return (
@@ -23,6 +26,8 @@ function App() {
 			<Route path="/admin" element={<Dashboard />} />
 			<Route path="/addcourse" element = {<CourseForm />} />
 			<Route path="/addjob" element = {<JobForm />} />
+			<Route path='/iconjob' element= {<JobList />} />
+			<Route path='/viewjob/:id' element= {<VJobDetails />} />
         </Routes>
     );
 }

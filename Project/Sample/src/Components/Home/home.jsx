@@ -29,17 +29,22 @@ const Home = () => {
           <div className="logo-container">
             <img src="src/assets/Pathway_logo.png" alt="Career Pathway Logo" className="logo" />
           </div>
-                    <nav>
-                        <a href="#home">Home</a>
-                        <a href="#about-us">About Us</a>
-                        <a href="#browse">Browse</a>
-                        <div className="search-bar">
-                            <input type="text" placeholder="Search..." />
-                        </div>
-                        <Link to="/Login" style={{ textDecoration: 'none', color: '#007bff' }}>
-                                Logout
-                            </Link>
-                    </nav>
+
+          <nav>
+            <Link to="/home" style={ { textDecoration:'none', color:'#00000'}}>
+                Home
+            </Link>
+            <Link to="/" style={{ textDecoration: 'none', color: '#000000' }}>
+                About Us
+            </Link>
+            <a href="#browse">Browse</a>
+            <div className="search-bar">
+                <input type="text" placeholder="Search..." />
+            </div>
+            <Link to="/Login" style={{ textDecoration: 'none', color: '#000000' }}>
+                Logout
+            </Link>
+        </nav>
                 </header>
 
                 {/* Course Cards */}
