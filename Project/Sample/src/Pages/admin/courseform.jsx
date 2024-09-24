@@ -19,7 +19,7 @@ const CourseForm = () => {
   const handleChange = (e) => {
     setFormData({
       ...formData,
-      [e.target.name]: e.target.value
+      [e.target.name]: e.target.value,
     });
   };
 
@@ -30,12 +30,11 @@ const CourseForm = () => {
     try {
       const formattedData = {
         ...formData,
-        // Convert job and entrance into arrays by splitting the comma-separated values
-        job: formData.job.split(',').map(item => item.trim()),
-        entrance: formData.entrance.split(',').map(item => item.trim()),
+        job: formData.job.split(',').map((item) => item.trim()),
+        entrance: formData.entrance.split(',').map((item) => item.trim()),
       };
 
-      const response = await axios.post('http://localhost:8080/course', formattedData); // Adjust backend endpoint
+      const response = await axios.post('http://localhost:8080/course', formattedData);
       console.log(response.data);
       alert('Course submitted successfully');
 
@@ -58,71 +57,87 @@ const CourseForm = () => {
   };
 
   return (
-    <div className="course-form-container">
-      <h2>Submit Course</h2>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label>Name:</label>
-          <input
-            type="text"
-            name="name"
-            value={formData.name}
-            onChange={handleChange}
-            required
-          />
-        </div>
-        <div>
-          <label>Description:</label>
-          <textarea
-            name="description"
-            value={formData.description}
-            onChange={handleChange}
-            required
-          />
-        </div>
-        <div>
-          <label>Eligibility:</label>
-          <textarea
-            name="eligibility"
-            value={formData.eligibility}
-            onChange={handleChange}
-            required
-          />
-        </div>
-        <div>
-          <label>Categories:</label>
-          <select name="categories" value={formData.categories} onChange={handleChange} required>
-            <option value="">Select Category</option>
-            <option value="PG">PG</option>
-            <option value="UG">UG</option>
-            <option value="Professional">Professional</option>
-            <option value="Non-professional">Non-professional</option>
-          </select>
-        </div>
-        <div>
-          <label>Job (comma separated IDs):</label>
-          <input
-            type="text"
-            name="job"
-            value={formData.job}
-            onChange={handleChange}
-            placeholder="e.g., job1, job2, job3"
-          />
-        </div>
-        <div>
-          <label>Entrance (comma separated IDs):</label>
-          <input
-            type="text"
-            name="entrance"
-            value={formData.entrance}
-            onChange={handleChange}
-            placeholder="e.g., entrance1, entrance2"
-          />
-        </div>
-        <button type="submit" disabled={loading}>
-          {loading ? 'Submitting...' : 'Submit'}
+    <div className="course-page-container">
+      {/* Header Bar */}
+      <div className="header-bar">
+        <h1>Course Management</h1>
+        <button className="admin-button" onClick={() => navigate('/admin')}>
+          Admin Dashboard
         </button>
-      </form>
+      </div>
+
+      {/* Course Form */}
+      <div className="course-form-container">
+        <h2>Submit Course</h2>
+        <form onSubmit={handleSubmit}>
+          <div>
+            <label>Name:</label>
+            <input
+              type="text"
+              name="name"
+              value={formData.name}
+              onChange={handleChange}
+              required
+            />
+          </div>
+          <div>
+            <label>Description:</label>
+            <textarea
+              name="description"
+              value={formData.description}
+              onChange={handleChange}
+              required
+            />
+          </div>
+          <div>
+            <label>Eligibility:</label>
+            <textarea
+              name="eligibility"
+              value={formData.eligibility}
+              onChange={handleChange}
+              required
+            />
+          </div>
+          <div>
+            <label>Categories:</label>
+            <select
+              name="categories"
+              value={formData.categories}
+              onChange={handleChange}
+              required
+            >
+              <option value="">Select Category</option>
+              <option value="PG">PG</option>
+              <option value="UG">UG</option>
+              <option value="Professional">Professional</option>
+              <option value="Non-professional">Non-professional</option>
+            </select>
+          </div>
+          <div>
+            <label>Job (comma separated):</label>
+            <input
+              type="text"
+              name="job"
+              value={formData.job}
+              onChange={handleChange}
+              placeholder="e.g., job1, job2, job3"
+            />
+          </div>
+          <div>
+            <label>Entrance (comma separated):</label>
+            <input
+              type="text"
+              name="entrance"
+              value={formData.entrance}
+              onChange={handleChange}
+              placeholder="e.g., entrance1, entrance2"
+            />
+          </div>
+          <button type="submit" disabled={loading}>
+            {loading ? 'Submitting...' : 'Submit'}
+          </button>
+        </form>
+      </div>
     </div>
   );
 };

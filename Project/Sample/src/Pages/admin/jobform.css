@@ -2,20 +2,27 @@
 .job-form-container {
     max-width: 600px;
     margin: 50px auto;
-    padding: 20px;
-    background-color: #f9f9f9;
-    border-radius: 8px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    padding: 30px;
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
     font-family: 'Arial', sans-serif;
+    transition: box-shadow 0.3s ease;
+  }
+  
+  .job-form-container:hover {
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
   }
   
   /* Form title styling */
   .job-form-container h2 {
     text-align: center;
-    margin-bottom: 20px;
-    font-size: 24px;
-    color: #333;
+    margin-bottom: 30px;
+    font-size: 26px;
+    color: #2c3e50;
     font-weight: bold;
+    letter-spacing: 1px;
+    text-transform: uppercase;
   }
   
   /* Form field container */
@@ -27,7 +34,7 @@
   /* Label styling */
   .job-form-container label {
     margin-bottom: 8px;
-    font-size: 14px;
+    font-size: 15px;
     font-weight: bold;
     color: #333;
   }
@@ -36,65 +43,73 @@
   .job-form-container input[type="text"],
   .job-form-container textarea,
   .job-form-container select {
-    padding: 10px;
-    margin-bottom: 15px;
+    padding: 12px;
+    margin-bottom: 20px;
     border: 1px solid #ccc;
-    border-radius: 5px;
+    border-radius: 6px;
     font-size: 14px;
     width: 100%;
     box-sizing: border-box;
-    transition: border-color 0.3s;
+    transition: border-color 0.3s, box-shadow 0.3s;
   }
   
-  /* Focused input/textarea styling */
+  /* Input hover/focus effect */
+  .job-form-container input:hover,
+  .job-form-container textarea:hover,
+  .job-form-container select:hover,
   .job-form-container input:focus,
   .job-form-container textarea:focus,
   .job-form-container select:focus {
-    border-color: #007bff;
+    border-color: #3498db;
+    box-shadow: 0 4px 12px rgba(52, 152, 219, 0.2);
     outline: none;
   }
   
   /* Button styling */
   .job-form-container button {
-    padding: 10px 15px;
-    background-color: #007bff;
-    color: #fff;
+    padding: 12px 18px;
+    background-color: #3498db;
+    color: white;
     font-size: 16px;
     font-weight: bold;
     border: none;
-    border-radius: 5px;
+    border-radius: 6px;
     cursor: pointer;
-    transition: background-color 0.3s;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: background-color 0.3s, transform 0.3s;
+    box-shadow: 0 4px 10px rgba(52, 152, 219, 0.3);
   }
   
   /* Button hover effect */
   .job-form-container button:hover {
-    background-color: #0056b3;
+    background-color: #2980b9;
+    transform: translateY(-2px);
   }
   
   /* Disabled button style */
   .job-form-container button:disabled {
-    background-color: #ccc;
+    background-color: #bdc3c7;
     cursor: not-allowed;
   }
   
   /* Adjust textarea height */
   .job-form-container textarea {
-    height: 100px;
+    height: 120px;
   }
   
   /* Responsive styling */
   @media (max-width: 768px) {
     .job-form-container {
-      padding: 15px;
+      padding: 20px;
     }
   
     .job-form-container h2 {
-      font-size: 20px;
+      font-size: 22px;
     }
   
     .job-form-container button {
-      font-size: 14px;
+      font-size: 15px;
     }
   }
   
