@@ -7,18 +7,31 @@ const Signup = () => {
     const [data, setData] = useState({
         name: "",
         email: "",
-        password: ""    });
+        password: "",
+        confirmPassword: ""
+    });
     const [error, setError] = useState("");
+    const [emailError, setEmailError] = useState("");
     const [passwordValidations, setPasswordValidations] = useState({
         length: false,
         specialChar: false,
         number: false,
         match: false,
     });
+    const [touchedFields, setTouchedFields] = useState({
+        email: false,
+        password: false,
+        confirmPassword: false,
+    });
+
     const navigate = useNavigate();
 
     const handleChange = ({ currentTarget: input }) => {
         setData({ ...data, [input.name]: input.value });
+
+        if (input.name === "email") {
+            validateEmail(input.value);
+        }
 
         // Validate password and confirm password
         if (input.name === "password") {
@@ -33,6 +46,15 @@ const Signup = () => {
         }
     };
 
+    const validateEmail = (email) => {
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(email)) {
+            setEmailError("Please enter a valid email address.");
+        } else {
+            setEmailError("");
+        }
+    };
+
     const validatePassword = (password) => {
         const hasLength = password.length >= 6;
         const hasSpecialChar = /[!@#$%^&*(),.?":{}|<>]/.test(password);
@@ -44,6 +66,10 @@ const Signup = () => {
             number: hasNumber,
             match: data.confirmPassword === password,
         });
+    };
+
+    const handleBlur = (field) => {
+        setTouchedFields({ ...touchedFields, [field]: true });
     };
 
     const handleSubmit = async (e) => {
@@ -97,15 +123,20 @@ const Signup = () => {
                             placeholder="Email"
                             name="email"
                             onChange={handleChange}
+                            onBlur={() => handleBlur("email")}
                             value={data.email}
                             required
                             className={styles.input}
                         />
+                        {touchedFields.email && emailError && (
+                            <div className={styles.error_msg}>{emailError}</div>
+                        )}
                         <input
                             type="password"
                             placeholder="Password"
                             name="password"
                             onChange={handleChange}
+                            onBlur={() => handleBlur("password")}
                             value={data.password}
                             required
                             className={styles.input}
@@ -115,11 +146,14 @@ const Signup = () => {
                             placeholder="Confirm Password"
                             name="confirmPassword"
                             onChange={handleChange}
+                            onBlur={() => handleBlur("confirmPassword")}
                             value={data.confirmPassword}
                             required
                             className={styles.input}
                         />
                         {error && <div className={styles.error_msg}>{error}</div>}
+                        
+                        {/* Show password validation messages */}
                         <div className={styles.validation_msg}>
                             <p style={{ color: passwordValidations.length ? 'green' : 'red' }}>
                                 {passwordValidations.length ? '✓ Minimum 6 characters' : '✗ Minimum 6 characters'}
@@ -134,6 +168,7 @@ const Signup = () => {
                                 {passwordValidations.match ? '✓ Passwords match' : '✗ Passwords do not match'}
                             </p>
                         </div>
+
                         <button type="submit" className={styles.green_btn}>
                             Sign Up
                         </button>

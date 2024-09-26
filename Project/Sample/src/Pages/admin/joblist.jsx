@@ -26,13 +26,16 @@ const JobList = () => {
     return (
         <div className="job-list-page">
             <div className="sidebar">
-                <Sidebar />
+                {/* <Sidebar /> */}
             </div>
             <div className="job-list">
                 {jobs.map((job) => (
                     <div key={job._id} className="job-item">
-                        <Link to={`/viewjob/${job._id}`}>{job.name}</Link>
+                        <h2>{job.name}</h2>
                         <p>{job.description}</p> {/* Example additional job details */}
+                        <Link to={`/viewjob/${job._id}`}>
+                            <button className="detail-btn">Details</button>
+                        </Link>
                     </div>
                 ))}
             </div>
