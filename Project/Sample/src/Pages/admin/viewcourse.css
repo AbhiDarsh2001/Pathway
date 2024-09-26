@@ -1,4 +1,4 @@
-/* viewjob.css */
+/* viewcourse.css */
 
 /* General styling */
 body {
@@ -8,9 +8,9 @@ body {
     background-color: #f4f4f4; /* Light background color */
 }
 
-/* Job details container */
-.Job-details {
-    max-width: 800px; /* Set a max width for the job details */
+/* Course details container */
+.Course-details {
+    max-width: 800px; /* Set a max width for the course details */
     margin: 20px auto; /* Center the container */
     padding: 20px; /* Inner padding */
     background-color: #fff; /* White background for details */
@@ -19,21 +19,21 @@ body {
 }
 
 /* Heading styles */
-.Job-details h1 {
+.Course-details h1 {
     font-size: 2.5em; /* Increase heading size */
     margin-bottom: 10px; /* Space below heading */
     color: #333; /* Dark color for text */
 }
 
 /* Paragraph styles */
-.Job-details p {
+.Course-details p {
     font-size: 1.2em; /* Increase font size for paragraphs */
     line-height: 1.5; /* Increase line height for readability */
     margin: 10px 0; /* Space above and below each paragraph */
 }
 
 /* Strong text styles */
-.Job-details p strong {
+.Course-details p strong {
     color: #555; /* Slightly lighter color for strong text */
 }
 
@@ -41,7 +41,7 @@ body {
 .button-container {
     margin-top: 20px; /* Space above button container */
     display: flex; /* Use flexbox for alignment */
-    justify-content: flex-start; /* Align buttons to the left */
+    justify-content: space-between; /* Space buttons apart */
 }
 
 /* Button styles */
@@ -62,4 +62,15 @@ body {
 
 .back-button:hover {
     background-color: #0056b3; /* Darker blue on hover */
+}
+
+/* Delete button styling */
+.delete-button {
+    background-color: #dc3545; /* Red background */
+    color: white; /* White text */
+    transition: background-color 0.3s ease; /* Transition for hover effect */
+}
+
+.delete-button:hover {
+    background-color: #c82333; /* Darker red on hover */
 }

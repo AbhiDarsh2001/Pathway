@@ -15,6 +15,8 @@ const app = express();
 const CourseRoute = require('./routes/course.js')
 const JobRoute = require('./routes/job.js')
 const Viewjob = require('./routes/viewjobs.js')
+const Viewcourse = require('./routes/viewcourses.js')
+const DelCourseRoute = require('./routes/delcourse');
 
 // Middleware for CORS
 app.use(cors({
@@ -220,6 +222,8 @@ app.post('/resetpassword', async (req, res) => {
 app.use('/course', CourseRoute);
 app.use('/job', JobRoute);
 app.use('/viewjob',Viewjob);
+app.use('/viewcourse',Viewcourse);
+app.use('/delcourse', DelCourseRoute);
 
 // Start the server
 const PORT = process.env.PORT || 8080;
