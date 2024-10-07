@@ -12,6 +12,8 @@ import JobForm from "./Pages/admin/jobform";
 import JobList from "./Pages/admin/joblist";
 import VJobDetails from "./Pages/admin/viewjob";
 import AddManager from "./Pages/admin/addmanager";
+import CourseList from "./Pages/admin/courselist";
+import VCourseDetails from "./Pages/admin/viewcourse";
 
 
 function App() {
@@ -30,6 +32,8 @@ function App() {
 			<Route path='/iconjob' element= {<JobList />} />
 			<Route path='/viewjob/:id' element= {<VJobDetails />} />
 			<Route path='/addmanager' element= {<AddManager />} />
+			<Route path='/iconcourse' element = {<CourseList />} />
+			<Route path='/viewcourse/:id' element = {<VCourseDetails />} />
         </Routes>
     );
 }
