@@ -25,9 +25,6 @@ const JobList = () => {
 
     return (
         <div className="job-list-page">
-            {/* <div className="sidebar">
-                 {<Sidebar /> }
-            </div> */}
             {<Sidebar /> }
             <div className="job-list">
                 {jobs.map((job) => (

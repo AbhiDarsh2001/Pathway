@@ -20,6 +20,7 @@ const addmanager = require('./routes/addmanager.js');
 const Viewcourse = require('./routes/viewcourses.js')
 const DelCourseRoute = require('./routes/delcourse');
 const DelJobRoute = require('./routes/deljob.js');
+const ViewManager = require('./routes/viewmanager.js');
 
 // Middleware for CORS
 app.use(cors({
@@ -229,6 +230,7 @@ app.use('/addmanager', addmanager);
 app.use('/viewcourse',Viewcourse);
 app.use('/delcourse', DelCourseRoute);
 app.use('/deljob',DelJobRoute);
+app.use('/viewmanager',ViewManager);
 
 // Start the server
 const PORT = process.env.PORT || 8080;
