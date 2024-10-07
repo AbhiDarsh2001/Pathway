@@ -27,7 +27,7 @@ const Home = () => {
         <header className="header">
           {/* Logo or Picture on Top */}
           <div className="logo-container">
-            <img src="src/assets/Pathway_logo.png" alt="Career Pathway Logo" className="logo" />
+            {/* <img src="src/assets/Pathway_logo.png" alt="Career Pathway Logo" className="logo" /> */}
           </div>
 
           <nav>

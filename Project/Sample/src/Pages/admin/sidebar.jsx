@@ -5,7 +5,7 @@ import './sidebar.css'; // Assuming you have a CSS file for styling
 
 const Sidebar = () => {
   const navigate = useNavigate();
-
+ 
   return (
     <div className="sidebar">
       <h3>Admin Functions</h3>
@@ -13,9 +13,8 @@ const Sidebar = () => {
       <button onClick={() => navigate('/addcourse')}>Add Course</button>
       <button onClick={() => navigate('/addjob')}>Add Job</button>
       <button onClick={() => navigate('/iconjob')}>View Job</button>
-      <button onClick={() => navigate('/viewcourse')}>View Course</button>
-      <button onClick={() => navigate('/addmanager')}>AddManager</button>
       <button onClick={() => navigate('/iconcourse')}>View Course</button>
+      <button onClick={() => navigate('/addmanager')}>AddManager</button>
     </div>
   );
 };

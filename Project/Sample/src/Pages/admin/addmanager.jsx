@@ -3,6 +3,7 @@ import './addmanager.css';
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
+import Sidebar from './sidebar'; // Import the Sidebar component
 
 function AddManager() {
   const [name, setName] = useState('');
@@ -64,7 +65,8 @@ function AddManager() {
   };
 
   return (
-    <>
+    <div className="add-manager-page">
+      <Sidebar /> {/* Sidebar component added */}
       <div className="manager-form-container">
         <h2 className="manager-form-title">Add New Manager</h2>
         <form onSubmit={handleSubmit} className="manager-form">
@@ -117,7 +119,7 @@ function AddManager() {
           </button>
         </form>
       </div>
-    </>
+    </div>
   );
 }
 
