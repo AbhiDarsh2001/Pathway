@@ -6,14 +6,6 @@
     font-family: 'Arial', sans-serif;
 }
 
-/* Sidebar styling */
-.sidebar {
-    flex: 0 0 220px; /* Sidebar width */
-    background-color: #2c3e50;
-    padding: 20px;
-    color: white;
-    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
-}
 
 /* Job list container styling */
 .job-list {
