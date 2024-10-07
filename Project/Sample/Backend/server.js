@@ -21,6 +21,8 @@ const Viewcourse = require('./routes/viewcourses.js')
 const DelCourseRoute = require('./routes/delcourse');
 const DelJobRoute = require('./routes/deljob.js');
 const ViewManager = require('./routes/viewmanager.js');
+const ViewUserPro = require('./routes/uprofile.js');
+const Ueditpro = require('./routes/uprofileupdate.js');
 
 // Middleware for CORS
 app.use(cors({
@@ -231,6 +233,8 @@ app.use('/viewcourse',Viewcourse);
 app.use('/delcourse', DelCourseRoute);
 app.use('/deljob',DelJobRoute);
 app.use('/viewmanager',ViewManager);
+app.use('/vuprofile',ViewUserPro);
+app.use('/updateProfile',Ueditpro);
 
 // Start the server
 const PORT = process.env.PORT || 8080;

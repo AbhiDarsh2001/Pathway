@@ -42,8 +42,8 @@ const Home = () => {
             <div className="search-bar">
                 <input type="text" placeholder="Search..." />
             </div>
-            <Link to="/Login" style={{ textDecoration: 'none', color: '#000000' }}>
-                Logout
+            <Link to="/uprofile" style={{ textDecoration: 'none', color: '#000000' }}>
+                Profile
             </Link>
         </nav>
                 </header>

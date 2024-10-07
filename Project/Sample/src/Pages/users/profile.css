@@ -1,0 +1,57 @@
+.uprofile-container {
+    max-width: 600px;
+    margin: 50px auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    background-color: #f9f9f9;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .uprofile-container h1 {
+    text-align: center;
+    font-size: 2em;
+    margin-bottom: 20px;
+    color: #333;
+  }
+  
+  .uprofile-container p {
+    font-size: 1.1em;
+    color: #555;
+    margin-bottom: 10px;
+  }
+  
+  .uprofile-container strong {
+    color: #333;
+  }
+  
+  .uprofile-container ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 10px 0;
+  }
+  
+  .uprofile-container ul li {
+    background-color: #e3e3e3;
+    margin: 5px 0;
+    padding: 8px;
+    border-radius: 5px;
+    font-size: 1em;
+  }
+  
+.uprofilebutton {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 1em;
+    cursor: pointer;
+    margin-top: 20px;
+  }
+  
+  .uprofilebutton:hover {
+    background-color: #0056b3;
+  }

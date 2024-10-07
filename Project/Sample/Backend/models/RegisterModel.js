@@ -27,7 +27,39 @@ const userSchema = mongoose.Schema({
     resetCodeExpiration:{
         type:Date,
         default:Date.now
+    },
+
+    education: {
+        type: String,
+        enum:[ '10','+2','Under Graduate', 'Post Graduate'],
+        required: false
+    },
+
+    courses:{
+        type: [String],
+        default: []
+    },
+    marks: {
+        tenthMark: {
+            type:Number,
+            default:0
+        },
+        twelthMark:{
+            type:Number,
+            default:0
+        },
+        degreeMark:{
+            type:Number,
+            default:0
+        },
+        pgMark:{
+            type:Number,
+            default:0
+        }
+
     }
+
+
 }, { timestamps: true, versionKey: false });
 
 const User = mongoose.model('User', userSchema);
