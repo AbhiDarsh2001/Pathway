@@ -55,9 +55,7 @@ function AddManager() {
     }
 
     try {
-      // Make sure confirmPass is included in the request
       const response = await axios.post('http://localhost:8080/addmanager', { name, email, password, confirmPass });
-
       Swal.fire("Manager added successfully", "", "success");
       navigate('/admin');
     } catch (error) {
@@ -71,7 +69,7 @@ function AddManager() {
         <h2 className="manager-form-title">Add New Manager</h2>
         <form onSubmit={handleSubmit} className="manager-form">
           <div className="manager-form-group">
-            <label className="manager-form-label">Name:</label>
+            <label className="manager-form-label">Name</label>
             <input
               type="text"
               className="manager-form-input"
@@ -82,7 +80,7 @@ function AddManager() {
           </div>
 
           <div className="manager-form-group">
-            <label className="manager-form-label">Email:</label>
+            <label className="manager-form-label">Email</label>
             <input
               type="email"
               className="manager-form-input"
@@ -93,7 +91,7 @@ function AddManager() {
           </div>
 
           <div className="manager-form-group">
-            <label className="manager-form-label">Password:</label>
+            <label className="manager-form-label">Password</label>
             <input
               type="password"
               className="manager-form-input"
@@ -104,7 +102,7 @@ function AddManager() {
           </div>
 
           <div className="manager-form-group">
-            <label className="manager-form-label">Confirm Password:</label>
+            <label className="manager-form-label">Confirm Password</label>
             <input
               type="password"
               className="manager-form-input"
