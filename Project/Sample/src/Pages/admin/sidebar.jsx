@@ -14,6 +14,7 @@ const Sidebar = () => {
       <button onClick={() => navigate('/addjob')}>Add Job</button>
       <button onClick={() => navigate('/iconjob')}>View Job</button>
       <button onClick={() => navigate('/viewcourse')}>View Course</button>
+      <button onClick={() => navigate('/addmanager')}>AddManager</button>
     </div>
   );
 };

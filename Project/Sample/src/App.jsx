@@ -11,6 +11,7 @@ import CourseForm from "./Pages/admin/courseform";
 import JobForm from "./Pages/admin/jobform";
 import JobList from "./Pages/admin/joblist";
 import VJobDetails from "./Pages/admin/viewjob";
+import AddManager from "./Pages/admin/addmanager";
 
 
 function App() {
@@ -28,6 +29,7 @@ function App() {
 			<Route path="/addjob" element = {<JobForm />} />
 			<Route path='/iconjob' element= {<JobList />} />
 			<Route path='/viewjob/:id' element= {<VJobDetails />} />
+			<Route path='/addmanager' element= {<AddManager />} />
         </Routes>
     );
 }

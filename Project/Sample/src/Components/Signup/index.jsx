@@ -72,8 +72,19 @@ const Signup = () => {
         setTouchedFields({ ...touchedFields, [field]: true });
     };
 
+    // Helper function to check if the name is empty or contains only spaces
+    const validateName = (name) => {
+        return name.trim().length > 0;
+    };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
+        // Check if the name field contains only spaces
+        if (!validateName(data.name)) {
+            setError("Name cannot be empty or contain only spaces.");
+            return;
+        }
+
         // Check if all validations are passed before submitting
         if (!passwordValidations.length || !passwordValidations.specialChar || !passwordValidations.number || !passwordValidations.match) {
             setError("Please ensure all password validations are met.");

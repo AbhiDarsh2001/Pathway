@@ -1,0 +1,57 @@
+.manager-form-container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #004429;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .manager-form-title {
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 24px;
+    color: #ffffff;
+  }
+  
+  .manager-form {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .manager-form-group {
+    margin-bottom: 15px;
+  }
+  
+  .manager-form-label {
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: #fff0f0;
+  }
+  
+  .manager-form-input {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  
+  .manager-form-input:focus {
+    border-color: #007bff;
+    outline: none;
+  }
+  
+  .manager-form-btn {
+    padding: 12px;
+    font-size: 16px;
+    color: #fff;
+    background-color: #007bff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .manager-form-btn:hover {
+    background-color: #0056b3;
+  }

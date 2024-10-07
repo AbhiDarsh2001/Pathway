@@ -11,10 +11,12 @@ const app = express();
 
 
 
+
 //import Routes
 const CourseRoute = require('./routes/course.js')
 const JobRoute = require('./routes/job.js')
 const Viewjob = require('./routes/viewjobs.js')
+const addmanager = require('./routes/addmanager.js');
 
 // Middleware for CORS
 app.use(cors({
@@ -220,6 +222,7 @@ app.post('/resetpassword', async (req, res) => {
 app.use('/course', CourseRoute);
 app.use('/job', JobRoute);
 app.use('/viewjob',Viewjob);
+app.use('/addmanager', addmanager);
 
 // Start the server
 const PORT = process.env.PORT || 8080;

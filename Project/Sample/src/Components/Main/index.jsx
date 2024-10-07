@@ -1,31 +1,60 @@
 import { useNavigate } from "react-router-dom";
 import styles from "./styles.module.css";
+import { useEffect } from "react";
 
 const Main = () => {
-    const navigate = useNavigate(); // Initialize the navigate hook
+    const navigate = useNavigate();
 
     const handleLogin = () => {
-        navigate("/login"); // Navigate to the login page
+        navigate("/login");
     };
 
     const handleRegister = () => {
-        navigate("/signup"); // Navigate to the signup page
+        navigate("/signup");
     };
+
+    useEffect(() => {
+        // Animation when sections load
+        const sections = document.querySelectorAll('section');
+        sections.forEach(section => {
+            section.style.opacity = 0;
+            section.style.transform = 'translateY(30px)';
+            section.style.transition = 'opacity 0.8s ease, transform 0.8s ease';
+        });
+
+        const observer = new IntersectionObserver(
+            entries => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = 1;
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            },
+            { threshold: 0.1 }
+        );
+
+        sections.forEach(section => {
+            observer.observe(section);
+        });
+
+        return () => observer.disconnect();
+    }, []);
 
     return (
         <div className={styles.main_container}>
-            {/* Navigation Bar */}
             <nav className={styles.navbar}>
                 <h1>Pathway - Your Educational Companion</h1>
-                <button className={styles.white_btn} onClick={handleLogin}>
-                    Login
-                </button>
-                <button className={styles.white_btn} onClick={handleRegister}>
-                    Register
-                </button>
+                <div className={styles.btn_group}>
+                    <button className={styles.white_btn} onClick={handleLogin}>
+                        Login
+                    </button>
+                    <button className={styles.white_btn} onClick={handleRegister}>
+                        Register
+                    </button>
+                </div>
             </nav>
 
-            {/* Website Overview Section */}
             <section className={styles.overview_section}>
                 <h2>Welcome to Pathway</h2>
                 <p>
@@ -33,7 +62,6 @@ const Main = () => {
                 </p>
             </section>
 
-            {/* Features Section */}
             <section className={styles.features_section}>
                 <h2>Features of Pathway</h2>
                 <ul>
@@ -44,7 +72,6 @@ const Main = () => {
                 </ul>
             </section>
 
-            {/* How it Works Section */}
             <section className={styles.how_it_works_section}>
                 <h2>How Pathway Works</h2>
                 <p>
@@ -52,16 +79,17 @@ const Main = () => {
                 </p>
             </section>
 
-            {/* Call to Action Section */}
             <section className={styles.cta_section}>
                 <h2>Get Started Today</h2>
                 <p>Sign up now to start exploring educational opportunities, or log in if you're already part of our community!</p>
-                <button className={styles.green_btn} onClick={handleRegister}>
-                    Join Pathway
-                </button>
-                <button className={styles.white_btn} onClick={handleLogin}>
-                    Login
-                </button>
+                <div className={styles.cta_buttons}>
+                    <button className={styles.green_btn} onClick={handleRegister}>
+                        Join Pathway
+                    </button>
+                    <button className={styles.white_btn} onClick={handleLogin}>
+                        Login
+                    </button>
+                </div>
             </section>
         </div>
     );
