@@ -9,7 +9,7 @@ const MSidebar = () => {
   return (
     <div className="sidebar">
       <h3> Functions</h3>
-      <button onClick={() => navigate('/mdashboard')}>Manager</button>
+      <button onClick={() => navigate('/manager')}>Manager</button>
       <button onClick={() => navigate('/maddcourse')}>Add Course</button>
       <button onClick={() => navigate('#maddjob')}>Add Job</button>
       <button onClick={() => navigate('#miconjob')}>View Job</button>

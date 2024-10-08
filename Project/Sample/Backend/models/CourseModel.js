@@ -1,37 +1,37 @@
+// courseModel.js
 const mongoose = require('mongoose');
-    const courseSchema = new mongoose.Schema({
-        name: {
-            type: String,
-            required: true, // Name is mandatory
-            trim: true // Removes leading/trailing spaces
-        },
-        description: {
-            type: String,
-            required: true,
-            minlength: 10 // Ensure description is not too short
-        },
-        eligibility: {
-            type: String,
-            required: true
-        },
-        categories: {
-            type: String,
-            enum: ['PG', 'UG', 'Professional', 'Non-professional'],
-            required: true
-        },
-        job: {
-            type: [String],
-        },
-        entrance: {
-            type: [String],
-        // },
-        // like: {
-        //     type: Number,
-        // },
-        // Comments: {
-        //     type: Array
-        } 
-    });
 
-    const coursemodel = mongoose.model("course", courseSchema);
-    module.exports = coursemodel;
+const courseSchema = new mongoose.Schema({
+    name: {
+        type: String,
+        required: true,
+        trim: true
+    },
+    description: {
+        type: String,
+        required: true,
+        minlength: 10
+    },
+    eligibility: {
+        type: String,
+        required: true
+    },
+    category: {
+        type: mongoose.Schema.Types.ObjectId, // Reference to Category
+        ref: 'Category',
+        required: true
+    },
+    job: {
+        type: [String]
+    },
+    entrance: {
+        type: [String]
+    },
+    duration: {
+        type: Number, // Duration in months
+        required: true
+    }
+});
+
+const Course = mongoose.model('Course', courseSchema);
+module.exports = Course;

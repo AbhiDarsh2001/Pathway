@@ -13,14 +13,31 @@ const CourseForm = () => {
     categories: '',
     job: '',
     entrance: '',
+    duration: 0 // Adding duration field
   });
+  const [categories, setCategories] = useState([]); // For dynamic categories
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
   const navigate = useNavigate();
 
+  // Fetch available categories from the database
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const response = await axios.get('http://localhost:8080/category');; // Assuming your API route for categories
+        setCategories(response.data); // Set fetched categories
+      } catch (error) {
+        console.error('Error fetching categories:', error);
+        setErrorMessage('Error fetching categories');
+      }
+    };
+
+    fetchCategories();
+  }, []);
+
+  // Fetch course details if we are editing
   useEffect(() => {
     if (id) {
-      // Fetch course details for editing
       const fetchCourseDetails = async () => {
         try {
           const response = await axios.get(`http://localhost:8080/course/${id}`);
@@ -44,26 +61,23 @@ const CourseForm = () => {
     e.preventDefault();
     setLoading(true);
     setErrorMessage('');
-  
+
     try {
-      // Ensure job and entrance fields are either split or already arrays
       const formattedData = {
         ...formData,
         job: Array.isArray(formData.job) ? formData.job : formData.job.split(',').map((item) => item.trim()),
         entrance: Array.isArray(formData.entrance) ? formData.entrance : formData.entrance.split(',').map((item) => item.trim()),
       };
-  
+
       let response;
       if (id) {
-        // If id exists, update course
         response = await axios.put(`http://localhost:8080/course/${id}`, formattedData);
         alert('Course updated successfully');
       } else {
-        // If no id, create a new course
         response = await axios.post('http://localhost:8080/course', formattedData);
         alert('Course submitted successfully');
       }
-  
+
       navigate('/iconcourse');
     } catch (error) {
       console.error(error);
@@ -73,12 +87,13 @@ const CourseForm = () => {
       setLoading(false);
     }
   };
-  
 
   return (
     <div className="course-page-container">
-      <div className="sidebar-and-form-container">
-        <Sidebar />
+      <div className='sidebar'>
+      <Sidebar />
+      </div>
+      <div className="form-container">
         <div className="form-container">
           <h2>{id ? 'Edit Course' : 'Submit Course'}</h2>
           {errorMessage && <p className="error-message">{errorMessage}</p>}
@@ -92,7 +107,7 @@ const CourseForm = () => {
                 value={formData.name}
                 onChange={handleChange}
                 required
-                minLength="3"
+                minLength=""
               />
             </div>
             <div>
@@ -125,10 +140,11 @@ const CourseForm = () => {
                 required
               >
                 <option value="">Select Category</option>
-                <option value="PG">PG</option>
-                <option value="UG">UG</option>
-                <option value="Professional">Professional</option>
-                <option value="Non-professional">Non-professional</option>
+                {categories.map((category) => (
+                  <option key={category._id} value={category._id}>
+                    {category.name}
+                  </option>
+                ))}
               </select>
             </div>
             <div>
@@ -151,6 +167,18 @@ const CourseForm = () => {
                 value={formData.entrance}
                 onChange={handleChange}
                 placeholder="e.g., entrance1, entrance2"
+              />
+            </div>
+            <div>
+              <label htmlFor="duration">Duration (in months):</label>
+              <input
+                type="number"
+                name="duration"
+                id="duration"
+                value={formData.duration}
+                onChange={handleChange}
+                placeholder="Enter course duration"
+                required
               />
             </div>
             <button type="submit" disabled={loading}>
