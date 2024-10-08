@@ -67,6 +67,7 @@ const VJobDetails = () => {
                 {job.industry && <p><strong>Industry:</strong> {job.industry.join(', ')}</p>}
                 <div className="button-container">
                     <button className="back-button" onClick={() => navigate(-1)}>Back</button>
+                    <button className="edit-button" onClick={() => navigate(`/editjob/${id}`)}>Edit</button>
                     <button className="delete-button" onClick={handleDelete}>Delete</button>
                 </div>
             </div>

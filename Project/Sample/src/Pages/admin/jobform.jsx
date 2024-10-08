@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './jobform.css';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import Sidebar from './sidebar';
 
 const JobForm = () => {
+  const { id } = useParams(); // Get the job ID from the URL
   const [formData, setFormData] = useState({
     name: '',
     description: '',
@@ -15,6 +16,27 @@ const JobForm = () => {
 
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (id) {
+      // Fetch job details for editing
+      const fetchJob = async () => {
+        try {
+          const response = await axios.get(`http://localhost:8080/viewjob/${id}`);
+          setFormData({
+            name: response.data.name,
+            description: response.data.description,
+            eligibility: response.data.eligibility.join(', '),
+            industry: response.data.industry.join(', '),
+          });
+        } catch (error) {
+          console.error('Error fetching job details:', error);
+        }
+      };
+
+      fetchJob();
+    }
+  }, [id]);
 
   const handleChange = (e) => {
     setFormData({
@@ -34,19 +56,18 @@ const JobForm = () => {
         eligibility: formData.eligibility.split(',').map((item) => item.trim()),
       };
 
-      const response = await axios.post('http://localhost:8080/job', formattedData);
-      console.log(response.data);
-      alert('Job submitted successfully');
+      let response;
+      if (id) {
+        // Update existing job
+        response = await axios.put(`http://localhost:8080/job/${id}`, formattedData);
+        alert('Job updated successfully');
+      } else {
+        // Create new job
+        response = await axios.post('http://localhost:8080/job', formattedData);
+        alert('Job submitted successfully');
+      }
 
-      setFormData({
-        name: '',
-        description: '',
-        eligibility: '',
-        categories: '',
-        industry: '',
-      });
-
-      navigate('/addjob');
+      navigate('/iconjob');
     } catch (error) {
       console.error(error);
       alert('Error submitting: ' + (error.response?.data?.message || 'Unknown error'));
@@ -58,10 +79,8 @@ const JobForm = () => {
   return (
     <div className="job-page-container">
       <Sidebar />
-      
-      {/* Job Form */}
       <div className="job-form-container">
-        <h2>Submit Job</h2>
+        <h2>{id ? 'Edit Job' : 'Submit Job'}</h2>
         <form onSubmit={handleSubmit}>
           <div>
             <label>Name:</label>
@@ -92,21 +111,6 @@ const JobForm = () => {
             />
           </div>
           <div>
-            {/* <label>Categories:</label>
-            <select
-              name="categories"
-              value={formData.categories}
-              onChange={handleChange}
-              required
-            >
-              <option value="">Select Category</option>
-              <option value="Full-Time">Full-Time</option>
-              <option value="Part-Time">Part-Time</option>
-              <option value="Internship">Internship</option>
-              <option value="Contract">Contract</option>
-            </select> */}
-          </div>
-          <div>
             <label>Industry (comma separated):</label>
             <input
               type="text"
@@ -117,7 +121,7 @@ const JobForm = () => {
             />
           </div>
           <button type="submit" disabled={loading}>
-            {loading ? 'Submitting...' : 'Submit'}
+            {loading ? 'Submitting...' : id ? 'Update' : 'Submit'}
           </button>
         </form>
       </div>

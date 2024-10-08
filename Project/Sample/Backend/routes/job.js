@@ -37,4 +37,33 @@ router.post('/', async (req, res) => {
   }
 });
 
+// PUT route to update a job by ID
+router.put('/:id', async (req, res) => {
+  const { id } = req.params;
+  const { name, description, eligibility, industry } = req.body;
+
+  try {
+    // Find job by ID and update its fields
+    const updatedJob = await jobModel.findByIdAndUpdate(
+      id,
+      { name, description, eligibility, industry },
+      { new: true } // Return the updated document
+    );
+
+    if (!updatedJob) {
+      return res.status(404).json({ message: 'Job not found' });
+    }
+
+    // Return the updated job data
+    res.status(200).json({
+      message: 'Job updated successfully',
+      job: updatedJob,
+    });
+  } catch (error) {
+    console.error('Error updating job:', error.message);
+    res.status(500).json({ message: 'Server error, unable to update job' });
+  }
+});
+
+
 module.exports = router;

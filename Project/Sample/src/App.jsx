@@ -49,6 +49,7 @@ function App() {
 			<Route path='/Uviewcourse/:id' element ={<Uviewcourse />} />
 			<Route path='/Ujoblist' element={<UJobList />} />
 			<Route path='/Uviewjob/:id' element={<Uviewjob />} />
+			<Route path="/editjob/:id" element={<JobForm />} />
         </Routes>
     );
 }

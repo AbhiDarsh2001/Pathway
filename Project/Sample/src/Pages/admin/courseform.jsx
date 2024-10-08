@@ -64,7 +64,7 @@ const CourseForm = () => {
         alert('Course submitted successfully');
       }
   
-      navigate('/addcourse');
+      navigate('/iconcourse');
     } catch (error) {
       console.error(error);
       setErrorMessage(error.response?.data?.message || 'Unknown error');
