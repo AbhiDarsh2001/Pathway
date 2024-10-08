@@ -22,7 +22,6 @@ import Uviewcourse from "./Pages/users/Uviewcourse";
 import UJobList from "./Pages/users/Ujoblist";
 import Uviewjob from "./Pages/users/Uviewjob";
 
-
 function App() {
     return (
         <Routes>

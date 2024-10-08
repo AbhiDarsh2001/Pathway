@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import './Uviewcourse.css';
 import { useParams, useNavigate } from 'react-router-dom';
+import Header from './Header';
 
 const Uviewcourse = () => {
   const { id } = useParams();
@@ -55,6 +56,7 @@ const Uviewcourse = () => {
 
   return (
     <div>
+        <Header />
       <div className="Course-details">
         <h1>{course.name}</h1>
         <p><strong>Description:</strong> {course.description}</p>

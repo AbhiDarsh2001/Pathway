@@ -3,6 +3,7 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import './profile.css'
+import Header from './Header';
 
 function Profile() {
   const [user, setUser] = useState(null);
@@ -44,6 +45,9 @@ function Profile() {
 
   return (
     <div className="uprofile-container">
+        <div>
+            
+        </div>
       <h1>User Profile</h1>
       <p><strong>Name:</strong> {user.name}</p>
       <p><strong>Email:</strong> {user.email}</p>

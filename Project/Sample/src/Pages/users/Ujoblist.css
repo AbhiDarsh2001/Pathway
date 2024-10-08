@@ -1,6 +1,8 @@
 /* General container styling for the entire page */
 .job-list-page {
     display: flex;
+    flex-direction: column;
+    justify-content: center;
     max-width: 100%; /* Make the whole page container wider */
     margin: 0 auto;
     font-family: 'Arial', sans-serif;

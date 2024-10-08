@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import './Ucourselist.css';
+import Header from './Header';
 
 const UCourseList = () => {
     const [courses, setCourses] = useState([]);
@@ -24,7 +25,7 @@ const UCourseList = () => {
 
     return (
         <div className="course-list-page">
-            {/* {<Sidebar/>} */}
+            <Header/>
             <div className="Course-list">
                 {courses.map((course) => (
                     <div key={course._id} className="course-item">

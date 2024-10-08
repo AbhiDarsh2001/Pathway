@@ -1,6 +1,7 @@
 /* General container styling for the entire page */
 .course-list-page {
     display: flex;
+    flex-direction: column;
     justify-content: center; /* Center the course list container */
     max-width: 100%;
     margin: 0 auto;

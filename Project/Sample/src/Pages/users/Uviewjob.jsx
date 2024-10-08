@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import './Uviewjob.css';
 import { useParams, useNavigate } from 'react-router-dom';
+import Header from './Header';
 
 const Uviewjob = () => {
     const { id } = useParams();
@@ -57,6 +58,7 @@ const Uviewjob = () => {
 
     return (
         <div>
+            <Header />
             <div className="Job-details">
                 {/* <Sidebar /> */}
                 <h1>{job.name}</h1> {/* Accessing job.name now safe */}

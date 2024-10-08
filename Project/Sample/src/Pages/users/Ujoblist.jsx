@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import './Ujoblist.css';
+import Header from './Header';
 
 const UJobList = () => {
     const [jobs, setJobs] = useState([]);
@@ -24,6 +25,7 @@ const UJobList = () => {
 
     return (
         <div className="job-list-page">
+            <Header />
             <div className="job-list">
                 {jobs.map((job) => (
                     <div key={job._id} className="job-item">
