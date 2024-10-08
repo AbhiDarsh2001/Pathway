@@ -38,7 +38,7 @@ const Home = () => {
                 About Us
             </Link>
             <a href="/iconjob">Job</a>
-            <a href="/iconcourse">Course</a>
+            <a href="/Ucourselist">Course</a>
             <div className="search-bar">
                 <input type="text" placeholder="Search..." />
             </div>

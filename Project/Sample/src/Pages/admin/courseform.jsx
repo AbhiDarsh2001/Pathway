@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './courseform.css';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import Sidebar from './sidebar';
 
 const CourseForm = () => {
+  const { id } = useParams(); // Get id from URL to determine if we are editing
   const [formData, setFormData] = useState({
     name: '',
     description: '',
@@ -13,10 +14,24 @@ const CourseForm = () => {
     job: '',
     entrance: '',
   });
-
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (id) {
+      // Fetch course details for editing
+      const fetchCourseDetails = async () => {
+        try {
+          const response = await axios.get(`http://localhost:8080/course/${id}`);
+          setFormData(response.data); // Pre-populate form with course details
+        } catch (error) {
+          console.error('Error fetching course details:', error);
+        }
+      };
+      fetchCourseDetails();
+    }
+  }, [id]);
 
   const handleChange = (e) => {
     setFormData({
@@ -29,27 +44,26 @@ const CourseForm = () => {
     e.preventDefault();
     setLoading(true);
     setErrorMessage('');
-
+  
     try {
+      // Ensure job and entrance fields are either split or already arrays
       const formattedData = {
         ...formData,
-        job: formData.job.split(',').map((item) => item.trim()),
-        entrance: formData.entrance.split(',').map((item) => item.trim()),
+        job: Array.isArray(formData.job) ? formData.job : formData.job.split(',').map((item) => item.trim()),
+        entrance: Array.isArray(formData.entrance) ? formData.entrance : formData.entrance.split(',').map((item) => item.trim()),
       };
-
-      const response = await axios.post('http://localhost:8080/course', formattedData);
-      console.log(response.data);
-      alert('Course submitted successfully');
-
-      setFormData({
-        name: '',
-        description: '',
-        eligibility: '',
-        categories: '',
-        job: '',
-        entrance: '',
-      });
-
+  
+      let response;
+      if (id) {
+        // If id exists, update course
+        response = await axios.put(`http://localhost:8080/course/${id}`, formattedData);
+        alert('Course updated successfully');
+      } else {
+        // If no id, create a new course
+        response = await axios.post('http://localhost:8080/course', formattedData);
+        alert('Course submitted successfully');
+      }
+  
       navigate('/addcourse');
     } catch (error) {
       console.error(error);
@@ -59,13 +73,14 @@ const CourseForm = () => {
       setLoading(false);
     }
   };
+  
 
   return (
     <div className="course-page-container">
       <div className="sidebar-and-form-container">
         <Sidebar />
         <div className="form-container">
-          <h2>Submit Course</h2>
+          <h2>{id ? 'Edit Course' : 'Submit Course'}</h2>
           {errorMessage && <p className="error-message">{errorMessage}</p>}
           <form onSubmit={handleSubmit}>
             <div>
@@ -139,7 +154,7 @@ const CourseForm = () => {
               />
             </div>
             <button type="submit" disabled={loading}>
-              {loading ? 'Submitting...' : 'Submit'}
+              {loading ? 'Submitting...' : id ? 'Update' : 'Submit'}
             </button>
           </form>
         </div>

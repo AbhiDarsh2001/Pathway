@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import './viewcourse.css';
+import './Uviewcourse.css';
 import { useParams, useNavigate } from 'react-router-dom';
-import Sidebar from './sidebar';
 
-const VCourseDetails = () => {
+const Uviewcourse = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const [course, setCourse] = useState(null);
@@ -57,7 +56,6 @@ const VCourseDetails = () => {
   return (
     <div>
       <div className="Course-details">
-        {/* <Sidebar /> */}
         <h1>{course.name}</h1>
         <p><strong>Description:</strong> {course.description}</p>
         <p><strong>Eligibility:</strong> {course.eligibility}</p>
@@ -66,12 +64,12 @@ const VCourseDetails = () => {
         <p><strong>Entrance:</strong> {course.entrance.join(', ')}</p>
         <div className="button-container">
           <button className="back-button" onClick={() => navigate(-1)}>Back</button>
-          <button className="edit-button" onClick={handleEdit}>Edit</button>
-          <button className="delete-button" onClick={handleDelete}>Delete</button>
+          {/* <button className="edit-button" onClick={handleEdit}>Edit</button>
+          <button className="delete-button" onClick={handleDelete}>Delete</button> */}
         </div>
       </div>
     </div>
   );
 };
 
-export default VCourseDetails;
+export default Uviewcourse;

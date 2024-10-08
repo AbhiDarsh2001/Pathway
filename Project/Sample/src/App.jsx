@@ -17,6 +17,8 @@ import VCourseDetails from "./Pages/admin/viewcourse";
 import ManagerList from "./Pages/admin/managerlist";
 import Profile from "./Pages/users/profile";
 import UEditProfile from "./Pages/users/updateprofile";
+import UCourseList from "./Pages/users/Ucourselist";
+import Uviewcourse from "./Pages/users/Uviewcourse";
 
 
 function App() {
@@ -40,6 +42,9 @@ function App() {
 			<Route path='/iconmanager' element = {<ManagerList />} />
 			<Route path='/uprofile' element = {<Profile />} />
 			<Route path='/userpro' element = {<UEditProfile />} />
+			<Route path="/editcourse/:id" element={<CourseForm />} />
+			<Route path='/Ucourselist' element={<UCourseList />} />
+			<Route path='/Uviewcourse/:id' element ={<Uviewcourse />} />
         </Routes>
     );
 }
