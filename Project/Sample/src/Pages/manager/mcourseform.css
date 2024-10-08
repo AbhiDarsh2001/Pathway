@@ -1,0 +1,200 @@
+/* General container styling */
+/* .course-page-container {
+    max-width: 100%;
+    margin: 0 auto;
+    font-family: 'Arial', sans-serif;
+  } */
+  
+  /* Flex container for sidebar and form */
+  .sidebar-and-form-container {
+    display: flex; /* Flexbox for sidebar and form */
+  }
+  
+  /* Sidebar styling */
+  .sidebar {
+    flex: 0 0 250px; /* Fixed width for the sidebar */
+    padding: 20px; /* Add padding as needed */
+    height: 120vh; /* Full height */
+    box-sizing: border-box;
+  }
+  
+  /* Form container styling */
+  .form-container {
+    flex: 1; /* Takes up the remaining space */
+    padding: 30px;
+    box-sizing: border-box;
+  }
+  
+  /* General form styling */
+  /* .course-form-container {
+    max-width: 600px;
+    margin: 0 auto; /* Center the form horizontally
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    font-family: 'Arial', sans-serif;
+    transition: box-shadow 0.3s ease;
+  } */
+  
+  /* .course-form-container:hover {
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
+  } */
+  
+  /* Input and label styling */
+  /* .course-form-container label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+  } */
+  
+  /* .course-form-container input,
+  .course-form-container textarea,
+  .course-form-container select {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 16px;
+    box-sizing: border-box;
+  }
+   */
+  /* .course-form-container input:focus,
+  .course-form-container textarea:focus,
+  .course-form-container select:focus {
+    outline: none;
+    border-color: #3498db;
+  } */
+  
+  /* Button styling */
+  /* .course-form-container button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 6px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease;
+  } */
+  
+  /* .course-form-container button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+  } */
+  
+  /* Error message styling */
+  .error-message {
+    color: red;
+    font-size: 14px;
+    margin-bottom: 15px;
+  }
+
+
+  /* Form container */
+.form-container {
+    max-width: 700px;
+    margin: 50px auto; /* Center the form */
+    padding: 30px;
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+}
+
+/* Form fields */
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+form div {
+    margin-bottom: 15px;
+}
+
+/* Label styling */
+label {
+    font-size: 16px;
+    font-weight: bold;
+    margin-bottom: 5px;
+    display: inline-block;
+}
+
+/* Input, select, and textarea styling */
+input[type="text"],
+textarea,
+select {
+    width: 100%;
+    padding: 10px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    box-sizing: border-box;
+    transition: border-color 0.3s ease;
+}
+
+input[type="text"]:focus,
+textarea:focus,
+select:focus {
+    border-color: #3498db;
+    outline: none;
+}
+
+/* Textarea styling */
+textarea {
+    resize: vertical; /* Allow vertical resize */
+    min-height: 100px;
+}
+
+/* Button styling */
+button {
+    background-color: #3498db;
+    color: #fff;
+    padding: 10px 20px;
+    font-size: 16px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #2980b9;
+}
+
+button:disabled {
+    background-color: #95a5a6;
+    cursor: not-allowed;
+}
+
+/* Error message styling */
+.error-message {
+    color: red;
+    font-size: 14px;
+    margin-bottom: 15px;
+    text-align: left;
+}
+
+/* Heading for the form */
+h2 {
+    font-size: 24px;
+    margin-bottom: 20px;
+    text-align: center;
+    color: #333;
+    letter-spacing: 1px;
+}
+
+/* Optional: Adjust placeholder text */
+input::placeholder,
+textarea::placeholder {
+    color: #999;
+    font-size: 14px;
+}
+
+/* Adjust form width on smaller screens */
+@media (max-width: 768px) {
+    .form-container {
+        max-width: 90%;
+        margin: 20px auto;
+    }
+}
+
+  

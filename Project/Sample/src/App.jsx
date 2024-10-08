@@ -21,6 +21,8 @@ import UCourseList from "./Pages/users/Ucourselist";
 import Uviewcourse from "./Pages/users/Uviewcourse";
 import UJobList from "./Pages/users/Ujoblist";
 import Uviewjob from "./Pages/users/Uviewjob";
+import MDashboard from "./Pages/manager/mdashboard";
+import MCourseForm from "./Pages/manager/mcourseform";
 
 function App() {
     return (
@@ -49,6 +51,8 @@ function App() {
 			<Route path='/Ujoblist' element={<UJobList />} />
 			<Route path='/Uviewjob/:id' element={<Uviewjob />} />
 			<Route path="/editjob/:id" element={<JobForm />} />
+			<Route path='/mdashboard' element={<MDashboard />} />
+			<Route path="/maddcourse" element = {<MCourseForm />} />
         </Routes>
     );
 }
