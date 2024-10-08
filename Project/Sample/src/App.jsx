@@ -19,6 +19,8 @@ import Profile from "./Pages/users/profile";
 import UEditProfile from "./Pages/users/updateprofile";
 import UCourseList from "./Pages/users/Ucourselist";
 import Uviewcourse from "./Pages/users/Uviewcourse";
+import UJobList from "./Pages/users/Ujoblist";
+import Uviewjob from "./Pages/users/Uviewjob";
 
 
 function App() {
@@ -45,6 +47,8 @@ function App() {
 			<Route path="/editcourse/:id" element={<CourseForm />} />
 			<Route path='/Ucourselist' element={<UCourseList />} />
 			<Route path='/Uviewcourse/:id' element ={<Uviewcourse />} />
+			<Route path='/Ujoblist' element={<UJobList />} />
+			<Route path='/Uviewjob/:id' element={<Uviewjob />} />
         </Routes>
     );
 }

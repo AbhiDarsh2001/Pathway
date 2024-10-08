@@ -37,7 +37,7 @@ const Home = () => {
             <Link to="/" style={{ textDecoration: 'none', color: '#000000' }}>
                 About Us
             </Link>
-            <a href="/iconjob">Job</a>
+            <a href="/Ujoblist">Job</a>
             <a href="/Ucourselist">Course</a>
             <div className="search-bar">
                 <input type="text" placeholder="Search..." />
