@@ -1,8 +1,12 @@
-// courseModel.js
 const mongoose = require('mongoose');
 
 const courseSchema = new mongoose.Schema({
     name: {
+        type: String,
+        required: true,
+        trim: true
+    },
+    fullName: {
         type: String,
         required: true,
         trim: true

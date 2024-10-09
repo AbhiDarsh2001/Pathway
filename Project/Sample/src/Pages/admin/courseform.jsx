@@ -8,12 +8,13 @@ const CourseForm = () => {
   const { id } = useParams(); // Get id from URL to determine if we are editing
   const [formData, setFormData] = useState({
     name: '',
+    fullName: '', // Added fullName field
     description: '',
     eligibility: '',
     category: '',
     job: '',
     entrance: '',
-    duration: ''// Adding duration field
+    duration: '' // Adding duration field
   });
   const [categories, setCategories] = useState([]); // For dynamic categories
   const [loading, setLoading] = useState(false);
@@ -24,7 +25,7 @@ const CourseForm = () => {
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const response = await axios.get('http://localhost:8080/category');; // Assuming your API route for categories
+        const response = await axios.get('http://localhost:8080/category'); // Assuming your API route for categories
         setCategories(response.data); // Set fetched categories
       } catch (error) {
         console.error('Error fetching categories:', error);
@@ -50,27 +51,26 @@ const CourseForm = () => {
     }
   }, [id]);
 
- const handleChange = (e) => {
-  const { name, value } = e.target;
+  const handleChange = (e) => {
+    const { name, value } = e.target;
 
-  // Add validation for the course name
-  if (name === 'name') {
-    // Regex to allow only alphabets, spaces, commas, and periods
-    const validName = /^[A-Za-z\s.,]*$/;
-    if (!validName.test(value)) {
-      setErrorMessage('Course name should only contain letters, spaces, commas, or periods.');
-      return;
-    } else {
-      setErrorMessage('');
+    // Add validation for the course name
+    if (name === 'name' || name === 'fullName') {
+      // Regex to allow only alphabets, spaces, commas, and periods
+      const validName = /^[A-Za-z\s.,]*$/;
+      if (!validName.test(value)) {
+        setErrorMessage('Course name should only contain letters, spaces, commas, or periods.');
+        return;
+      } else {
+        setErrorMessage('');
+      }
     }
-  }
 
-  setFormData({
-    ...formData,
-    [name]: value,
-  });
-};
-
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -106,7 +106,7 @@ const CourseForm = () => {
   return (
     <div className="course-page-container">
       <div className='sidebar'>
-      <Sidebar />
+        <Sidebar />
       </div>
       <div className="form-container">
         <div className="form-container">
@@ -116,16 +116,29 @@ const CourseForm = () => {
             <div>
               <label htmlFor="name">Name:</label>
               <input
-              type="text"
-              name="name"
-              id="name"
-              value={formData.name}
-              onChange={handleChange}
-              required
-              minLength="2" // Example minimum length
+                type="text"
+                name="name"
+                id="name"
+                value={formData.name}
+                onChange={handleChange}
+                required
+                minLength="2" // Example minimum length
               />
-
             </div>
+
+            <div>
+              <label htmlFor="fullName">Full Name:</label>
+              <input
+                type="text"
+                name="fullName"
+                id="fullName"
+                value={formData.fullName}
+                onChange={handleChange}
+                required
+                minLength="5" // Example minimum length for full name
+              />
+            </div>
+
             <div>
               <label htmlFor="description">Description:</label>
               <textarea

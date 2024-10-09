@@ -30,7 +30,7 @@ const CourseList = () => {
                 {courses.map((course) => (
                     <div key={course._id} className="course-item">
                         <h2>{course.name}</h2>
-                        <p>{course.description}</p>
+                        <p>{course.fullName}</p>
                         <Link to={`/viewcourse/${course._id}`}>
                             <button className="detail-btn">Details</button>
                         </Link>

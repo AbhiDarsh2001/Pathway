@@ -30,7 +30,7 @@ const MCourseList = () => {
                 {courses.map((course) => (
                     <div key={course._id} className="course-item">
                         <h2>{course.name}</h2>
-                        <p>{course.description}</p>
+                        <p>{course.fullName}</p>
                         <Link to={`/mviewcourse/${course._id}`}>
                             <button className="detail-btn">Details</button>
                         </Link>

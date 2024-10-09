@@ -8,6 +8,7 @@ const MCourseForm = () => {
   const { id } = useParams(); // Get id from URL to determine if we are editing
   const [formData, setFormData] = useState({
     name: '',
+    fullName: '',
     description: '',
     eligibility: '',
     category: '',
@@ -54,7 +55,7 @@ const MCourseForm = () => {
   const { name, value } = e.target;
 
   // Add validation for the course name
-  if (name === 'name') {
+  if (name === 'name' || name === 'fullName') {
     // Regex to allow only alphabets, spaces, commas, and periods
     const validName = /^[A-Za-z\s.,]*$/;
     if (!validName.test(value)) {
@@ -70,7 +71,6 @@ const MCourseForm = () => {
     [name]: value,
   });
 };
-
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -124,7 +124,19 @@ const MCourseForm = () => {
               required
               minLength="2" // Example minimum length
               />
+            </div>
 
+            <div>
+                <label htmlFor="fullName">Full Name:</label>
+                <input
+                type="text"
+                name="fullName"
+                id="fullName"
+                value={formData.fullName}
+                onChange={handleChange}
+                required
+                minLength="5"
+                />
             </div>
             <div>
               <label htmlFor="description">Description:</label>

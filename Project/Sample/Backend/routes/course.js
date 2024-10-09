@@ -4,10 +4,10 @@ const CourseModel = require('../models/CourseModel');
 
 // POST route to create a new course
 router.post('/', async (req, res) => {
-  const { name, description, eligibility, category, job, entrance, duration } = req.body;
+  const { name, fullName, description, eligibility, category, job, entrance, duration } = req.body;
 
   // Check for required fields
-  if (!name || !description || !eligibility || !category) {
+  if (!name || !fullName || !description || !eligibility || !category) {
     return res.status(400).json({ message: 'All required fields must be filled.' });
   }
 
@@ -19,7 +19,7 @@ router.post('/', async (req, res) => {
     }
 
     // Create and save new course
-    const newCourse = new CourseModel({ name, description, eligibility, category, job, entrance,duration });
+    const newCourse = new CourseModel({ name, fullName, description, eligibility, category, job, entrance, duration });
     await newCourse.save();
     res.status(201).json({ message: 'Course created successfully', course: newCourse });
   } catch (error) {
@@ -28,22 +28,30 @@ router.post('/', async (req, res) => {
   }
 });
 
+
 // GET route to get a course by ID
-router.get('/:id', async (req, res) => {
+router.get('/viewcourse/:id', async (req, res) => {
   try {
-    const course = await CourseModel.findById(req.params.id);
+    const course = await CourseModel.findById(req.params.id).populate('category'); // Populate the category field
     if (!course) {
       return res.status(404).json({ message: 'Course not found' });
     }
     res.status(200).json(course);
   } catch (error) {
-    console.error('Error fetching course:', error.message);
+    console.error('Error fetching course details:', error);
     res.status(500).json({ message: 'Server error, unable to fetch course' });
   }
 });
 
-// PUT route to update a course by ID
+/// PUT route to update a course by ID
 router.put('/:id', async (req, res) => {
+  const { fullName, name, description, eligibility, category, job, entrance, duration } = req.body;
+
+  // Check for required fields
+  if (!name || !fullName || !description || !eligibility || !category) {
+    return res.status(400).json({ message: 'All required fields must be filled.' });
+  }
+
   try {
     const updatedCourse = await CourseModel.findByIdAndUpdate(req.params.id, req.body, { new: true });
     if (!updatedCourse) {

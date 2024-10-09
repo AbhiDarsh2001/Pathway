@@ -59,9 +59,10 @@ const VCourseDetails = () => {
       <div className="Course-details">
         {/* <Sidebar /> */}
         <h1>{course.name}</h1>
+        <h2>{course.fullName}</h2> {/* Added fullName display */}
         <p><strong>Description:</strong> {course.description}</p>
         <p><strong>Eligibility:</strong> {course.eligibility}</p>
-        <p><strong>Categories:</strong> {course.categories}</p>
+        <p><strong>Category:</strong> {course.category?.name}</p> {/* Display category name */}
         <p><strong>Job:</strong> {course.job.join(', ')}</p>
         <p><strong>Entrance:</strong> {course.entrance.join(', ')}</p>
         <p><strong>Duration:</strong> {course.duration} months</p>

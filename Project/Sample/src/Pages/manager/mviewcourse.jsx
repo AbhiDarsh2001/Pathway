@@ -59,6 +59,7 @@ const MVCourseDetails = () => {
       <div className="Course-details">
         <MSidebar />
         <h1>{course.name}</h1>
+        <h2>{course.fullName}</h2>
         <p><strong>Description:</strong> {course.description}</p>
         <p><strong>Eligibility:</strong> {course.eligibility}</p>
         <p><strong>Categories:</strong> {course.categories}</p>

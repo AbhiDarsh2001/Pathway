@@ -20,6 +20,7 @@ body {
 
 /* Heading styles */
 .Course-details h1 {
+    text-align: center;
     font-size: 2.5em; /* Increase heading size */
     margin-bottom: 10px; /* Space below heading */
     color: #333; /* Dark color for text */
