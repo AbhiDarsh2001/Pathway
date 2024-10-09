@@ -24,19 +24,21 @@ const UCourseList = () => {
     }, []);
 
     return (
+        <div>
+            <Header />
         <div className="course-list-page">
-            <Header/>
             <div className="Course-list">
                 {courses.map((course) => (
                     <div key={course._id} className="course-item">
                         <h2>{course.name}</h2>
-                        <p>{course.description}</p>
+                        <p>{course.fullName}</p>
                         <Link to={`/Uviewcourse/${course._id}`}>
                             <button className="detail-btn">Details</button>
                         </Link>
                     </div>
                 ))}
             </div>
+        </div>
         </div>
     );
 };

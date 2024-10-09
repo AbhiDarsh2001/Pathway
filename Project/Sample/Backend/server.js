@@ -132,7 +132,7 @@ app.post('/signup', async (req, res) => {
 // Route to handle Login
 app.post('/login', async (req, res) => {
     const { email, password } = req.body;
-    console.log(email,password);
+    console.log(email, password);
 
     try {
         // Check if the user exists
@@ -142,18 +142,23 @@ app.post('/login', async (req, res) => {
         }
 
         // Validate password
-        
         if (user.password !== password) {
             return res.status(400).json({ message: "Invalid email or password." });
         }
 
-        // Create and send JWT
-        const token = jwt.sign({ _id: user._id }, process.env.JSON_WEB_TOKEN_SECRET_KEY, { expiresIn: '1h' });
+        // Create and send JWT, including both _id and email in the token
+        const token = jwt.sign(
+            { _id: user._id, email: user.email }, // Include email here
+            process.env.JSON_WEB_TOKEN_SECRET_KEY,
+            { expiresIn: '1h' }
+        );
+
         res.json({ token, user });
     } catch (error) {
         res.status(500).json({ message: "Something went wrong." });
     }
 });
+
 
 app.post('/forgotpassword', async (req, res) => {
     const { email } = req.body;

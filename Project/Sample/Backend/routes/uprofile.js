@@ -24,6 +24,7 @@ const verifyToken = (req, res, next) => {
 };
 
 // Profile route
+// Profile route
 router.get('/', verifyToken, (req, res) => {
   UserModel.findOne({ email: req.email })
     .then(user => {
@@ -41,6 +42,43 @@ router.get('/', verifyToken, (req, res) => {
     })
     .catch(error => res.status(500).json({ message: "Error: " + error.message }));
 });
+// Profile route
+router.get('/', verifyToken, (req, res) => {
+  UserModel.findOne({ email: req.email })
+    .then(user => {
+      if (!user) {
+        return res.status(404).json({ message: "User not found." });
+      }
+      res.json({
+        name: user.name,
+        email: user.email,
+        phone: user.phone,
+        education: user.education,
+        courses: user.courses,
+        marks: user.marks
+      });
+    })
+    .catch(error => res.status(500).json({ message: "Error: " + error.message }));
+});
+// Profile route
+router.get('/', verifyToken, (req, res) => {
+  UserModel.findOne({ email: req.email })
+    .then(user => {
+      if (!user) {
+        return res.status(404).json({ message: "User not found." });
+      }
+      res.json({
+        name: user.name,
+        email: user.email,
+        phone: user.phone,
+        education: user.education,
+        courses: user.courses,
+        marks: user.marks
+      });
+    })
+    .catch(error => res.status(500).json({ message: "Error: " + error.message }));
+});
+
 
 // In profile.js
 router.put('/', verifyToken, (req, res) => {

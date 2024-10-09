@@ -1,6 +1,9 @@
 .userupprofile-container {
     max-width: 600px;
-    margin: 0 auto;
+    margin-top: 20px;
+    align-content: center;
+    margin-left: 400px;
+    margin: 20 auto;
     padding: 20px;
     background-color: #f9f9f9;
     border-radius: 8px;

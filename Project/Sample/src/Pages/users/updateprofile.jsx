@@ -3,6 +3,7 @@ import axios from 'axios';
 import Swal from 'sweetalert2';
 import { useNavigate } from 'react-router-dom';
 import './updateprofile.css';
+import Header from './Header';
 
 function UEditProfile() {
   const [user, setUser] = useState({
@@ -141,6 +142,8 @@ function UEditProfile() {
   }
 
   return (
+    <div>
+        <Header />
     <div className="userupprofile-container">
       <h1>Edit Profile</h1>
       <form onSubmit={handleSubmit}>
@@ -286,6 +289,7 @@ function UEditProfile() {
         <button type="submit">Update Profile</button>
         {/* <button type="button" onClick={handleChangePassword}>Change Password</button> */}
       </form>
+    </div>
     </div>
   );
 }

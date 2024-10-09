@@ -44,10 +44,9 @@ function Profile() {
   }
 
   return (
+    <div>
+        <Header />
     <div className="uprofile-container">
-        <div>
-            
-        </div>
       <h1>User Profile</h1>
       <p><strong>Name:</strong> {user.name}</p>
       <p><strong>Email:</strong> {user.email}</p>
@@ -72,6 +71,7 @@ function Profile() {
       )}
 
       <button className="uprofilebutton" onClick={() => navigate('/userpro')}>Edit Profile</button>
+    </div>
     </div>
   );
 }

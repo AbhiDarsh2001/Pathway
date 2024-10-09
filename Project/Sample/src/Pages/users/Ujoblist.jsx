@@ -24,8 +24,9 @@ const UJobList = () => {
     }, []);
 
     return (
-        <div className="job-list-page">
+        <div>
             <Header />
+        <div className="job-list-page">
             <div className="job-list">
                 {jobs.map((job) => (
                     <div key={job._id} className="job-item">
@@ -37,6 +38,7 @@ const UJobList = () => {
                     </div>
                 ))}
             </div>
+        </div>
         </div>
     );
 };
