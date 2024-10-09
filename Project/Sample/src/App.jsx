@@ -25,6 +25,10 @@ import MDashboard from "./Pages/manager/mdashboard";
 import MCourseForm from "./Pages/manager/mcourseform";
 import CategoryForm from "./Pages/admin/CategoryForm";
 import MJobForm from "./Pages/manager/mjobform";
+import MJobList from "./Pages/manager/mjoblist";
+import MVJobDetails from "./Pages/manager/mviewjob";
+import MCourseList from "./Pages/manager/mcourselist";
+import MVCourseDetails from "./Pages/manager/mviewcourse";
 
 function App() {
     return (
@@ -56,7 +60,13 @@ function App() {
 			<Route path='/manager' element={<MDashboard />} />
 			<Route path="/maddcourse" element = {<MCourseForm />} />
 			<Route path="/maddjob" element ={<MJobForm />} />
-			<Route path='Catagory' element={<CategoryForm />} />
+			<Route path='/Catagory' element={<CategoryForm />} />
+			<Route path='/miconjob' element={<MJobList />} />
+			<Route path='/mviewjob/:id' element={<MVJobDetails />} />
+			<Route path='/miconcourse' element={<MCourseList />} />
+			<Route path='/mviewcourse/:id' element={<MVCourseDetails />} />
+
+
         </Routes>
     );
 }

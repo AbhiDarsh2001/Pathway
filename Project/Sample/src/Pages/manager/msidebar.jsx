@@ -12,8 +12,8 @@ const MSidebar = () => {
       <button onClick={() => navigate('/manager')}>Manager</button>
       <button onClick={() => navigate('/maddcourse')}>Add Course</button>
       <button onClick={() => navigate('/maddjob')}>Add Job</button>
-      <button onClick={() => navigate('#miconjob')}>View Job</button>
-      <button onClick={() => navigate('#miconcourse')}>View Course</button>
+      <button onClick={() => navigate('/miconjob')}>View Job</button>
+      <button onClick={() => navigate('/miconcourse')}>View Course</button>
     </div>
   );
 };

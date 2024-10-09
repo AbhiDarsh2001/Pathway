@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import './joblist.css';
-import Sidebar from './sidebar'; // Assuming Sidebar component exists
+import './mjoblist.css';
+import MSidebar from './msidebar'; // Assuming Sidebar component exists
 
-const JobList = () => {
+const MJobList = () => {
     const [jobs, setJobs] = useState([]);
 
     useEffect(() => {
@@ -25,13 +25,13 @@ const JobList = () => {
 
     return (
         <div className="job-list-page" >
-            {<Sidebar /> }
-            <div className="job-list">
+            {<MSidebar /> }
+            <div className="job-list" >
                 {jobs.map((job) => (
                     <div key={job._id} className="job-item">
                         <h2>{job.name}</h2>
                         <p>{job.description}</p> {/* Example additional job details */}
-                        <Link to={`/viewjob/${job._id}`}>
+                        <Link to={`/mviewjob/${job._id}`}>
                             <button className="detail-btn">Details</button>
                         </Link>
                     </div>
@@ -41,4 +41,4 @@ const JobList = () => {
     );
 };
 
-export default JobList;
+export default MJobList;
