@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const jobModel = require('../models/JobModel'); // Correct model import
+const jobmodel = require('../models/JobModel');
 
 
 
@@ -9,11 +10,17 @@ router.post('/', async (req, res) => {
   const { name, description, eligibility,industry } = req.body;
 
 //   // Validate required fields
-//   if (!name || !description || !eligibility || !industry) {
-//     return res.status(400).json({ message: 'All required fields must be filled.' });
-//   }
+  if (!name || !description || !eligibility || !industry) {
+    return res.status(400).json({ message: 'All required fields must be filled.' });
+  }
 
   try {
+    //check if job already exist
+    const existingJob = await jobmodel.findOne({ name: name });
+    if (existingJob) {
+      return res.status(400).json({ message: 'Job already exists.' });
+      }
+
     // Create new Course document
     const newjob = new jobModel({
       name,
