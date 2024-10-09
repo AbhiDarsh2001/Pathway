@@ -48,7 +48,7 @@ const MVCourseDetails = () => {
   };
 
   const handleEdit = () => {
-    navigate(`/editcourse/${id}`);
+    navigate(`/meditcourse/${id}`);
   };
 
   if (loading) return <div>Loading...</div>;

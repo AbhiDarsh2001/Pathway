@@ -26,7 +26,7 @@ const CourseList = () => {
     return (
         <div className="course-list-page">
             {<Sidebar/>}
-            <div className="Course-list" style={{marginLeft:'195px'}}>
+            <div className="Course-list" >
                 {courses.map((course) => (
                     <div key={course._id} className="course-item">
                         <h2>{course.name}</h2>

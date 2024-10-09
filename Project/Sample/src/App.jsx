@@ -59,6 +59,8 @@ function App() {
 			<Route path="/editjob/:id" element={<JobForm />} />
 			<Route path='/manager' element={<MDashboard />} />
 			<Route path="/maddcourse" element = {<MCourseForm />} />
+			<Route path="/meditjob/:id" element = {<MJobForm />} />
+			<Route path="/meditcourse/:id" element ={<MCourseForm />} />
 			<Route path="/maddjob" element ={<MJobForm />} />
 			<Route path='/Catagory' element={<CategoryForm />} />
 			<Route path='/miconjob' element={<MJobList />} />

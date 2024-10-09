@@ -80,7 +80,7 @@ const MJobForm = () => {
         alert('Job submitted successfully');
       }
 
-      navigate('/iconjob');
+      navigate('/miconjob');
     } catch (error) {
       console.error(error);
       alert('Error submitting: ' + (error.response?.data?.message || 'Unknown error'));

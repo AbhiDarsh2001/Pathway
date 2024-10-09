@@ -41,7 +41,7 @@ const CourseForm = () => {
     if (id) {
       const fetchCourseDetails = async () => {
         try {
-          const response = await axios.get(`http://localhost:8080/course/${id}`);
+          const response = await axios.get(`http://localhost:8080/viewcourse/${id}`);
           setFormData(response.data); // Pre-populate form with course details
         } catch (error) {
           console.error('Error fetching course details:', error);
