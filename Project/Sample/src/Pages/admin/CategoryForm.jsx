@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Sidebar from './sidebar';
+import './CategoryForm.css';
 
 const CategoryForm = () => {
   const [categories, setCategories] = useState([]);

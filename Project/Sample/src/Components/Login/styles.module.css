@@ -2,7 +2,7 @@
 	width: 100%;
 	min-height: 100vh;
 	background-color: #f5f5f5;
-	background-image: url('src/assets/career-plan.png');
+	/* background-image: url('src/assets/career-plan.png'); */
 	background-size: cover;
 	display: flex;
 	align-items: center;

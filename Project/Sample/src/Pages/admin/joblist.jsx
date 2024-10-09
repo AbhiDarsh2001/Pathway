@@ -24,9 +24,9 @@ const JobList = () => {
     }, []);
 
     return (
-        <div className="job-list-page">
+        <div className="job-list-page" >
             {<Sidebar /> }
-            <div className="job-list">
+            <div className="job-list" style={{marginLeft:'195px'}}>
                 {jobs.map((job) => (
                     <div key={job._id} className="job-item">
                         <h2>{job.name}</h2>

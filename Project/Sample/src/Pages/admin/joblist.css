@@ -1,22 +1,22 @@
 /* General container styling for the entire page */
 .job-list-page {
     display: flex;
-    max-width: 100%; /* Make the whole page container wider */
+    max-width: 100%;
     margin: 0 auto;
     font-family: 'Arial', sans-serif;
+    margin-left: 250px;
 }
-
 
 /* Job list container styling */
 .job-list {
     display: grid;
     grid-template-columns: repeat(3, 1fr); /* 3 boxes per row */
     gap: 20px;
-    margin: 50px 0px 50px 20px; /* Adjusted margin to make it closer to the sidebar */
+    margin: 50px 0px 50px 250px; /* Keep left margin for the sidebar*/
     padding: 20px;
     background-color: #f9f9f9;
-    width: calc(100% - 240px); /* Increase the width, considering the sidebar */
-    max-width: 1300px; /* Increase max-width to allow more space for the job boxes */
+    width: calc(100% - 250px); /* Consider the sidebar width */
+    max-width: 1300px; /* Adjust as needed */
 }
 
 /* Styling for individual job items */
@@ -26,8 +26,8 @@
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     transition: box-shadow 0.3s ease;
-    text-align: center; /* Center align content */
-    min-height: 150px; /* Adjusted minimum height for the box */
+    text-align: center;
+    min-height: 150px;
     max-height: 200px;
     display: flex;
     flex-direction: column;
@@ -39,8 +39,8 @@
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
 }
 
-/* Job item link styling */
-.job-item h3 {
+/* Job item title styling */
+.job-item h2 {
     font-size: 18px;
     font-weight: bold;
     color: #3498db;
@@ -79,12 +79,12 @@
 @media (max-width: 768px) {
     .job-list {
         grid-template-columns: repeat(1, 1fr); /* Stack items vertically on smaller screens */
-        margin: 20px;
+        margin: 20px; /* Adjusted margin for smaller screens */
         padding: 15px;
         width: 100%; /* Use full width for smaller screens */
     }
 
-    .job-item h3 {
+    .job-item h2 {
         font-size: 16px;
     }
 

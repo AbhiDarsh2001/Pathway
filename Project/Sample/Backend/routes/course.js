@@ -4,14 +4,22 @@ const CourseModel = require('../models/CourseModel');
 
 // POST route to create a new course
 router.post('/', async (req, res) => {
-  const { name, description, eligibility, categories, job, entrance } = req.body;
+  const { name, description, eligibility, category, job, entrance, duration } = req.body;
 
-  if (!name || !description || !eligibility || !categories) {
+  // Check for required fields
+  if (!name || !description || !eligibility || !category) {
     return res.status(400).json({ message: 'All required fields must be filled.' });
   }
 
   try {
-    const newCourse = new CourseModel({ name, description, eligibility, categories, job, entrance });
+    // Check if course already exists
+    const existingCourse = await CourseModel.findOne({ name });
+    if (existingCourse) {
+      return res.status(409).json({ message: 'Course already exists' });
+    }
+
+    // Create and save new course
+    const newCourse = new CourseModel({ name, description, eligibility, category, job, entrance,duration });
     await newCourse.save();
     res.status(201).json({ message: 'Course created successfully', course: newCourse });
   } catch (error) {
@@ -34,14 +42,14 @@ router.get('/:id', async (req, res) => {
   }
 });
 
-// PUT route to update a course
+// PUT route to update a course by ID
 router.put('/:id', async (req, res) => {
   try {
     const updatedCourse = await CourseModel.findByIdAndUpdate(req.params.id, req.body, { new: true });
     if (!updatedCourse) {
       return res.status(404).json({ message: 'Course not found' });
     }
-    res.status(200).json(updatedCourse);
+    res.status(200).json({ message: 'Course updated successfully', course: updatedCourse });
   } catch (error) {
     console.error('Error updating course:', error.message);
     res.status(500).json({ message: 'Server error, unable to update course' });

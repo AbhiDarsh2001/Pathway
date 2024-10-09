@@ -142,8 +142,8 @@ app.post('/login', async (req, res) => {
         }
 
         // Validate password
-        const validPassword = password;
-        if (!validPassword) {
+        
+        if (user.password !== password) {
             return res.status(400).json({ message: "Invalid email or password." });
         }
 

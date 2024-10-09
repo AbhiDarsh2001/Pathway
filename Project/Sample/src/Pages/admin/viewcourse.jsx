@@ -64,6 +64,7 @@ const VCourseDetails = () => {
         <p><strong>Categories:</strong> {course.categories}</p>
         <p><strong>Job:</strong> {course.job.join(', ')}</p>
         <p><strong>Entrance:</strong> {course.entrance.join(', ')}</p>
+        <p><strong>Duration:</strong> {course.duration} months</p>
         <div className="button-container">
           <button className="back-button" onClick={() => navigate(-1)}>Back</button>
           <button className="edit-button" onClick={handleEdit}>Edit</button>

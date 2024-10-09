@@ -1,6 +1,7 @@
 /* Dashboard container with sidebar */
 .dashboard-container {
     display: flex;
+    margin-left: 250px;
     min-height: 100vh;
     background-color: #f4f7f9;
 }

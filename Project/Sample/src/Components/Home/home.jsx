@@ -23,7 +23,7 @@ const Home = () => {
             </div>
 
             {/* Main Content Area */}
-      <div className="content">
+      <div className="content" style={{ margin: '50px 0px 50px 250px' }}>
         <header className="header">
           {/* Logo or Picture on Top */}
           <div className="logo-container">
@@ -51,21 +51,21 @@ const Home = () => {
                 {/* Course Cards */}
                 <div className="course-cards">
                     <div className="card">
-                        <img src="#src/assets/physics.webp" alt="Physics" />
+                        <img src="src/assets/physics.webp" alt="Physics" />
                         <h3>B.Sc Physics</h3>
                         <p>Physics is the branch of science that deals with the study of matter and its fundamental interactions with the universe.</p>
                         <button>Details</button>
                     </div>
 
                     <div className="card">
-                        <img src="#src/assets/maths.jpg" alt="Mathematics" />
+                        <img src="src/assets/maths.jpg" alt="Mathematics" />
                         <h3>Bsc Mathematics</h3>
                         <p>Mathematics is a science of numbers and shapes that deals with the logic of shape, quantity, and arrangement.</p>
                         <button>Details</button>
                     </div>
 
                     <div className="card">
-                        <img src="#src/assets/chemistry.jpg" alt="Chemistry" />
+                        <img src="src/assets/chemistry.jpg" alt="Chemistry" />
                         <h3>B.Sc Chemistry</h3>
                         <p>Chemistry is the branch of science that deals with the study of substances and their properties, compositions, and reactions.</p>
                         <button>Details</button>

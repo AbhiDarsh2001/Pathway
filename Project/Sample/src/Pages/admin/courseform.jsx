@@ -10,10 +10,10 @@ const CourseForm = () => {
     name: '',
     description: '',
     eligibility: '',
-    categories: '',
+    category: '',
     job: '',
     entrance: '',
-    duration: 0 // Adding duration field
+    duration: ''// Adding duration field
   });
   const [categories, setCategories] = useState([]); // For dynamic categories
   const [loading, setLoading] = useState(false);
@@ -133,9 +133,9 @@ const CourseForm = () => {
             <div>
               <label htmlFor="categories">Categories:</label>
               <select
-                name="categories"
-                id="categories"
-                value={formData.categories}
+                name="category"
+                id="category"
+                value={formData.category}
                 onChange={handleChange}
                 required
               >
