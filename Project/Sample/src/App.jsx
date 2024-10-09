@@ -24,6 +24,7 @@ import Uviewjob from "./Pages/users/Uviewjob";
 import MDashboard from "./Pages/manager/mdashboard";
 import MCourseForm from "./Pages/manager/mcourseform";
 import CategoryForm from "./Pages/admin/CategoryForm";
+import MJobForm from "./Pages/manager/mjobform";
 
 function App() {
     return (
@@ -54,6 +55,7 @@ function App() {
 			<Route path="/editjob/:id" element={<JobForm />} />
 			<Route path='/manager' element={<MDashboard />} />
 			<Route path="/maddcourse" element = {<MCourseForm />} />
+			<Route path="/maddjob" element ={<MJobForm />} />
 			<Route path='Catagory' element={<CategoryForm />} />
         </Routes>
     );
