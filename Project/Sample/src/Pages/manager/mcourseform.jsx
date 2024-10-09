@@ -10,17 +10,34 @@ const MCourseForm = () => {
     name: '',
     description: '',
     eligibility: '',
-    categories: '',
+    category: '',
     job: '',
     entrance: '',
+    duration: ''// Adding duration field
   });
+  const [categories, setCategories] = useState([]); // For dynamic categories
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
   const navigate = useNavigate();
 
+  // Fetch available categories from the database
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const response = await axios.get('http://localhost:8080/category');; // Assuming your API route for categories
+        setCategories(response.data); // Set fetched categories
+      } catch (error) {
+        console.error('Error fetching categories:', error);
+        setErrorMessage('Error fetching categories');
+      }
+    };
+
+    fetchCategories();
+  }, []);
+
+  // Fetch course details if we are editing
   useEffect(() => {
     if (id) {
-      // Fetch course details for editing
       const fetchCourseDetails = async () => {
         try {
           const response = await axios.get(`http://localhost:8080/course/${id}`);
@@ -33,37 +50,49 @@ const MCourseForm = () => {
     }
   }, [id]);
 
-  const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
-  };
+ const handleChange = (e) => {
+  const { name, value } = e.target;
+
+  // Add validation for the course name
+  if (name === 'name') {
+    // Regex to allow only alphabets, spaces, commas, and periods
+    const validName = /^[A-Za-z\s.,]*$/;
+    if (!validName.test(value)) {
+      setErrorMessage('Course name should only contain letters, spaces, commas, or periods.');
+      return;
+    } else {
+      setErrorMessage('');
+    }
+  }
+
+  setFormData({
+    ...formData,
+    [name]: value,
+  });
+};
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
     setErrorMessage('');
-  
+
     try {
-      // Ensure job and entrance fields are either split or already arrays
       const formattedData = {
         ...formData,
         job: Array.isArray(formData.job) ? formData.job : formData.job.split(',').map((item) => item.trim()),
         entrance: Array.isArray(formData.entrance) ? formData.entrance : formData.entrance.split(',').map((item) => item.trim()),
       };
-  
+
       let response;
       if (id) {
-        // If id exists, update course
         response = await axios.put(`http://localhost:8080/course/${id}`, formattedData);
         alert('Course updated successfully');
       } else {
-        // If no id, create a new course
         response = await axios.post('http://localhost:8080/course', formattedData);
         alert('Course submitted successfully');
       }
-  
+
       navigate('#iconcourse');
     } catch (error) {
       console.error(error);
@@ -73,12 +102,13 @@ const MCourseForm = () => {
       setLoading(false);
     }
   };
-  
 
   return (
     <div className="course-page-container">
       <div className="sidebar-and-form-container">
-        <MSidebar />
+      <MSidebar />
+      </div>
+      <div className="form-container">
         <div className="form-container">
           <h2>{id ? 'Edit Course' : 'Submit Course'}</h2>
           {errorMessage && <p className="error-message">{errorMessage}</p>}
@@ -86,14 +116,15 @@ const MCourseForm = () => {
             <div>
               <label htmlFor="name">Name:</label>
               <input
-                type="text"
-                name="name"
-                id="name"
-                value={formData.name}
-                onChange={handleChange}
-                required
-                minLength="3"
+              type="text"
+              name="name"
+              id="name"
+              value={formData.name}
+              onChange={handleChange}
+              required
+              minLength="2" // Example minimum length
               />
+
             </div>
             <div>
               <label htmlFor="description">Description:</label>
@@ -118,17 +149,18 @@ const MCourseForm = () => {
             <div>
               <label htmlFor="categories">Categories:</label>
               <select
-                name="categories"
-                id="categories"
-                value={formData.categories}
+                name="category"
+                id="category"
+                value={formData.category}
                 onChange={handleChange}
                 required
               >
                 <option value="">Select Category</option>
-                <option value="PG">PG</option>
-                <option value="UG">UG</option>
-                <option value="Professional">Professional</option>
-                <option value="Non-professional">Non-professional</option>
+                {categories.map((category) => (
+                  <option key={category._id} value={category._id}>
+                    {category.name}
+                  </option>
+                ))}
               </select>
             </div>
             <div>
@@ -151,6 +183,18 @@ const MCourseForm = () => {
                 value={formData.entrance}
                 onChange={handleChange}
                 placeholder="e.g., entrance1, entrance2"
+              />
+            </div>
+            <div>
+              <label htmlFor="duration">Duration (in months):</label>
+              <input
+                type="number"
+                name="duration"
+                id="duration"
+                value={formData.duration}
+                onChange={handleChange}
+                placeholder="Enter course duration"
+                required
               />
             </div>
             <button type="submit" disabled={loading}>
