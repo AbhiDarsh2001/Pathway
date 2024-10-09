@@ -2,8 +2,10 @@
 import React from 'react';
 import { Link } from "react-router-dom";
 import './home.css'; // style a separate CSS file
+import useAuth from '../Function/useAuth';
 
 const Home = () => {
+    // useAuth();
     return (
       <div className="home-container">
         {/* Sidebar for categories */}

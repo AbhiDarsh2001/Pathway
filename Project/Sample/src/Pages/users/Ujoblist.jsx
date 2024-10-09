@@ -2,8 +2,10 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import './Ujoblist.css';
 import Header from './Header';
+import useAuth from '../../Components/Function/useAuth';
 
 const UJobList = () => {
+    // useAuth();
     const [jobs, setJobs] = useState([]);
 
     useEffect(() => {
