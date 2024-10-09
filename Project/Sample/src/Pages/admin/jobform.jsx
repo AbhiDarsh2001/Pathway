@@ -39,11 +39,24 @@ const JobForm = () => {
   }, [id]);
 
   const handleChange = (e) => {
+    const { name, value } = e.target;
+  
+    // Add validation for the job name
+    if (name === 'name') {
+      // Regex to allow only alphabets, spaces, commas, and periods
+      const validName = /^[A-Za-z\s.,]*$/;
+      if (!validName.test(value)) {
+        alert('Job name should only contain letters, spaces, commas, or periods.');
+        return;
+      }
+    }
+  
     setFormData({
       ...formData,
-      [e.target.name]: e.target.value,
+      [name]: value,
     });
   };
+  
 
   const handleSubmit = async (e) => {
     e.preventDefault();

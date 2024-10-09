@@ -50,12 +50,27 @@ const CourseForm = () => {
     }
   }, [id]);
 
-  const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
-  };
+ const handleChange = (e) => {
+  const { name, value } = e.target;
+
+  // Add validation for the course name
+  if (name === 'name') {
+    // Regex to allow only alphabets, spaces, commas, and periods
+    const validName = /^[A-Za-z\s.,]*$/;
+    if (!validName.test(value)) {
+      setErrorMessage('Course name should only contain letters, spaces, commas, or periods.');
+      return;
+    } else {
+      setErrorMessage('');
+    }
+  }
+
+  setFormData({
+    ...formData,
+    [name]: value,
+  });
+};
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -101,14 +116,15 @@ const CourseForm = () => {
             <div>
               <label htmlFor="name">Name:</label>
               <input
-                type="text"
-                name="name"
-                id="name"
-                value={formData.name}
-                onChange={handleChange}
-                required
-                minLength=""
+              type="text"
+              name="name"
+              id="name"
+              value={formData.name}
+              onChange={handleChange}
+              required
+              minLength="2" // Example minimum length
               />
+
             </div>
             <div>
               <label htmlFor="description">Description:</label>
