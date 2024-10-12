@@ -4,8 +4,10 @@ import Swal from 'sweetalert2';
 import { useNavigate } from 'react-router-dom';
 import './updateprofile.css';
 import Header from './Header';
+import useAuth from '../../Components/Function/useAuth';
 
 function UEditProfile() {
+  useAuth();
   const [user, setUser] = useState({
     name: '',
     phone: '',

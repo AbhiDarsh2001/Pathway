@@ -5,7 +5,7 @@ import Header from './Header';
 import useAuth from '../../Components/Function/useAuth';
 
 const UJobList = () => {
-    // useAuth();
+    useAuth();
     const [jobs, setJobs] = useState([]);
 
     useEffect(() => {

@@ -4,8 +4,10 @@ import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import './profile.css'
 import Header from './Header';
+import useAuth from '../../Components/Function/useAuth';
 
 function Profile() {
+  useAuth();
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();

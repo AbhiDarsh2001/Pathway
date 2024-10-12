@@ -5,7 +5,7 @@ import './home.css'; // style a separate CSS file
 import useAuth from '../Function/useAuth';
 
 const Home = () => {
-    // useAuth();
+    useAuth();
     return (
       <div className="home-container">
         {/* Sidebar for categories */}
@@ -23,6 +23,7 @@ const Home = () => {
                     <li><input type="checkbox" /> Non-Tech</li>
                 </ul>
             </div>
+            
 
             {/* Main Content Area */}
       <div className="content" style={{ margin: '50px 0px 50px 250px' }}>

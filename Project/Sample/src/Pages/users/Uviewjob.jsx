@@ -2,8 +2,10 @@ import React, { useEffect, useState } from 'react';
 import './Uviewjob.css';
 import { useParams, useNavigate } from 'react-router-dom';
 import Header from './Header';
+import useAuth from '../../Components/Function/useAuth';
 
 const Uviewjob = () => {
+    useAuth();
     const { id } = useParams();
     const navigate = useNavigate();
     const [job, setJob] = useState(null);  // State for job details

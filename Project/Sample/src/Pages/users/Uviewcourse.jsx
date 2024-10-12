@@ -2,8 +2,10 @@ import React, { useEffect, useState } from 'react';
 import './Uviewcourse.css';
 import { useParams, useNavigate } from 'react-router-dom';
 import Header from './Header';
+import useAuth from '../../Components/Function/useAuth';
 
 const Uviewcourse = () => {
+  useAuth();
   const { id } = useParams();
   const navigate = useNavigate();
   const [course, setCourse] = useState(null);
@@ -61,9 +63,10 @@ const Uviewcourse = () => {
         <h1>{course.name}</h1>
         <p><strong>Description:</strong> {course.description}</p>
         <p><strong>Eligibility:</strong> {course.eligibility}</p>
-        <p><strong>Categories:</strong> {course.categories}</p>
+        <p><strong>Category:</strong> {course.category?.name}</p>
         <p><strong>Job:</strong> {course.job.join(', ')}</p>
         <p><strong>Entrance:</strong> {course.entrance.join(', ')}</p>
+        <p><strong>Duration:</strong> {course.duration} months</p>
         <div className="button-container">
           <button className="back-button" onClick={() => navigate(-1)}>Back</button>
           {/* <button className="edit-button" onClick={handleEdit}>Edit</button>

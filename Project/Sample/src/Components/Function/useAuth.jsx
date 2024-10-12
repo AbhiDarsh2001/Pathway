@@ -7,7 +7,7 @@ const useAuth = () => {
     useEffect(() => {
         const user = localStorage.getItem('token');
         if (!user) {
-            navigate('/');
+            navigate('/login');
         }
     },[navigate]);
 };

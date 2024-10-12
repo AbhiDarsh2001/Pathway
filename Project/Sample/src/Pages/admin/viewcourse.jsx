@@ -57,7 +57,7 @@ const VCourseDetails = () => {
   return (
     <div>
       <div className="Course-details">
-        {/* <Sidebar /> */}
+        <Sidebar />
         <h1>{course.name}</h1>
         <h2>{course.fullName}</h2> {/* Added fullName display */}
         <p><strong>Description:</strong> {course.description}</p>

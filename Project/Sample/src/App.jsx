@@ -29,6 +29,7 @@ import MJobList from "./Pages/manager/mjoblist";
 import MVJobDetails from "./Pages/manager/mviewjob";
 import MCourseList from "./Pages/manager/mcourselist";
 import MVCourseDetails from "./Pages/manager/mviewcourse";
+import USidebar from "./Pages/users/Usidebar";
 
 function App() {
     return (
@@ -67,6 +68,7 @@ function App() {
 			<Route path='/mviewjob/:id' element={<MVJobDetails />} />
 			<Route path='/miconcourse' element={<MCourseList />} />
 			<Route path='/mviewcourse/:id' element={<MVCourseDetails />} />
+			<Route path='/usidebar' element={<USidebar />} />
 
 
         </Routes>
