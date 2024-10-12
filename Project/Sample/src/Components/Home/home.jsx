@@ -12,7 +12,7 @@ const Home = () => {
         <div className="sidebar">
           {/* Logo on Top-Left Corner */}
           <div className="logo-container">
-            <img src="src/assets/Pathway_logo.png" alt="Career Pathway Logo" className="logo" />
+            <img src="src/assets/CareerPathway.png" alt="Career Pathway Logo" className="logo" />
           </div>
                 <h2>Categories</h2>
                 <ul className="category-list">

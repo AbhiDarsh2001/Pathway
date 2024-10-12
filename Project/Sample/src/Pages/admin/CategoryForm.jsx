@@ -23,14 +23,27 @@ const CategoryForm = () => {
     fetchCategories();
   }, []);
 
+  // Validate the new category name
+  const validateCategoryName = (name) => {
+    const trimmedName = name.trim();
+    const isValid = /^[A-Za-z\s,.]+$/.test(trimmedName) && trimmedName.length >= 2;
+    return isValid;
+  };
+
   // Handle form submission for adding a new category
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
     setErrorMessage('');
 
+    if (!validateCategoryName(newCategory)) {
+      setErrorMessage('Invalid category name. Please ensure it contains at least 3 letters and no numbers or special characters except , and .');
+      setLoading(false);
+      return;
+    }
+
     try {
-        const response = await axios.post('http://localhost:8080/category', { name: newCategory });
+      const response = await axios.post('http://localhost:8080/category', { name: newCategory });
       setCategories([...categories, response.data]); // Add the new category to the state
       setNewCategory(''); // Clear the input field
       alert('Category added successfully');
@@ -45,7 +58,7 @@ const CategoryForm = () => {
   // Handle category deletion
   const handleDelete = async (categoryId) => {
     try {
-        await axios.delete(`http://localhost:8080/category/${categoryId}`);
+      await axios.delete(`http://localhost:8080/category/${categoryId}`);
       setCategories(categories.filter((category) => category._id !== categoryId)); // Remove deleted category from state
       alert('Category deleted successfully');
     } catch (error) {
