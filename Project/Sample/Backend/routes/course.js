@@ -32,6 +32,11 @@ router.post('/', async (req, res) => {
 // GET route to get a course by ID
 router.get('/viewcourse/:id', async (req, res) => {
   try {
+    const {category} = req.query
+    const filter = {}
+    if(category){
+      filter.category={$in:category.split(',')};
+    }
     const course = await CourseModel.findById(req.params.id).populate('category'); // Populate the category field
     if (!course) {
       return res.status(404).json({ message: 'Course not found' });
