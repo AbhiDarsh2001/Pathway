@@ -23,29 +23,51 @@ const CategoryForm = () => {
     fetchCategories();
   }, []);
 
-  // Validate the new category name
+  // Validate the new category name (case-insensitive)
+  const isDuplicateCategory = (name) => {
+    return categories.some(
+      (category) => category.name.toLowerCase() === name.toLowerCase()
+    );
+  };
+
+  // Validate category input
   const validateCategoryName = (name) => {
     const trimmedName = name.trim();
-    const isValid = /^[A-Za-z\s,.]+$/.test(trimmedName) && trimmedName.length >= 2;
+    const isValid =
+      /^[A-Za-z\s,.]+$/.test(trimmedName) && trimmedName.length >= 2;
     return isValid;
   };
 
-  // Handle form submission for adding a new category
+  // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
     setErrorMessage('');
 
-    if (!validateCategoryName(newCategory)) {
-      setErrorMessage('Invalid category name. Please ensure it contains at least 3 letters and no numbers or special characters except , and .');
+    const trimmedCategory = newCategory.trim();
+
+    // Check for invalid input
+    if (!validateCategoryName(trimmedCategory)) {
+      setErrorMessage(
+        'Invalid category name. Please ensure it contains at least 3 letters and no numbers or special characters except , and .'
+      );
+      setLoading(false);
+      return;
+    }
+
+    // Check for duplicates (case-insensitive)
+    if (isDuplicateCategory(trimmedCategory)) {
+      setErrorMessage('This category already exists.');
       setLoading(false);
       return;
     }
 
     try {
-      const response = await axios.post('http://localhost:8080/category', { name: newCategory });
-      setCategories([...categories, response.data]); // Add the new category to the state
-      setNewCategory(''); // Clear the input field
+      const response = await axios.post('http://localhost:8080/category', {
+        name: trimmedCategory,
+      });
+      setCategories([...categories, response.data]); // Add new category
+      setNewCategory(''); // Clear input
       alert('Category added successfully');
     } catch (error) {
       console.error('Error adding category:', error);
@@ -59,7 +81,7 @@ const CategoryForm = () => {
   const handleDelete = async (categoryId) => {
     try {
       await axios.delete(`http://localhost:8080/category/${categoryId}`);
-      setCategories(categories.filter((category) => category._id !== categoryId)); // Remove deleted category from state
+      setCategories(categories.filter((category) => category._id !== categoryId));
       alert('Category deleted successfully');
     } catch (error) {
       console.error('Error deleting category:', error);
@@ -74,7 +96,7 @@ const CategoryForm = () => {
         <div className="form-container">
           <h2>Manage Categories</h2>
           {errorMessage && <p className="error-message">{errorMessage}</p>}
-          
+
           <form onSubmit={handleSubmit}>
             <div>
               <label htmlFor="newCategory">New Category Name:</label>
