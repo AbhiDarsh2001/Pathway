@@ -30,6 +30,7 @@ import MVJobDetails from "./Pages/manager/mviewjob";
 import MCourseList from "./Pages/manager/mcourselist";
 import MVCourseDetails from "./Pages/manager/mviewcourse";
 import USidebar from "./Pages/users/Usidebar";
+import USearchCourseResults from "./Pages/users/searchresult/searchcourse"
 
 function App() {
     return (
@@ -69,7 +70,7 @@ function App() {
 			<Route path='/miconcourse' element={<MCourseList />} />
 			<Route path='/mviewcourse/:id' element={<MVCourseDetails />} />
 			<Route path='/usidebar' element={<USidebar />} />
-
+			<Route path='/searchcourse-results' element={<USearchCourseResults />} />
 
         </Routes>
     );

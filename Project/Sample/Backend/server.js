@@ -24,6 +24,7 @@ const ViewManager = require('./routes/viewmanager.js');
 const ViewUserPro = require('./routes/uprofile.js');
 const Ueditpro = require('./routes/uprofileupdate.js');
 const Category = require('./routes/categoryRoutes.js');
+const SearchCourse = require('./routes/searchCourse.js')
 
 // Middleware for CORS
 app.use(cors({
@@ -242,6 +243,7 @@ app.use('/viewmanager',ViewManager);
 app.use('/vuprofile',ViewUserPro);
 app.use('/updateProfile',Ueditpro);
 app.use('/category',Category);
+app.use('/',SearchCourse);
 
 // Start the server
 const PORT = process.env.PORT || 8080;
