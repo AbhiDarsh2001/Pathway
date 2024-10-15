@@ -1,0 +1,12 @@
+/* CourseList.css */
+.course-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Responsive grid */
+    gap: 20px;
+    padding: 20px;
+}
+
+.course-list-container {
+    padding: 40px;
+    background-color: #f4f4f4; /* Background color similar to screenshot */
+}

@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
-import './Ucourselist.css';
 import Header from './Header';
 import useAuth from '../../Components/Function/useAuth';
 import FilterComponent from '../../Components/Filter/filter';
+import CourseList from '../../Components/CourseList';
+import './Ucourselist.css'; // Make sure the updated styles are imported
 
 const UCourseList = () => {
     useAuth();
@@ -30,24 +30,19 @@ const UCourseList = () => {
         };
 
         fetchCourses();
-    }, [filters]); // Re-fetch courses whenever filters change
+    }, [filters]);
 
     return (
         <div>
             <Header />
             <div className="course-list-container">
-                <FilterComponent setFilters={setFilters} />
-                <div className="course-list">
-                    {courses.map((course) => (
-                        <div key={course._id} className="course-item">
-                            <h2>{course.name}</h2>
-                            <p>{course.fullName}</p>
-                            <Link to={`/Uviewcourse/${course._id}`}>
-                                <button className="detail-btn">Details</button>
-                            </Link>
-                        </div>
-                    ))}
+                {/* Left-side filter */}
+                <div className="filter-component">
+                    <FilterComponent setFilters={setFilters} />
                 </div>
+
+                {/* Right-side course list */}
+                <CourseList courses={courses} />
             </div>
         </div>
     );

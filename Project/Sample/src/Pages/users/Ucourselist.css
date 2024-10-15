@@ -1,108 +1,27 @@
-/* General container styling for the entire page */
-.course-list-page {
+/* Ucourselist.css */
+
+/* Container for the filter and course list */
+.course-list-container {
     display: flex;
-    max-width: 100%;
-    margin: 0 auto;
-    font-family: 'Arial', sans-serif;
+    padding: 40px;
+    background-color: #f4f4f4;
 }
 
-/* Sidebar styling */
-.filter-container {
-    width: 250px; /* Fixed width for the sidebar */
-    padding: 20px;
-    background-color: #f8f8f8; /* Optional background for sidebar */
-    border-right: 1px solid #ccc; /* Optional border for sidebar */
-    position: sticky;
-    top: 0;
-    height: 100vh; /* Full height of the viewport */
-}
-
-/* Course list container styling */
-.Course-list {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr); /* 3 boxes per row */
-    gap: 20px;
-    margin: 50px 20px; /* Adjust margin for better alignment */
-    padding: 20px;
-    background-color: #f9f9f9;
-    width: 100%;
-    max-width: 1300px;
-    box-sizing: border-box;
-}
-
-/* Styling for individual course items */
-.course-item {
-    background-color: #ffffff;
-    padding: 15px;
+/* Left-side filter component */
+.filter-component {
+    flex: 1; /* Set this to take up as much space as needed for the filter */
+    max-width: 250px; /* Set a fixed width or max width for the filter */
+    margin-right: 20px; /* Add some space between the filter and the course list */
+    background-color: #fff;
     border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    transition: box-shadow 0.3s ease;
-    text-align: center;
-    min-height: 150px;
-    max-height: 200px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    padding: 20px;
 }
 
-/* Hover effect for course items */
-.course-item:hover {
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-}
-
-/* Course item title styling */
-.course-item h2 {
-    font-size: 18px;
-    font-weight: bold;
-    color: #3498db;
-    margin-bottom: 10px;
-}
-
-/* Additional text for course description */
-.course-item p {
-    margin: 0;
-    color: #666;
-    font-size: 14px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    max-height: 100px;
-}
-
-/* Styling for the Details button */
-.detail-btn {
-    padding: 10px 20px;
-    background-color: #f39c12;
-    color: #ffffff;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 16px;
-    margin-top: 10px;
-    transition: background-color 0.3s ease;
-}
-
-.detail-btn:hover {
-    background-color: #e67e22;
-}
-
-/* Responsive styling */
-@media (max-width: 768px) {
-    .Course-list {
-        grid-template-columns: repeat(1, 1fr); /* Stack items vertically on smaller screens */
-        margin: 20px;
-        padding: 15px;
-        width: 100%;
-    }
-
-    .course-item h2 {
-        font-size: 16px;
-    }
-
-    .course-item p {
-        font-size: 12px;
-    }
-
-    .detail-btn {
-        font-size: 14px;
-    }
+/* Right-side course list */
+.course-list {
+    flex: 3; /* Set the course list to take more space */
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
 }
