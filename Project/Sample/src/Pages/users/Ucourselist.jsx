@@ -35,9 +35,9 @@ const UCourseList = () => {
     return (
         <div>
             <Header />
-            <div className="course-list-page">
+            <div className="course-list-container">
                 <FilterComponent setFilters={setFilters} />
-                <div className="Course-list">
+                <div className="course-list">
                     {courses.map((course) => (
                         <div key={course._id} className="course-item">
                             <h2>{course.name}</h2>

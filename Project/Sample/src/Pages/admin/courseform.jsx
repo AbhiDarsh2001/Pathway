@@ -53,7 +53,7 @@ const CourseForm = () => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-
+  
     // Add validation for the course name
     if (name === 'name' || name === 'fullName') {
       // Regex to allow only alphabets, spaces, commas, and periods
@@ -65,12 +65,24 @@ const CourseForm = () => {
         setErrorMessage('');
       }
     }
-
+  
+    // Add validation for duration to only allow positive numbers greater than 0
+    if (name === 'duration') {
+      const durationValue = parseInt(value, 10); // Parse the value to an integer
+      if (durationValue <= 0 || isNaN(durationValue)) {
+        setErrorMessage('Duration should be a positive number greater than 0.');
+        return;
+      } else {
+        setErrorMessage('');
+      }
+    }
+  
     setFormData({
       ...formData,
       [name]: value,
     });
   };
+  
 
   const handleSubmit = async (e) => {
     e.preventDefault();
