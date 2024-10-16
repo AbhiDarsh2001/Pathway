@@ -37,7 +37,6 @@ const CourseForm = () => {
     fetchCategories();
   }, []);
 
-
     // Fetch course details if we are editing
     useEffect(() => {
       if (id) {
@@ -52,7 +51,6 @@ const CourseForm = () => {
         fetchCourseDetails();
       }
     }, [id]);
-
     
   // Fetch subcategories when category is selected
   const handleCategoryChange = async (e) => {
@@ -76,6 +74,7 @@ const CourseForm = () => {
     const { name, value } = e.target;
 
     if (name === 'name' || name === 'fullName') {
+      // Regex to allow only alphabets, spaces, commas, and periods
       const validName = /^[A-Za-z\s.,]*$/;
       if (!validName.test(value)) {
         setErrorMessage('Course name should only contain letters, spaces, commas, or periods.');
@@ -95,7 +94,10 @@ const CourseForm = () => {
       }
     }
 
-    setFormData({ ...formData, [name]: value });
+    setFormData({ 
+      ...formData, 
+      [name]: value,
+     });
   };
 
   const handleSubmit = async (e) => {
