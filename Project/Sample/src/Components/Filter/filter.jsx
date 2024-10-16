@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom'; // Import useNavigate for logout
 import './filter.css';
 
 const FilterComponent = ({ setFilters }) => {
-  const [categories, setCategories] = useState([]); // Categories and subcategories from backend
-  const [selectedCategories, setSelectedCategories] = useState([]); // Selected category filters
-  const [selectedSubcategories, setSelectedSubcategories] = useState([]); // Selected subcategory filters
+  const [categories, setCategories] = useState([]); // Categories from backend
+  const [selectedCategories, setSelectedCategories] = useState([]); // Selected categories
+  const [selectedSubcategories, setSelectedSubcategories] = useState([]); // Selected subcategories
+
+  const navigate = useNavigate(); // Initialize navigate for redirection
 
   // Fetch categories and subcategories on component mount
   useEffect(() => {
@@ -49,10 +52,19 @@ const FilterComponent = ({ setFilters }) => {
     setFilters({ categories: [], subcategories: [] });
   };
 
+  // Handle logout functionality
+  const handleLogout = () => {
+    localStorage.removeItem('token'); // Clear token from local storage
+    navigate('/login'); // Redirect to login page
+  };
+
   return (
     <div className="filter-container">
       <form onSubmit={handleSubmit}>
         <div className="filter-group">
+            {/* <div className="logo-container">
+                <img src="src/assets/CareerPathway.png" alt="Career Pathway Logo" className="logo" />
+            </div> */}
           <h3>Categories</h3>
           <div className="filter-options">
             {categories.map((category) => (
@@ -65,14 +77,14 @@ const FilterComponent = ({ setFilters }) => {
                 />
                 <label>{category.name}</label>
 
-                {/* Subcategory Filtering */}
-                {category.subcategories.length > 0 && (
+                {/* Show Subcategories Only If Category Is Selected */}
+                {selectedCategories.includes(category._id) && category.subcategories.length > 0 && (
                   <div className="subcategory-options">
                     {category.subcategories.map((subcategory, index) => (
                       <div key={index} className="filter-checkbox-group">
                         <input
                           type="checkbox"
-                          value={subcategory} // Subcategory is a string
+                          value={subcategory}
                           checked={selectedSubcategories.includes(subcategory)}
                           onChange={handleSubcategoryChange}
                         />
@@ -88,6 +100,11 @@ const FilterComponent = ({ setFilters }) => {
         <button type="submit" className="filter-button">Apply Filters</button>
         <button type="button" onClick={clearFilters}>Clear Filters</button>
       </form>
+
+      {/* Logout button placed at the bottom */}
+      <button onClick={handleLogout} className="logout-button">
+        Logout
+      </button>
     </div>
   );
 };

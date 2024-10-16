@@ -1,0 +1,41 @@
+.filter-container {
+    display: flex;
+    flex-direction: column;
+    height: 100vh; /* Full height of the viewport */
+    padding: 20px;
+    box-sizing: border-box;
+  }
+  
+  .filter-group {
+    flex-grow: 1; /* Allow the filter group to take available space */
+  }
+  
+  .filter-button {
+    margin-top: 10px;
+    padding: 10px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+  }
+  
+  .filter-button:hover {
+    background-color: #45a049;
+  }
+  
+  .logout-button {
+    margin-top: auto; /* Push the button to the bottom */
+    padding: 10px;
+    background-color: #ff4d4d;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    width: 100%; /* Full width of the container */
+  }
+  
+  .logout-button:hover {
+    background-color: #ff6666;
+  }
+  
