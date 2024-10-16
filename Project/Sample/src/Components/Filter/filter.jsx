@@ -2,63 +2,94 @@ import React, { useState, useEffect } from 'react';
 import './filter.css';
 
 const FilterComponent = ({ setFilters }) => {
-    const [categories, setCategories] = useState([]); // Categories from backend
-    const [selectedCategories, setSelectedCategories] = useState([]); // Selected filters
-  
-    useEffect(() => {
-      const fetchCategories = async () => {
-        try {
-          const response = await fetch('http://localhost:8080/category');
-          const data = await response.json();
-          setCategories(data); // Array of categories with IDs
-        } catch (error) {
-          console.error('Error fetching categories:', error);
-        }
-      };
-      fetchCategories();
-    }, []);
-  
-    const handleCheckboxChange = (e) => {
-      const { value, checked } = e.target;
-      setSelectedCategories((prev) =>
-        checked ? [...prev, value] : prev.filter((id) => id !== value)
-      );
+  const [categories, setCategories] = useState([]); // Categories and subcategories from backend
+  const [selectedCategories, setSelectedCategories] = useState([]); // Selected category filters
+  const [selectedSubcategories, setSelectedSubcategories] = useState([]); // Selected subcategory filters
+
+  // Fetch categories and subcategories on component mount
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const response = await fetch('http://localhost:8080/category');
+        const data = await response.json();
+        setCategories(data); // Assuming each category has a `subcategories` array
+      } catch (error) {
+        console.error('Error fetching categories:', error);
+      }
     };
-  
-    const handleSubmit = (e) => {
-      e.preventDefault();
-      setFilters({ categories: selectedCategories }); // Send category IDs to parent
-    };
-  
-    const clearFilters = () => {
-      setSelectedCategories([]);
-      setFilters({ categories: [] });
-    };
-  
-    return (
-      <div className="filter-container">
-        <form onSubmit={handleSubmit}>
-          <div className="filter-group">
-            <h3>Categories</h3>
-            <div className="filter-options">
-              {categories.map((category) => (
-                <div key={category._id} className="filter-checkbox-group">
-                  <input
-                    type="checkbox"
-                    value={category._id} // Send category ID
-                    checked={selectedCategories.includes(category._id)}
-                    onChange={handleCheckboxChange}
-                  />
-                  <label>{category.name}</label>
-                </div>
-              ))}
-            </div>
-          </div>
-          <button type="submit" className="filter-button">Apply Filters</button>
-          <button type="button" onClick={clearFilters}>Clear Filters</button>
-        </form>
-      </div>
+    fetchCategories();
+  }, []);
+
+  // Handle category checkbox change
+  const handleCategoryChange = (e) => {
+    const { value, checked } = e.target;
+    setSelectedCategories((prev) =>
+      checked ? [...prev, value] : prev.filter((id) => id !== value)
     );
   };
-  
-  export default FilterComponent;
+
+  // Handle subcategory checkbox change
+  const handleSubcategoryChange = (e) => {
+    const { value, checked } = e.target;
+    setSelectedSubcategories((prev) =>
+      checked ? [...prev, value] : prev.filter((name) => name !== value)
+    );
+  };
+
+  // Submit selected filters
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    setFilters({ categories: selectedCategories, subcategories: selectedSubcategories });
+  };
+
+  // Clear selected filters
+  const clearFilters = () => {
+    setSelectedCategories([]);
+    setSelectedSubcategories([]);
+    setFilters({ categories: [], subcategories: [] });
+  };
+
+  return (
+    <div className="filter-container">
+      <form onSubmit={handleSubmit}>
+        <div className="filter-group">
+          <h3>Categories</h3>
+          <div className="filter-options">
+            {categories.map((category) => (
+              <div key={category._id} className="filter-checkbox-group">
+                <input
+                  type="checkbox"
+                  value={category._id}
+                  checked={selectedCategories.includes(category._id)}
+                  onChange={handleCategoryChange}
+                />
+                <label>{category.name}</label>
+
+                {/* Subcategory Filtering */}
+                {category.subcategories.length > 0 && (
+                  <div className="subcategory-options">
+                    {category.subcategories.map((subcategory, index) => (
+                      <div key={index} className="filter-checkbox-group">
+                        <input
+                          type="checkbox"
+                          value={subcategory} // Subcategory is a string
+                          checked={selectedSubcategories.includes(subcategory)}
+                          onChange={handleSubcategoryChange}
+                        />
+                        <label>{subcategory}</label>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
+        </div>
+        <button type="submit" className="filter-button">Apply Filters</button>
+        <button type="button" onClick={clearFilters}>Clear Filters</button>
+      </form>
+    </div>
+  );
+};
+
+export default FilterComponent;

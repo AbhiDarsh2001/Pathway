@@ -1,3 +1,4 @@
+// CourseModel.js
 const mongoose = require('mongoose');
 
 const courseSchema = new mongoose.Schema({
@@ -23,6 +24,10 @@ const courseSchema = new mongoose.Schema({
     category: {
         type: mongoose.Schema.Types.ObjectId, // Reference to Category
         ref: 'Category',
+        required: true
+    },
+    subcategory: {
+        type: String, // Store subcategory as a string
         required: true
     },
     job: {

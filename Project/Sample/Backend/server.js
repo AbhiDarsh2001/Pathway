@@ -23,7 +23,7 @@ const DelJobRoute = require('./routes/deljob.js');
 const ViewManager = require('./routes/viewmanager.js');
 const ViewUserPro = require('./routes/uprofile.js');
 const Ueditpro = require('./routes/uprofileupdate.js');
-const Category = require('./routes/categoryRoutes.js');
+const categoryRoutes = require('./routes/categoryRoutes');
 const SearchCourse = require('./routes/searchCourse.js')
 
 // Middleware for CORS
@@ -242,8 +242,15 @@ app.use('/deljob',DelJobRoute);
 app.use('/viewmanager',ViewManager);
 app.use('/vuprofile',ViewUserPro);
 app.use('/updateProfile',Ueditpro);
-app.use('/category',Category);
+app.use('/category', categoryRoutes);
 app.use('/',SearchCourse);
+
+// Example route in your Express server
+app.get('/categories/:categoryId/subcategories', async (req, res) => {
+    const { categoryId } = req.params;
+    // Fetch subcategories based on categoryId from your database
+  });
+  
 
 // Start the server
 const PORT = process.env.PORT || 8080;

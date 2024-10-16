@@ -1,13 +1,15 @@
+//course.js
+
 const express = require('express');
 const router = express.Router();
 const CourseModel = require('../models/CourseModel');
 
 // POST route to create a new course
 router.post('/', async (req, res) => {
-  const { name, fullName, description, eligibility, category, job, entrance, duration } = req.body;
+  const { name, fullName, description, eligibility, category, subcategory, job, entrance, duration } = req.body;
 
   // Check for required fields
-  if (!name || !fullName || !description || !eligibility || !category) {
+  if (!name || !fullName || !description || !eligibility || !category || !subcategory) {
     return res.status(400).json({ message: 'All required fields must be filled.' });
   }
 
@@ -19,7 +21,18 @@ router.post('/', async (req, res) => {
     }
 
     // Create and save new course
-    const newCourse = new CourseModel({ name, fullName, description, eligibility, category, job, entrance, duration });
+    const newCourse = new CourseModel({
+      name,
+      fullName,
+      description,
+      eligibility,
+      category, // Use category ObjectId
+      subcategory, // Store subcategory name as string
+      job,
+      entrance,
+      duration
+    });
+
     await newCourse.save();
     res.status(201).json({ message: 'Course created successfully', course: newCourse });
   } catch (error) {
@@ -29,15 +42,24 @@ router.post('/', async (req, res) => {
 });
 
 
-// GET route to get a course by ID
+// GET route to get a course by ID (with filtering by category and subcategory)
 router.get('/viewcourse/:id', async (req, res) => {
   try {
-    const {category} = req.query
-    const filter = {}
-    if(category){
-      filter.category={$in:category.split(',')};
+    const { category, subcategory } = req.query; // Filter by category and subcategory
+    const filter = {};
+    
+    if (category) {
+      filter.category = { $in: category.split(',') };
     }
-    const course = await CourseModel.findById(req.params.id).populate('category'); // Populate the category field
+
+    if (subcategory) {
+      filter.subcategory = { $in: subcategory.split(',') };
+    }
+
+    const course = await CourseModel.findById(req.params.id)
+      .populate('category')
+      .populate('subcategory'); // Populate both category and subcategory fields
+
     if (!course) {
       return res.status(404).json({ message: 'Course not found' });
     }
@@ -48,12 +70,12 @@ router.get('/viewcourse/:id', async (req, res) => {
   }
 });
 
-/// PUT route to update a course by ID
+// PUT route to update a course by ID
 router.put('/:id', async (req, res) => {
-  const { fullName, name, description, eligibility, category, job, entrance, duration } = req.body;
+  const { fullName, name, description, eligibility, category, subcategory, job, entrance, duration } = req.body;
 
   // Check for required fields
-  if (!name || !fullName || !description || !eligibility || !category) {
+  if (!name || !fullName || !description || !eligibility || !category || !subcategory) {
     return res.status(400).json({ message: 'All required fields must be filled.' });
   }
 

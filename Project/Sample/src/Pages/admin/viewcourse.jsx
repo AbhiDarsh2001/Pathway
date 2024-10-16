@@ -63,6 +63,7 @@ const VCourseDetails = () => {
         <p><strong>Description:</strong> {course.description}</p>
         <p><strong>Eligibility:</strong> {course.eligibility}</p>
         <p><strong>Category:</strong> {course.category?.name}</p> {/* Display category name */}
+        <p><strong>Subcategory:</strong> {course.subcategory}</p> {/* Display subcategory as string */}
         <p><strong>Job:</strong> {course.job.join(', ')}</p>
         <p><strong>Entrance:</strong> {course.entrance.join(', ')}</p>
         <p><strong>Duration:</strong> {course.duration} months</p>
