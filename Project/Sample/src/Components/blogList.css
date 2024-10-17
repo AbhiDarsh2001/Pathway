@@ -1,0 +1,122 @@
+/* blogList.css */
+.blog-list {
+    width: 80%;
+    margin: 2rem auto;
+    padding: 1rem;
+  }
+  
+  .blog-list h1 {
+    text-align: center;
+    margin-bottom: 1rem;
+    color: #333;
+    font-size: 2rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+  }
+  
+  .blog-card {
+    background-color: #fff;
+    margin-bottom: 2rem;
+    padding: 1.5rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s;
+  }
+  
+  .blog-card:hover {
+    transform: scale(1.02);
+  }
+  
+  .blog-card h2 {
+    font-size: 1.75rem;
+    margin-bottom: 0.5rem;
+    color: #007bff;
+    text-transform: capitalize;
+  }
+  
+  .blog-card p {
+    font-size: 1rem;
+    color: #555;
+    line-height: 1.6;
+    margin-bottom: 1rem;
+  }
+  
+  .blog-card img {
+    width: 100%;
+    max-width: 300px;
+    height: auto;
+    border-radius: 8px;
+    margin-top: 1rem;
+  }
+  
+  .blog-card strong {
+    font-weight: bold;
+    color: #007bff;
+  }
+  
+  .no-blogs {
+    text-align: center;
+    font-size: 1.2rem;
+    color: #777;
+  }
+  
+  /* Like Section */
+  .like-section {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 10px 0;
+  }
+  
+  .like-section button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 5px 10px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .like-section button:hover {
+    background-color: #0056b3;
+  }
+  
+  .like-section span {
+    font-weight: bold;
+    color: #333;
+  }
+  
+  /* Comment Section */
+  .comment-section {
+    margin-top: 10px;
+  }
+  
+  .comment-section input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    margin-bottom: 5px;
+    font-size: 14px;
+  }
+  
+  .comment-section input:focus {
+    border-color: #007bff;
+    outline: none;
+  }
+  
+  .comments-list {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .comments-list li {
+    background-color: #f1f1f1;
+    margin-bottom: 5px;
+    padding: 8px;
+    border-radius: 5px;
+    font-size: 14px;
+  }
+  

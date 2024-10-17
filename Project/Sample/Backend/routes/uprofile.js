@@ -32,6 +32,7 @@ router.get('/', verifyToken, (req, res) => {
         return res.status(404).json({ message: "User not found." });
       }
       res.json({
+        id:user._id,
         name: user.name,
         email: user.email,
         phone: user.phone,

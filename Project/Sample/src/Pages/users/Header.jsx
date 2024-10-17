@@ -29,6 +29,9 @@ const Header = () => {
             <Link to="/uprofile" className="dropdown-option">
               Edit Profile
             </Link>
+            <Link to="/add-blog" className="dropdown-option">
+              Blog
+            </Link>
             <button onClick={handleLogout} className="dropdown-option logout-button">
               Logout
             </button>
