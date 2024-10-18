@@ -1,122 +1,150 @@
 /* blogList.css */
 .blog-list {
-    width: 80%;
+    width: 90%;
     margin: 2rem auto;
     padding: 1rem;
-  }
-  
-  .blog-list h1 {
+    background-color: #fafafa;
+    border-radius: 16px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.blog-list h1 {
     text-align: center;
-    margin-bottom: 1rem;
-    color: #333;
+    margin-bottom: 1.5rem;
+    color: #262626;
     font-size: 2rem;
     font-weight: bold;
     text-transform: uppercase;
     letter-spacing: 2px;
-  }
-  
-  .blog-card {
+}
+
+.blog-card {
     background-color: #fff;
     margin-bottom: 2rem;
     padding: 1.5rem;
     border-radius: 12px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    transition: transform 0.2s;
-  }
-  
-  .blog-card:hover {
+    transition: transform 0.2s ease-in-out;
+}
+
+.blog-card:hover {
     transform: scale(1.02);
-  }
-  
-  .blog-card h2 {
-    font-size: 1.75rem;
+}
+
+.blog-card h2 {
+    font-size: 1.5rem;
     margin-bottom: 0.5rem;
     color: #007bff;
     text-transform: capitalize;
-  }
-  
-  .blog-card p {
+}
+
+.blog-card p {
     font-size: 1rem;
-    color: #555;
+    color: #444;
     line-height: 1.6;
     margin-bottom: 1rem;
-  }
-  
-  .blog-card img {
+}
+
+.blog-image {
     width: 100%;
     max-width: 300px;
     height: auto;
-    border-radius: 8px;
+    border-radius: 12px;
     margin-top: 1rem;
-  }
-  
-  .blog-card strong {
-    font-weight: bold;
-    color: #007bff;
-  }
-  
-  .no-blogs {
-    text-align: center;
-    font-size: 1.2rem;
-    color: #777;
-  }
-  
-  /* Like Section */
-  .like-section {
+}
+
+.action-section {
+    display: flex;
+    gap: 15px;
+    margin-top: 10px;
+}
+
+.action-section button {
+    background-color: transparent;
+    border: none;
     display: flex;
     align-items: center;
-    gap: 10px;
-    margin: 10px 0;
-  }
-  
-  .like-section button {
-    background-color: #007bff;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    padding: 5px 10px;
+    gap: 5px;
     cursor: pointer;
-    transition: background-color 0.3s;
-  }
-  
-  .like-section button:hover {
-    background-color: #0056b3;
-  }
-  
-  .like-section span {
-    font-weight: bold;
-    color: #333;
-  }
-  
-  /* Comment Section */
-  .comment-section {
+    font-size: 16px;
+    color: #007bff;
+    transition: color 0.3s;
+}
+
+.action-section button:hover {
+    color: #0056b3;
+}
+
+.comment-section {
     margin-top: 10px;
-  }
-  
-  .comment-section input {
+}
+
+.comment-section input {
     width: 100%;
     padding: 10px;
     border: 1px solid #ddd;
-    border-radius: 8px;
+    border-radius: 12px;
     margin-bottom: 5px;
     font-size: 14px;
-  }
-  
-  .comment-section input:focus {
+}
+
+.comment-section input:focus {
     border-color: #007bff;
     outline: none;
-  }
-  
-  .comments-list {
+}
+
+.comments-list {
     list-style: none;
     padding: 0;
+}
+
+.comments-list li {
+    background-color: #f1f1f1;
+    margin-bottom: 8px;
+    padding: 8px;
+    border-radius: 10px;
+    font-size: 14px;
+    color: #333;
+}
+/* blogList.css */
+.action-section {
+    display: flex;
+    gap: 10px;
   }
   
-  .comments-list li {
-    background-color: #f1f1f1;
-    margin-bottom: 5px;
-    padding: 8px;
-    border-radius: 5px;
-    font-size: 14px;
+  button {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 16px;
+  }
+  
+  /* Styling the custom comment icon */
+  .comment-icon {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border: 2px solid black;
+    border-radius: 4px;
+    position: relative;
+  }
+  
+  .comment-icon::after {
+    content: '';
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    background-color: black;
+    clip-path: polygon(0 0, 100% 100%, 100% 0);
+    bottom: -4px;
+    right: -4px;
+  }
+  
+  /* Comment button hover effect */
+  button.comment-button:hover .comment-icon {
+    background-color: #f0f0f0;
   }
   

@@ -24,7 +24,7 @@ const USearchEntrance = () => {
         placeholder="Search Course..."
         style={{ padding: '8px', flex: '1' }}
       />
-      <button onClick={handleSearch} style={{ padding: '8px 16px' }}>
+      <button onClick={handleSearch} style={{ padding: '8px 16px', color: '#333' }}>
         Search
       </button>
 

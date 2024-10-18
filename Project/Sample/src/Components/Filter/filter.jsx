@@ -98,8 +98,8 @@ const FilterComponent = ({ setFilters }) => {
             ))}
           </div>
         </div>
-        <button type="submit" className="filter-button">Apply Filters</button>
-        <button type="button" onClick={clearFilters}>Clear Filters</button>
+        <button type="submit" className="filter-button" >Apply Filters</button>
+        <button type="button" onClick={clearFilters} style={{  color: '#333' }}>Clear Filters</button>
       </form>
 
       {/* Logout button placed at the bottom */}

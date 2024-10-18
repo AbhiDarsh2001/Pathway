@@ -37,8 +37,8 @@ const Home = () => {
             <Link to="/home" style={ { textDecoration:'none', color:'#00000'}}>
                 Home
             </Link>
-            <Link to="/" style={{ textDecoration: 'none', color: '#000000' }}>
-                About Us
+            <Link to="/blogs" style={{ textDecoration: 'none', color: '#000000' }}>
+                Blogs
             </Link>
             <a href="/Ujoblist">Job</a>
             <a href="/Ucourselist">Course</a>

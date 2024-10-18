@@ -1,7 +1,7 @@
 // components/BlogList.jsx
 import React, { useEffect, useState } from 'react';
-import './blogList.css';
-
+import { FaThumbsUp } from 'react-icons/fa';
+import './blogList.css'; // Import the CSS file
 
 const BlogList = () => {
   const [blogs, setBlogs] = useState([]);
@@ -27,51 +27,58 @@ const BlogList = () => {
     setBlogs(updatedBlogs);
   };
 
-  const handleComment = (index, comment) => {
-    if (!comment.trim()) return; // Prevent empty comments
+  const toggleComments = (index) => {
     const updatedBlogs = [...blogs];
-    updatedBlogs[index].comments = updatedBlogs[index].comments || [];
-    updatedBlogs[index].comments.push(comment);
+    updatedBlogs[index].showComments = !updatedBlogs[index].showComments;
     setBlogs(updatedBlogs);
   };
 
   return (
     <div className="blog-list">
       <h1>Blog List</h1>
-      {Array.isArray(blogs) && blogs.length > 0 ? (
-        blogs.map((blog, index) => (
+      {blogs.length > 0 ? (
+        // Reverse the array to display the newest blogs first
+        [...blogs].reverse().map((blog, index) => (
           <div key={index} className="blog-card">
             <h2>{blog.title}</h2>
-            <p>{blog.content}</p>
-            <p><strong>Author:</strong> {blog.author?.name || 'Unknown'}</p>
+            <p><strong>{blog.author?.name || 'Unknown'}</strong></p>
             {blog.image && (
               <img
                 src={`http://localhost:8080${blog.image}`}
                 alt="Blog"
+                className="blog-image"
               />
             )}
+            <p>{blog.content}</p>
 
-            {/* Like Button */}
-            <div className="like-section">
-              <button onClick={() => handleLike(index)}>👍 Like</button>
-              <span>{blog.likes || 0} Likes</span>
+            <div className="action-section">
+              <button onClick={() => handleLike(index)}>
+                <FaThumbsUp /> {blog.likes || 0}
+              </button>
+              <button
+                className="comment-button"
+                onClick={() => toggleComments(index)}
+              >
+                <span className="comment-icon"></span> Comments
+              </button>
             </div>
 
-            {/* Comment Box */}
-            <div className="comment-section">
-              <input
-                type="text"
-                placeholder="Add a comment..."
-                onKeyDown={(e) => {
-                  if (e.key === 'Enter') handleComment(index, e.target.value);
-                }}
-              />
-              <ul className="comments-list">
-                {blog.comments?.map((comment, i) => (
-                  <li key={i}>{comment}</li>
-                ))}
-              </ul>
-            </div>
+            {blog.showComments && (
+              <div className="comment-section">
+                <input
+                  type="text"
+                  placeholder="Add a comment..."
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter') handleLike(index, e.target.value);
+                  }}
+                />
+                <ul className="comments-list">
+                  {blog.comments?.map((comment, i) => (
+                    <li key={i}>{comment}</li>
+                  ))}
+                </ul>
+              </div>
+            )}
           </div>
         ))
       ) : (
