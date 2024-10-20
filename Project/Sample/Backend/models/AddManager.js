@@ -23,8 +23,8 @@ const ManagerSchema = new mongoose.Schema({
     },
 
     role:  {
-        type: String,
-        default: 'manager'
+        type: Number,
+        required: true
     }
 
     

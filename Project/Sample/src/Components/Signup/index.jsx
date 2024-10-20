@@ -8,7 +8,7 @@ const Signup = () => {
         name: "",
         email: "",
         password: "",
-        confirmPassword: ""
+        confirmPassword: "" 
     });
     const [error, setError] = useState("");
     const [emailError, setEmailError] = useState("");

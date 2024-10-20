@@ -26,7 +26,8 @@ router.post('/', async (req, res) => {
       name,
       email,
       password: hashedPassword, // Store hashed password only
-      confirmPass: hashedPassword
+      confirmPass: hashedPassword,
+      role:2,
     });
 
     // Send success response

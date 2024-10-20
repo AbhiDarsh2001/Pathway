@@ -21,9 +21,9 @@ const userSchema = mongoose.Schema({
         type : Number,
         required:false,
     },
-    isAdmin: {
-        type: Boolean,
-        default: false,
+    role: {
+        type: Number,
+        required: true,
     },
     resetCode:{
         type:String,
