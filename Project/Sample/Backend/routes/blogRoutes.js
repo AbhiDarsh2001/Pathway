@@ -5,6 +5,7 @@ const multer = require('multer');
 const fs = require('fs');
 const path = require('path');
 const router = express.Router();
+const jwt = require('jsonwebtoken'); // Make sure to import jwt
 
 // Ensure 'uploads/' folder exists
 const storage = multer.diskStorage({
@@ -22,8 +23,22 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage });
 
-// Add a new blog
-router.post('/add', upload.single('image'), async (req, res) => {
+// Middleware to verify JWT token
+const verifyToken = (req, res, next) => {
+  const token = req.header('Authorization');
+  if (!token) return res.status(401).json({ error: 'Access denied' });
+
+  try {
+    const verified = jwt.verify(token, process.env.JWT_SECRET);
+    req.user = verified;
+    next();
+  } catch (error) {
+    res.status(400).json({ error: 'Invalid token' });
+  }
+};
+
+// Add a new blog (protected route)
+router.post('/add', verifyToken, upload.single('image'), async (req, res) => {
   console.log(req.body);
 
   try {
@@ -47,6 +62,53 @@ router.get('/', async (req, res) => {
     res.status(200).json(blogs);
   } catch (error) {
     return res.status(500).json({ error: 'Error fetching blogs' });
+  }
+});
+
+// Delete a blog (protected route)
+router.delete('/delete/:id', verifyToken, async (req, res) => {
+  try {
+    const blog = await Blog.findById(req.params.id);
+    if (!blog) {
+      return res.status(404).json({ error: 'Blog not found' });
+    }
+
+    // Check if the current user is the author of the blog
+    if (blog.author.toString() !== req.user.id) {
+      return res.status(403).json({ error: 'Not authorized to delete this blog' });
+    }
+
+    await Blog.findByIdAndDelete(req.params.id);
+    res.status(200).json({ message: 'Blog deleted successfully' });
+  } catch (error) {
+    return res.status(500).json({ error: 'Error deleting blog' });
+  }
+});
+
+// Edit a blog (protected route)
+router.put('/edit/:id', verifyToken, upload.single('image'), async (req, res) => {
+  try {
+    const blog = await Blog.findById(req.params.id);
+    if (!blog) {
+      return res.status(404).json({ error: 'Blog not found' });
+    }
+
+    // Check if the current user is the author of the blog
+    if (blog.author.toString() !== req.user.id) {
+      return res.status(403).json({ error: 'Not authorized to edit this blog' });
+    }
+
+    const { title, content } = req.body;
+    const updateData = { title, content };
+
+    if (req.file) {
+      updateData.image = `/uploads/${req.file.filename}`;
+    }
+
+    const updatedBlog = await Blog.findByIdAndUpdate(req.params.id, updateData, { new: true });
+    res.status(200).json({ message: 'Blog updated successfully', blog: updatedBlog });
+  } catch (error) {
+    return res.status(500).json({ error: 'Error updating blog' });
   }
 });
 
