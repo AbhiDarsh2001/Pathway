@@ -86,6 +86,7 @@ const Login = () => {
               type="email"
               placeholder="Email"
               name="email"
+              id="emailid"
               onChange={handleChange}
               value={data.email}
               required
@@ -95,6 +96,7 @@ const Login = () => {
               type="password"
               placeholder="Password"
               name="password"
+              id="passwords"
               onChange={handleChange}
               value={data.password}
               required
@@ -110,10 +112,10 @@ const Login = () => {
               </Link>
             </div>
             {error && <div className={styles.error_msg}>{error}</div>}
-            <button type="submit" className={styles.green_btn}>
+            <button id="login" type="submit" className={styles.green_btn}>
               Sign In
             </button>
-            <button
+            <button 
               type="button"
               className={styles.google_login_button}
               onClick={signInWithGoogle}
