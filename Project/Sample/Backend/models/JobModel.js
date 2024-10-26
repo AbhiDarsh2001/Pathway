@@ -15,17 +15,11 @@ const mongoose = require('mongoose');
             type: [String] },
         industry: {
             type: [String]
-            // required: true
-        // },
-        // exam: {
-        //     type: [String],
-        // // },
-        // like: {
-        //     type: Number,
-        // },
-        // Comments: {
-        //     type: Array
-        } 
+        },
+        category: {
+            type: mongoose.Schema.Types.ObjectId, // Reference to Category
+            ref: 'Category'
+        }
     });
 
     const jobmodel = mongoose.model("job", jobSchema);

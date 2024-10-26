@@ -30,28 +30,6 @@ const Uviewjob = () => {
         fetchJobDetails();
     }, [id]);
 
-    const handleDelete = async () => {
-        const confirmDelete = window.confirm("Are you sure you want to delete this job?");
-        if (!confirmDelete) return; // Cancel deletion if user chooses not to proceed
-
-        try {
-            const response = await fetch(`http://localhost:8080/deljob/${id}`, { // Correct URL for course deletion
-                method: 'DELETE',
-            });
-
-            if (response.ok) {
-                alert('Course deleted successfully');
-                navigate('/iconjob'); // Redirect to the course list
-            } else {
-                const errorMessage = await response.text();
-                alert(`Failed to delete the course: ${errorMessage}`);
-            }
-        } catch (error) {
-            console.error('Error deleting course:', error);
-            alert('Could not delete course. Please try again later.');
-        }
-    };
-
     // Loading state
     if (loading) return <div>Loading...</div>;
 
@@ -67,6 +45,7 @@ const Uviewjob = () => {
                 <p><strong>Description:</strong> {job.description}</p>
                 {job.eligibility && <p><strong>Eligibility:</strong> {job.eligibility.join(', ')}</p>}
                 {job.industry && <p><strong>Industry:</strong> {job.industry.join(', ')}</p>}
+                <p><strong>Category:</strong> {job.category ? job.category.name : 'N/A'}</p>
                 <div className="button-container">
                     <button className="back-button" onClick={() => navigate(-1)}>Back</button>
                     {/* <button className="delete-button" onClick={handleDelete}>Delete</button> */}
@@ -77,4 +56,3 @@ const Uviewjob = () => {
 };
 
 export default Uviewjob;
-

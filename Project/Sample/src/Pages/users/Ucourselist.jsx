@@ -8,7 +8,7 @@ import './Ucourselist.css'; // Make sure the updated styles are imported
 const UCourseList = () => {
     useAuth();
     const [courses, setCourses] = useState([]);
-    const [filters, setFilters] = useState({ categories: [] });
+    const [filters, setFilters] = useState({ categories: [], subcategories: [] });
 
     useEffect(() => {
         const fetchCourses = async () => {
@@ -16,6 +16,9 @@ const UCourseList = () => {
                 const queryParams = new URLSearchParams();
                 if (filters.categories.length) {
                     queryParams.append('categories', filters.categories.join(','));
+                }
+                if (filters.subcategories.length) {
+                    queryParams.append('subcategories', filters.subcategories.join(','));
                 }
 
                 const response = await fetch(`http://localhost:8080/viewcourse/all?${queryParams}`);
