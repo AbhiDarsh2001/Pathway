@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { FaThumbsUp, FaEdit, FaTrash } from 'react-icons/fa';
 import axios from 'axios';
 import './blogList.css'; // Import the CSS file
+import Header from '../Pages/users/Header';
 
 const BlogList = () => {
   const [blogs, setBlogs] = useState([]);
@@ -113,6 +114,9 @@ const BlogList = () => {
   return (
     <div className="blog-list">
       <h1>Blog List</h1>
+      <div>
+        <Header />
+      </div>
       {blogs.length > 0 ? (
         // Reverse the array to display the newest blogs first
         [...blogs].reverse().map((blog, index) => (
@@ -146,15 +150,15 @@ const BlogList = () => {
                 <p>{blog.content}</p>
 
                 <div className="action-section">
-                  <button onClick={() => handleLike(index)}>
+                  {/* <button onClick={() => handleLike(index)}>
                     <FaThumbsUp /> {blog.likes || 0}
-                  </button>
-                  <button
+                  </button> */}
+                  {/* <button
                     className="comment-button"
                     onClick={() => toggleComments(index)}
                   >
                     <span className="comment-icon"></span> Comments
-                  </button>
+                  </button> */}
                   {currentUser && currentUser.id === blog.author._id && (
                     <>
                       <button onClick={() => handleEdit(blog)}>

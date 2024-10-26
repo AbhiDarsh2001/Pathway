@@ -1,106 +1,110 @@
 /* Home.css */
 
 body {
-    font-family: 'Arial', sans-serif;
-    margin: 0;
-    padding: 0;
-    background-color: #f4f4f4;
-  }
-  
-  .home-container {
-    display: flex;
-  }
-  
-  .sidebar {
-    width: 20%;
-    background-color: #e0f7fa;
-    padding: 20px;
-    position: relative; /* Relative positioning for the logo */
-  }
-  
-  .logo-container {
-    position: absolute; /* Absolute positioning within the sidebar */
-    top: 20px;
-    left: 20px;
-  }
-  
-  .logo {
-    width: 190px; /* Adjust the logo size */
-    height: auto; /* Keeps aspect ratio */
-    margin-bottom: 20px;
-  }
-  
-  .category-list {
-    list-style: none;
-    padding: 80px 0 0 0; /* Add padding to avoid overlapping with the logo */
-  }
-  
-  .category-list li {
-    margin-bottom: 10px;
-  }
-  
-  .content {
-    width: 80%;
-    padding: 20px;
-  }
-  
-  .header {
-    display: flex;
-    align-items: center;
-    padding: 10px 20px;
-    background-color: #fff;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  }
-  
-  .header nav {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: 100%;
-  }
-  
-  .header nav a {
-    margin-right: 15px;
-    text-decoration: none;
-    color: #333;
-  }
-  
-  .search-bar input {
-    padding: 5px;
-    border: 1px solid #ddd;
-    border-radius: 3px;
-  }
-  
-  .course-cards {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 20px;
-  }
-  
-  .card {
-    width: 30%;
-    padding: 15px;
-    background-color: #fff;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    text-align: center;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  }
-  
-  .card img {
-    width: 100%;
-    height: auto;
-    margin-bottom: 15px;
-    border-radius: 5px;
-  }
-  
-  .card button {
-    padding: 10px 20px;
-    background-color: #ffa726;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 14px;
-  }
-  
+  font-family: 'Arial', sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #f4f4f4;
+}
+
+.home-container {
+  display: flex;
+  height: 100vh; /* Ensure the full height of the page */
+}
+
+/* Sidebar */
+.sidebar {
+  width: 20%;
+  background-color: #e0f7fa;
+  padding: 20px;
+  display: flex;
+  flex-direction: column; /* Ensure vertical alignment */
+  align-items: center; /* Center-align content horizontally */
+  gap: 30px; /* Space between logo and filter */
+  position: relative;
+}
+
+/* Logo */
+.logo-container {
+  margin-top: 20px;
+}
+
+.logo {
+  width: 190px;
+  height: auto;
+  margin-bottom: 10px; /* Spacing below logo */
+}
+
+/* Filter Component */
+.filter {
+  width: 100%; /* Take the full width of the sidebar */
+}
+
+/* Main Content */
+.content {
+  width: 80%;
+  padding: 20px;
+}
+
+/* Header */
+.header {
+  display: flex;
+  align-items: center;
+  padding: 10px 20px;
+  background-color: #fff;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  margin-bottom: 30px; /* Space between header and welcome section */
+}
+
+/* Welcome Section */
+.welcome-section {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 5px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.welcome-section h2 {
+  margin-top: 0;
+  color: #333;
+}
+
+.welcome-section p {
+  color: #555;
+  line-height: 1.6;
+}
+
+/* Course Cards */
+.course-cards {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+.card {
+  width: 30%;
+  padding: 15px;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  text-align: center;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.card img {
+  width: 100%;
+  height: auto;
+  margin-bottom: 15px;
+  border-radius: 5px;
+}
+
+.card button {
+  padding: 10px 20px;
+  background-color: #ffa726;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+}

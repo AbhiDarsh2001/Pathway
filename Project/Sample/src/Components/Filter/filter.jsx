@@ -103,9 +103,9 @@ const FilterComponent = ({ setFilters }) => {
       </form>
 
       {/* Logout button placed at the bottom */}
-      <button onClick={handleLogout} className="logout-button">
+      {/* <button onClick={handleLogout} className="logout-button">
         Logout
-      </button>
+      </button> */}
     </div>
   );
 };
