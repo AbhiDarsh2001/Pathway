@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import FilterComponent from '../Filter/filter';
 
 const USearchEntrance = () => {
   const [query, setQuery] = useState('');

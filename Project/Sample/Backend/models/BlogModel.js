@@ -7,6 +7,7 @@ const blogSchema = new mongoose.Schema({
   image: { type: String }, // Image URL
   author: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
   createdAt: { type: Date, default: Date.now },
+  status : {type : String, default : "active", enum: ['active', 'blocked'], },
 });
 
 module.exports = mongoose.model('Blog', blogSchema);

@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import { FaThumbsUp, FaEdit, FaTrash } from 'react-icons/fa';
 import axios from 'axios';
-import './blogList.css'; // Import the CSS file
+import './blogList.css';
 import Header from '../Pages/users/Header';
 
 const BlogList = () => {
@@ -12,6 +12,7 @@ const BlogList = () => {
   const [editContent, setEditContent] = useState('');
   const [editImage, setEditImage] = useState(null);
   const [currentUser, setCurrentUser] = useState(null);
+  const [reportReason, setReportReason] = useState('Violence Content'); // Default reason
 
   useEffect(() => {
     fetchBlogs();
@@ -111,6 +112,24 @@ const BlogList = () => {
     }
   };
 
+  const handleReportClick = async (blogId) => {
+    try {
+      const token = localStorage.getItem('token');
+      const reportData = {
+        blogId,
+        reason: reportReason,
+        reportedBy: currentUser.id,
+      };
+      await axios.post('http://localhost:8080/report/submit', reportData, {
+        headers: { Authorization: token },
+      });
+      alert('Blog reported successfully');
+    } catch (error) {
+      console.error('Error reporting blog:', error);
+      alert('Failed to report blog. Please try again.');
+    }
+  };
+
   return (
     <div className="blog-list">
       <h1>Blog List</h1>
@@ -118,7 +137,6 @@ const BlogList = () => {
         <Header />
       </div>
       {blogs.length > 0 ? (
-        // Reverse the array to display the newest blogs first
         [...blogs].reverse().map((blog, index) => (
           <div key={index} className="blog-card">
             {editingBlog && editingBlog._id === blog._id ? (
@@ -150,22 +168,29 @@ const BlogList = () => {
                 <p>{blog.content}</p>
 
                 <div className="action-section">
-                  {/* <button onClick={() => handleLike(index)}>
-                    <FaThumbsUp /> {blog.likes || 0}
-                  </button> */}
-                  {/* <button
-                    className="comment-button"
-                    onClick={() => toggleComments(index)}
-                  >
-                    <span className="comment-icon"></span> Comments
-                  </button> */}
-                  {currentUser && currentUser.id === blog.author._id && (
+                  {currentUser && currentUser.id === blog.author._id ? (
                     <>
                       <button onClick={() => handleEdit(blog)}>
                         <FaEdit /> Edit
                       </button>
                       <button onClick={() => handleDelete(blog._id)}>
                         <FaTrash /> Delete
+                      </button>
+                    </>
+                  ) : (
+                    <>
+                      <select onChange={(e) => setReportReason(e.target.value)} value={reportReason}>
+                        <option value="Violence Content">Violence Content</option>
+                        <option value="False Information">False Information</option>
+                        <option value="Nudity or Sexual Content">Nudity or Sexual Content</option>
+                        <option value="Promoting Unwanted Content">Promoting Unwanted Content</option>
+                        <option value="I Just Don’t Like the Post">I Just Don’t Like the Post</option>
+                      </select>
+                      <button 
+                        onClick={() => handleReportClick(blog._id)}
+                        className="report-button"
+                      >
+                        Report
                       </button>
                     </>
                   )}
