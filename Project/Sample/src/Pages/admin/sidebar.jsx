@@ -9,7 +9,7 @@ const Sidebar = () => {
   return (
     <div className="sidebar">
       <h3>Admin Functions</h3>
-      <button onClick={() => navigate('/admin')}>Admin</button>
+      {/* <button onClick={() => navigate('/admin')}>Admin</button> */}
       {/* <button onClick={() => navigate('/addcourse')}>Add Course</button>
       <button onClick={() => navigate('/addjob')}>Add Job</button> */}
       <button onClick={() => navigate('/iconjob')}>View Job</button>

@@ -33,6 +33,7 @@ import USidebar from "./Pages/users/Usidebar";
 import USearchCourseResults from "./Pages/users/searchresult/searchcourse";
 import BlogForm from './Components/BlogForm';
 import BlogList from './Components/BlogList';
+import ViewReportedBlg from "./Pages/admin/ViewReport";
 
 function App() {
     return (
@@ -76,6 +77,7 @@ function App() {
 			<Route path='/searchcourse-results' element={<USearchCourseResults />} />
 			<Route path="/blogs" element={<BlogList />} />
       		<Route path="/add-blog" element={<BlogForm />} />
+			<Route path="/reports" element={<ViewReportedBlg />} />
 
         </Routes>
     );

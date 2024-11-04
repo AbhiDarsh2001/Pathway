@@ -25,6 +25,7 @@ const SearchCourse = require("./routes/searchCourse.js");
 const blogRoutes = require("./routes/blogRoutes");
 const managerModel = require("./models/AddManager.js");
 const reportRoutes = require("./routes/reportRoutes.js");
+const ViewReportRoutes = require("./routes/Reportroute.js");
 // Middleware for CORS
 app.use(
   cors({
@@ -257,6 +258,7 @@ app.use("/category", categoryRoutes);
 app.use("/", SearchCourse);
 app.use("/blog", blogRoutes);
 app.use("/report", reportRoutes);
+app.use('/viewreport',ViewReportRoutes);
 
 // Example route for categories and subcategories
 app.get("/categories/:categoryId/subcategories", async (req, res) => {

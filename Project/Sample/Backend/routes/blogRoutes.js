@@ -58,7 +58,7 @@ router.post('/add', verifyToken, upload.single('image'), async (req, res) => {
 // Get all blogs
 router.get('/', async (req, res) => {
   try {
-    const blogs = await Blog.find().populate('author', 'name');
+    const blogs = await Blog.find({status:'active'}).populate('author', 'name');
     res.status(200).json(blogs);
   } catch (error) {
     return res.status(500).json({ error: 'Error fetching blogs' });
