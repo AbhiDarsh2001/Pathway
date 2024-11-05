@@ -25,7 +25,8 @@ const upload = multer({ storage });
 
 // Middleware to verify JWT token
 const verifyToken = (req, res, next) => {
-  const token = req.header('Authorization');
+  const authHeader = req.header('Authorization');
+  const token = authHeader && authHeader.split(' ')[1];
   if (!token) return res.status(401).json({ error: 'Access denied' });
 
   try {
@@ -37,23 +38,22 @@ const verifyToken = (req, res, next) => {
   }
 };
 
-// Add a new blog (protected route)
-router.post('/add', verifyToken, upload.single('image'), async (req, res) => {
-  console.log(req.body);
 
+// Add a new blog (protected route)
+router.post('/add', upload.single('image'), async (req, res) => {
+  console.log(req.body);
   try {
     const { title, content, author } = req.body;
     const image = req.file ?  `/uploads/${req.file.filename}` : '';
-
     const newBlog = new Blog({ title, content, author, image });
     await newBlog.save();
-
     res.status(201).json({ message: 'Blog added successfully', blog: newBlog });
   } catch (error) {
     console.error(error);
     return res.status(500).json({ error: error.message || 'Error adding blog' });
   }
 });
+
 
 // Get all blogs
 router.get('/', async (req, res) => {

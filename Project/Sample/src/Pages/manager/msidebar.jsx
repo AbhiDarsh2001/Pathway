@@ -10,8 +10,8 @@ const MSidebar = () => {
     <div className="sidebar">
       <h3> Functions</h3>
       <button onClick={() => navigate('/manager')}>Manager</button>
-      <button onClick={() => navigate('/maddcourse')}>Add Course</button>
-      <button onClick={() => navigate('/maddjob')}>Add Job</button>
+      <button id="maddcourse" onClick={() => navigate('/maddcourse')}>Add Course</button>
+      <button  onClick={() => navigate('/maddjob')}>Add Job</button>
       <button onClick={() => navigate('/miconjob')}>View Job</button>
       <button onClick={() => navigate('/miconcourse')}>View Course</button>
     </div>

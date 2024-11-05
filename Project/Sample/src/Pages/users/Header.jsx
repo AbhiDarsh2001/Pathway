@@ -24,14 +24,14 @@ const Header = () => {
 
         {/* Profile with Hover Dropdown */}
         <div className="profile-container">
-          <span className="nav-link profile-link">Profile</span>
+          <span className="nav-link profile-link" id="profile">Profile</span>
 
           <div className="profile-dropdown">
-            <Link to="/uprofile" className="dropdown-option">
+            <Link to="/uprofile" className="dropdown-option" >
               Edit Profile
             </Link>
-            <Link to="/add-blog" className="dropdown-option">
-              Blog
+            <Link to="/add-blog" className="dropdown-option" id="addblog">
+              ADD-Blog
             </Link>
             <button onClick={handleLogout} className="dropdown-option logout-button">
               Logout
