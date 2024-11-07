@@ -29,7 +29,7 @@ const ViewReportRoutes = require("./routes/Reportroute.js");
 // Middleware for CORS
 app.use(
   cors({
-    origin: "http://localhost:5173",
+    origin: "https://pathway-1-frontend.onrender.com",
     methods: ["GET", "POST", "PUT", "DELETE"],
   })
 );
