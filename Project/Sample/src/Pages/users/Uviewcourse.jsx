@@ -14,7 +14,7 @@ const Uviewcourse = () => {
   useEffect(() => {
     const fetchCourseDetails = async () => {
       try {
-        const response = await fetch(`http://localhost:8080/viewcourse/${id}`);
+        const response = await fetch(`${import.meta.env.VITE_URL}/viewcourse/${id}`);
         if (!response.ok) {
           throw new Error('Failed to fetch course details');
         }
@@ -35,7 +35,7 @@ const Uviewcourse = () => {
     if (!confirmDelete) return;
 
     try {
-      const response = await fetch(`http://localhost:8080/delcourse/${id}`, { method: 'DELETE' });
+      const response = await fetch(`${import.meta.env.VITE_URL}/delcourse/${id}`, { method: 'DELETE' });
       if (response.ok) {
         alert('Course deleted successfully');
         navigate('/iconcourse');

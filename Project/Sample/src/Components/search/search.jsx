@@ -19,13 +19,14 @@ const USearchEntrance = () => {
     <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
       {/* Search Input */}
       <input
+        id="searchin"
         type="text"
         value={query}
         onChange={(e) => setQuery(e.target.value)}
         placeholder="Search Course..."
         style={{ padding: '8px', flex: '1' }}
       />
-      <button onClick={handleSearch} style={{ padding: '8px 16px', color: '#333' }}>
+      <button onClick={handleSearch} style={{ padding: '8px 16px', color: '#333' }} id="search">
         Search
       </button>
 

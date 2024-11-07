@@ -21,7 +21,7 @@ const UJobList = () => {
           queryParams.append("subcategories", filters.subcategories.join(","));
         }
 
-        const response = await fetch(`http://localhost:8080/viewjob/all?${queryParams}`);
+        const response = await fetch(`${import.meta.env.VITE_URL}/viewjob/all?${queryParams}`);
         if (!response.ok) {
           throw new Error("Failed to fetch jobs");
         }

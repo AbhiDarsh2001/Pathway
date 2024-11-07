@@ -9,7 +9,7 @@ const MJobList = () => {
     useEffect(() => {
         const fetchJobs = async () => {
             try {
-                const response = await fetch('http://localhost:8080/viewjob/all'); // Correct route
+                const response = await fetch(`${import.meta.env.VITE_URL}/viewjob/all`); // Correct route
                 if (!response.ok) {
                     throw new Error('Failed to fetch jobs');
                 }

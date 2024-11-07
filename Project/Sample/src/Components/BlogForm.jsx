@@ -18,7 +18,7 @@ const BlogForm = () => {
         return;
       }
       try {
-        const response = await axios.get('http://localhost:8080/vuprofile', {
+        const response = await axios.get(`${import.meta.env.VITE_URL}/vuprofile`, {
           headers: { Authorization: token },
         });
         setAuthorID(response.data.id); // Assuming the response contains _id for user
@@ -67,7 +67,7 @@ const BlogForm = () => {
     formData.append('image', image);
     formData.append('author', authorid);
     try {
-      await axios.post('http://localhost:8080/blog/add', formData, {
+      await axios.post(`${import.meta.env.VITE_URL}/blog/add`, formData, {
         headers: { 'Content-Type': 'multipart/form-data' },
       });
       alert('Blog added successfully!');
@@ -85,6 +85,7 @@ const BlogForm = () => {
   return (
     <form onSubmit={handleSubmit} className="blog-form">
       <input
+        id='text'
         type="text"
         placeholder="Blog Title"
         value={title}
@@ -92,13 +93,14 @@ const BlogForm = () => {
         required
       />
       <textarea
+        id='content'
         placeholder="Blog Content"
         value={content}
         onChange={(e) => setContent(e.target.value)}
         required
       />
       <input type="file" onChange={handleImageChange} />
-      <button type="submit">Add Blog</button>
+      <button type="submit" id='submit'>Add Blog</button>
     </form>
   );
 };

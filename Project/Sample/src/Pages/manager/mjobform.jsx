@@ -22,7 +22,7 @@ const MJobForm = () => {
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const response = await axios.get('http://localhost:8080/category');
+        const response = await axios.get(`${import.meta.env.VITE_URL}/category`);
         setCategories(response.data);
       } catch (error) {
         console.error('Error fetching categories:', error);
@@ -37,7 +37,7 @@ const MJobForm = () => {
     if (id) {
       const fetchJobDetails = async () => {
         try {
-          const response = await axios.get(`http://localhost:8080/viewjob/${id}`);
+          const response = await axios.get(`${import.meta.env.VITE_URL}/viewjob/${id}`);
           const jobData = response.data;
           setFormData({
             name: jobData.name,
@@ -88,10 +88,10 @@ const MJobForm = () => {
 
       let response;
       if (id) {
-        response = await axios.put(`http://localhost:8080/job/${id}`, formattedData);
+        response = await axios.put(`${import.meta.env.VITE_URL}/job/${id}`, formattedData);
         alert('Job updated successfully');
       } else {
-        response = await axios.post('http://localhost:8080/job', formattedData);
+        response = await axios.post(`${import.meta.env.VITE_URL}/job`, formattedData);
         alert('Job submitted successfully');
       }
 

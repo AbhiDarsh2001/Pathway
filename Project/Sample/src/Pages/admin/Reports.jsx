@@ -13,7 +13,7 @@ const Reports = () => {
     const fetchReports = async () => {
       try {
         console.log('Fetching reports...'); // Debug log
-        const response = await axios.get('http://localhost:8080/api/reports/all-reports');
+        const response = await axios.get(`${import.meta.env.VITE_URL}/api/reports/all-reports`);
         console.log('Response:', response.data); // Debug log
         setReports(response.data);
         setLoading(false);
@@ -34,7 +34,7 @@ const Reports = () => {
   // Handle blog actions
   const handleBlockBlog = async (blogId) => {
     try {
-      await axios.put(`http://localhost:8080/api/reports/block-blog/${blogId}`);
+      await axios.put(`${import.meta.env.VITE_URL}/api/reports/block-blog/${blogId}`);
       setReports(reports.map(report => 
         report.blogId._id === blogId 
           ? { ...report, blogId: { ...report.blogId, status: 'blocked' } }
@@ -47,7 +47,7 @@ const Reports = () => {
 
   const handleUnblockBlog = async (blogId) => {
     try {
-      await axios.put(`http://localhost:8080/api/reports/unblock-blog/${blogId}`);
+      await axios.put(`${import.meta.env.VITE_URL}/api/reports/unblock-blog/${blogId}`);
       setReports(reports.map(report => 
         report.blogId._id === blogId 
           ? { ...report, blogId: { ...report.blogId, status: 'active' } }
@@ -60,7 +60,7 @@ const Reports = () => {
 
   const handleDeleteBlog = async (blogId) => {
     try {
-      await axios.delete(`http://localhost:8080/api/reports/delete-blog/${blogId}`);
+      await axios.delete(`${import.meta.env.VITE_URL}/api/reports/delete-blog/${blogId}`);
       setReports(reports.filter(report => report.blogId._id !== blogId));
     } catch (err) {
       setError('Failed to delete blog');

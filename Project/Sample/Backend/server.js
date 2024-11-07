@@ -29,7 +29,7 @@ const ViewReportRoutes = require("./routes/Reportroute.js");
 // Middleware for CORS
 app.use(
   cors({
-    origin: ["http://localhost:5173"],
+    origin: ["*"],
     methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true,
   })
@@ -40,7 +40,7 @@ dotenv.config();
 
 // MongoDB Connection
 mongoose
-  .connect(process.env.MONGODB_URI || "mongodb://localhost:27017/pathway")
+  .connect(process.env.MONGODB_URI)
   .then(() => console.log("MongoDB connected"))
   .catch((err) => console.error("MongoDB connection error:", err));
 

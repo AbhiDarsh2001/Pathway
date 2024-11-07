@@ -9,7 +9,7 @@ const ManagerList = () => {
     useEffect(() => {
         const fetchManagers = async () => {
             try {
-                const response = await fetch('http://localhost:8080/viewmanager/all'); // API route for fetching managers
+                const response = await fetch(`${import.meta.env.VITE_URL}/viewmanager/all`); // API route for fetching managers
                 if (!response.ok) {
                     throw new Error('Failed to fetch managers');
                 }

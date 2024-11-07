@@ -92,7 +92,7 @@ const Signup = () => {
         }
 
         try {
-            const url = "http://localhost:8080/signup";
+            const url = `${import.meta.env.VITE_URL}/signup`;
             const { data: res } = await axios.post(url, {
                 name: data.name,
                 email: data.email,

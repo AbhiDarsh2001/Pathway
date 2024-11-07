@@ -20,7 +20,7 @@ const USearchCourseResults = () => {
     const fetchCourses = async () => {
       try {
         const response = await fetch(
-          `http://localhost:8080/searchentr?query=${encodeURIComponent(query)}`
+          `${import.meta.env.VITE_URL}/searchentr?query=${encodeURIComponent(query)}`
         );
         if (!response.ok) {
           throw new Error('Failed to fetch Courses');

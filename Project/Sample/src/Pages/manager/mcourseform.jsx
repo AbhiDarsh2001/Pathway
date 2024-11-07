@@ -27,7 +27,7 @@ const MCourseForm = () => {
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const response = await axios.get('http://localhost:8080/category'); 
+        const response = await axios.get(`${import.meta.env.VITE_URL}/category`); 
         setCategories(response.data); 
       } catch (error) {
         console.error('Error fetching categories:', error);
@@ -42,7 +42,7 @@ const MCourseForm = () => {
       if (id) {
         const fetchCourseDetails = async () => {
           try {
-            const response = await axios.get(`http://localhost:8080/viewcourse/${id}`);
+            const response = await axios.get(`${import.meta.env.VITE_URL}/viewcourse/${id}`);
             setFormData(response.data); // Pre-populate form with course details
           } catch (error) {
             console.error('Error fetching course details:', error);
@@ -59,7 +59,7 @@ const MCourseForm = () => {
 
     if (selectedCategoryId) {
       try {
-        const response = await axios.get(`http://localhost:8080/category/${selectedCategoryId}/subcategories`);
+        const response = await axios.get(`${import.meta.env.VITE_URL}/category/${selectedCategoryId}/subcategories`);
         setSubcategories(response.data); // Set fetched subcategories
       } catch (error) {
         console.error('Error fetching subcategories:', error);
@@ -114,10 +114,10 @@ const MCourseForm = () => {
 
       let response;
       if (id) {
-        response = await axios.put(`http://localhost:8080/course/${id}`, formattedData);
+        response = await axios.put(`${import.meta.env.VITE_URL}/course/${id}`, formattedData);
         alert('Course updated successfully');
       } else {
-        response = await axios.post('http://localhost:8080/course', formattedData);
+        response = await axios.post(`${import.meta.env.VITE_URL}/course`, formattedData);
         alert('Course submitted successfully');
       }
 

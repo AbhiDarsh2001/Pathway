@@ -30,7 +30,7 @@ function UEditProfile() {
     const fetchUserProfile = async () => {
       const token = localStorage.getItem('token');
       try {
-        const response = await axios.get('http://localhost:8080/vuprofile', {
+        const response = await axios.get(`${import.meta.env.VITE_URL}/vuprofile`, {
           headers: { Authorization: token }
         });
         setUser(response.data);
@@ -75,7 +75,7 @@ function UEditProfile() {
     e.preventDefault();
     const token = localStorage.getItem('token');
     try {
-      await axios.put('http://localhost:8080/updateProfile', user, {
+      await axios.put(`${import.meta.env.VITE_URL}/updateProfile`, user, {
         headers: { Authorization: token }
       });
       Swal.fire({

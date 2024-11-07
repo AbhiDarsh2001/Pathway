@@ -11,7 +11,7 @@ const FilterComponent = ({ setFilters, type }) => {
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const response = await axios.get('http://localhost:8080/category');
+        const response = await axios.get(`${import.meta.env.VITE_URL}/category`);
         setCategories(response.data);
       } catch (error) {
         console.error('Error fetching categories:', error);

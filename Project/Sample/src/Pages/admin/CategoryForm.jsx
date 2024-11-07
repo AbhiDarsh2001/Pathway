@@ -16,7 +16,7 @@ const CategoryForm = () => {
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const response = await axios.get('http://localhost:8080/category');
+        const response = await axios.get(`${import.meta.env.VITE_URL}/category`);
         setCategories(response.data);
       } catch (error) {
         console.error('Error fetching categories:', error);
@@ -28,7 +28,7 @@ const CategoryForm = () => {
 
   const handleDeleteCategory = async (categoryId) => {
     try {
-      await axios.delete(`http://localhost:8080/category/${categoryId}`);
+      await axios.delete(`${import.meta.env.VITE_URL}/category/${categoryId}`);
       setCategories(categories.filter((category) => category._id !== categoryId));
       alert('Category deleted successfully');
     } catch (error) {
@@ -39,7 +39,7 @@ const CategoryForm = () => {
   
   const handleDeleteSubcategory = async (categoryId, subcategory) => {
     try {
-      await axios.delete(`http://localhost:8080/category/${categoryId}/subcategory/${subcategory}`);
+      await axios.delete(`${import.meta.env.VITE_URL}/category/${categoryId}/subcategory/${subcategory}`);
       setCategories(categories.map((category) => 
         category._id === categoryId
           ? { ...category, subcategories: category.subcategories.filter((sc) => sc !== subcategory) }
@@ -61,7 +61,7 @@ const CategoryForm = () => {
     const trimmedCategory = newCategory.trim();
 
     try {
-      const response = await axios.post('http://localhost:8080/category', {
+      const response = await axios.post(`${import.meta.env.VITE_URL}/category`, {
         name: trimmedCategory,
       });
       setCategories([...categories, response.data]); 
@@ -91,7 +91,7 @@ const CategoryForm = () => {
     if (trimmedSubcategory) {
       try {
         const response = await axios.post(
-          `http://localhost:8080/category/${selectedCategory}/subcategory`,
+          `${import.meta.env.VITE_URL}/category/${selectedCategory}/subcategory`,
           { subcategory: trimmedSubcategory }
         );
         setCategories(

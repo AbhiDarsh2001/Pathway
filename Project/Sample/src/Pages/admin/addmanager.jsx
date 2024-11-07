@@ -56,7 +56,7 @@ function AddManager() {
     }
 
     try {
-      const response = await axios.post('http://localhost:8080/addmanager', { name, email, password, confirmPass });
+      const response = await axios.post(`${import.meta.env.VITE_URL}/addmanager`, { name, email, password, confirmPass });
       Swal.fire("Manager added successfully", "", "success");
       navigate('/admin');
     } catch (error) {

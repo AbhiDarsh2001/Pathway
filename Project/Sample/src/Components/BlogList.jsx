@@ -21,7 +21,7 @@ const BlogList = () => {
 
   const fetchBlogs = async () => {
     try {
-      const response = await axios.get('http://localhost:8080/blog');
+      const response = await axios.get(`${import.meta.env.VITE_URL}/blog`);
       setBlogs(response.data);
     } catch (error) {
       console.error('Failed to fetch blogs:', error);
@@ -33,7 +33,7 @@ const BlogList = () => {
     const token = localStorage.getItem('token');
     if (token) {
       try {
-        const response = await axios.get('http://localhost:8080/vuprofile', {
+        const response = await axios.get(`${import.meta.env.VITE_URL}/vuprofile`, {
           headers: { Authorization: token },
         });
         setCurrentUser(response.data);
@@ -59,7 +59,7 @@ const BlogList = () => {
     if (window.confirm('Are you sure you want to delete this blog?')) {
       try {
         const token = localStorage.getItem('token');
-        await axios.delete(`http://localhost:8080/blog/delete/${id}`, {
+        await axios.delete(`${import.meta.env.VITE_URL}/blog/delete/${id}`, {
           headers: { Authorization: token },
         });
         fetchBlogs();
@@ -97,7 +97,7 @@ const BlogList = () => {
       }
 
       const token = localStorage.getItem('token');
-      await axios.put(`http://localhost:8080/blog/edit/${editingBlog._id}`, formData, {
+      await axios.put(`${import.meta.env.VITE_URL}/blog/edit/${editingBlog._id}`, formData, {
         headers: { 
           'Content-Type': 'multipart/form-data',
           Authorization: token
@@ -120,7 +120,7 @@ const BlogList = () => {
         reason: reportReason,
         reportedBy: currentUser.id,
       };
-      await axios.post('http://localhost:8080/report/submit', reportData, {
+      await axios.post(`${import.meta.env.VITE_URL}/report/submit`, reportData, {
         headers: { Authorization: token },
       });
       alert('Blog reported successfully');
@@ -160,7 +160,7 @@ const BlogList = () => {
                 <p><strong>{blog.author?.name || 'Unknown'}</strong></p>
                 {blog.image && (
                   <img
-                    src={`http://localhost:8080${blog.image}`}
+                    src={`${import.meta.env.VITE_URL}${blog.image}`}
                     alt="Blog"
                     className="blog-image"
                   />

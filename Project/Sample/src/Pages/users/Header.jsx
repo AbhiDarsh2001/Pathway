@@ -17,9 +17,9 @@ const Header = () => {
       <nav>
         <Link to="/home" className="nav-link">Home</Link>
         {/* <Link to="/about" className="nav-link">About Us</Link> */}
-        <a href="/Ujoblist" className="nav-link">Job</a>
-        <a href="/Ucourselist" className="nav-link">Course</a>
-        <a href="/blogs" className="nav-link">Blog</a>
+        <a href="/Ujoblist" className="nav-link" id="viewjob">Job</a>
+        <a href="/Ucourselist" className="nav-link" id="viewcourse">Course</a>
+        <a href="/blogs" className="nav-link" id='viewblog'>Blog</a>
         <USearchEntrance />
 
         {/* Profile with Hover Dropdown */}

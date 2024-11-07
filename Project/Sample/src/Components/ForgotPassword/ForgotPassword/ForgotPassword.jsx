@@ -17,7 +17,7 @@ const ForgotPassword = () => {
 
     const handleResetPassword = async () => {
         try {
-            const response = await axios.post('http://localhost:8080/forgotpassword', { email });
+            const response = await axios.post(`${import.meta.env.VITE_URL}/forgotpassword`, { email });
             if (response.error) {
                 setError(response.msg);
             } else {

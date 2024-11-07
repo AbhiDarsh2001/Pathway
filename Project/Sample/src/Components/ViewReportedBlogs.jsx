@@ -13,7 +13,7 @@ const ReportedBlogsList = () => {
   const fetchReportedBlogs = async () => {
     try {
       const token = localStorage.getItem('token');
-      const response = await axios.get('http://localhost:8080/viewreport/reports', {
+      const response = await axios.get(`${import.meta.env.VITE_URL}/viewreport/reports`, {
         headers: { Authorization: token },
       });
       setReportedBlogs(response.data);
@@ -25,7 +25,7 @@ const ReportedBlogsList = () => {
   const handleBlock = async (blogId) => {
     try {
       const token = localStorage.getItem('token');
-      await axios.put(`http://localhost:8080/viewreport/block/${blogId}`, {}, {
+      await axios.put(`${import.meta.env.VITE_URL}/viewreport/block/${blogId}`, {}, {
         headers: { Authorization: token },
       });
       fetchReportedBlogs();
@@ -37,7 +37,7 @@ const ReportedBlogsList = () => {
   const handleUnblock = async (blogId) => {
     try {
       const token = localStorage.getItem('token');
-      await axios.put(`http://localhost:8080/viewreport/unblock/${blogId}`, {}, {
+      await axios.put(`${import.meta.env.VITE_URL}/viewreport/unblock/${blogId}`, {}, {
         headers: { Authorization: token },
       });
       fetchReportedBlogs();
@@ -50,7 +50,7 @@ const ReportedBlogsList = () => {
     if (window.confirm('Are you sure you want to delete this blog?')) {
       try {
         const token = localStorage.getItem('token');
-        await axios.delete(`http://localhost:8080/viewreport/delete/${blogId}`, {
+        await axios.delete(`${import.meta.env.VITE_URL}/viewreport/delete/${blogId}`, {
           headers: { Authorization: token },
         });
         fetchReportedBlogs();

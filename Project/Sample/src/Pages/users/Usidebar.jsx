@@ -12,7 +12,7 @@ const USidebar = () => {
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const response = await fetch('http://localhost:8080/category');
+        const response = await fetch(`${import.meta.env.VITE_URL}/category`);
         if (!response.ok) {
           throw new Error('Failed to fetch categories');
         }

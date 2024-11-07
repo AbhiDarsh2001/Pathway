@@ -14,7 +14,7 @@ const Uviewjob = () => {
     useEffect(() => {
         const fetchJobDetails = async () => {
             try {
-                const response = await fetch(`http://localhost:8080/viewjob/${id}`);
+                const response = await fetch(`${import.meta.env.VITE_URL}/viewjob/${id}`);
                 if (!response.ok) {
                     throw new Error('Failed to fetch job details');
                 }

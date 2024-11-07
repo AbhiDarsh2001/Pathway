@@ -21,7 +21,7 @@ const UCourseList = () => {
                     queryParams.append('subcategories', filters.subcategories.join(','));
                 }
 
-                const response = await fetch(`http://localhost:8080/viewcourse/all?${queryParams}`);
+                const response = await fetch(`${import.meta.env.VITE_URL}/viewcourse/all?${queryParams}`);
                 if (!response.ok) {
                     throw new Error('Failed to fetch courses');
                 }

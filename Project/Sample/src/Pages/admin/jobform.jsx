@@ -22,7 +22,7 @@ const JobForm = () => {
       // Fetch job details for editing
       const fetchJob = async () => {
         try {
-          const response = await axios.get(`http://localhost:8080/viewjob/${id}`);
+          const response = await axios.get(`${import.meta.env.VITE_URL}/viewjob/${id}`);
           setFormData({
             name: response.data.name,
             description: response.data.description,
@@ -72,11 +72,11 @@ const JobForm = () => {
       let response;
       if (id) {
         // Update existing job
-        response = await axios.put(`http://localhost:8080/job/${id}`, formattedData);
+        response = await axios.put(`${import.meta.env.VITE_URL}/job/${id}`, formattedData);
         alert('Job updated successfully');
       } else {
         // Create new job
-        response = await axios.post('http://localhost:8080/job', formattedData);
+        response = await axios.post(`${import.meta.env.VITE_URL}/job`, formattedData);
         alert('Job submitted successfully');
       }
 

@@ -28,7 +28,7 @@ const ResetPassword = () => {
         }
 
         try {
-            const response = await axios.post('http://localhost:8080/resetpassword', { email, password });
+            const response = await axios.post(`${import.meta.env.VITE_URL}/resetpassword`, { email, password });
             if (response.error) {
                 setError(response.msg);
             } else {

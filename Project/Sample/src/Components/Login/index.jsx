@@ -20,7 +20,7 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const url = "http://localhost:8080/login";
+      const url = `${import.meta.env.VITE_URL}/login`;
       const { data: res } = await axios.post(url, data); // Destructure response
 
       if (res.token) {
@@ -61,7 +61,7 @@ const Login = () => {
         };
 
         axios
-          .post("http://localhost:8080/authWithGoogle", fields)
+          .post(`${import.meta.env.VITE_URL}/authWithGoogle`, fields)
           .then((res) => {
             if (!res.data.error) {
               localStorage.setItem("token", res.data.token);

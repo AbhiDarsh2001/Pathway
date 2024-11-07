@@ -18,7 +18,7 @@ const VerifyCode = () => {
 
     const handleVerifyCode = async () => {
         try {
-            const response = await axios.post('http://localhost:8080/verifycode', { email, code });
+            const response = await axios.post(`${import.meta.env.VITE_URL}/verifycode`, { email, code });
             if (response.error) {
                 setError(response.msg);
             } else {

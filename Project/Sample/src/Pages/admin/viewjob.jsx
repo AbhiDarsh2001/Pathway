@@ -12,7 +12,7 @@ const VJobDetails = () => {
     useEffect(() => {
         const fetchJobDetails = async () => {
             try {
-                const response = await fetch(`http://localhost:8080/viewjob/${id}`);
+                const response = await fetch(`${import.meta.env.VITE_URL}/viewjob/${id}`);
                 if (!response.ok) {
                     throw new Error('Failed to fetch job details');
                 }
@@ -33,7 +33,7 @@ const VJobDetails = () => {
         if (!confirmDelete) return; // Cancel deletion if user chooses not to proceed
 
         try {
-            const response = await fetch(`http://localhost:8080/deljob/${id}`, { // Correct URL for course deletion
+            const response = await fetch(`${import.meta.env.VITE_URL}/deljob/${id}`, { // Correct URL for course deletion
                 method: 'DELETE',
             });
 

@@ -17,7 +17,7 @@ function Profile() {
     const fetchUserProfile = async () => {
       const token = localStorage.getItem('token');
       try {
-        const response = await axios.get('http://localhost:8080/vuprofile', {
+        const response = await axios.get(`${import.meta.env.VITE_URL}/vuprofile`, {
           headers: { Authorization: token }
         });
         setUser(response.data);

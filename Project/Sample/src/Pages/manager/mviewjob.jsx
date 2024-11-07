@@ -12,7 +12,7 @@ const MVJobDetails = () => {
     useEffect(() => {
         const fetchJobDetails = async () => {
             try {
-                const response = await fetch(`http://localhost:8080/viewjob/${id}`);
+                const response = await fetch(`${import.meta.env.VITE_URL}/viewjob/${id}`);
                 if (!response.ok) {
                     throw new Error('Failed to fetch job details');
                 }
@@ -33,7 +33,7 @@ const MVJobDetails = () => {
         if (!confirmDelete) return;
 
         try {
-            const response = await fetch(`http://localhost:8080/deljob/${id}`, {
+            const response = await fetch(`${import.meta.env.VITE_URL}/deljob/${id}`, {
                 method: 'DELETE',
             });
 
