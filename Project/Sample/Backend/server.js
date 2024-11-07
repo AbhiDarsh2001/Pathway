@@ -29,11 +29,11 @@ const ViewReportRoutes = require("./routes/Reportroute.js");
 // Middleware for CORS
 app.use(
   cors({
-    origin: ["*"],
+    origin: "http://localhost:5173",
     methods: ["GET", "POST", "PUT", "DELETE"],
-    credentials: true,
   })
 );
+
 
 // Load environment variables
 dotenv.config();
@@ -268,7 +268,7 @@ app.get("/categories/:categoryId/subcategories", async (req, res) => {
 
 // Start the server
 const PORT = process.env.PORT || 8080;
-app.listen(PORT, () => {
+app.listen(PORT, '0.0.0.0', () => {
   console.log(`Server running on http://localhost:${PORT}`);
 });
 
