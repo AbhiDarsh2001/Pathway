@@ -33,9 +33,9 @@ const ManagerList = () => {
                     <div key={manager._id} className="manager-item">
                         <h2>{manager.name}</h2>
                         <p>{manager.email}</p> {/* Example: Manager department */}
-                        <Link to={`#viewmanager/${manager._id}`}>
+                        {/* <Link to={`#viewmanager/${manager._id}`}>
                             <button className="detail-btn">Details</button>
-                        </Link>
+                        </Link> */}
                     </div>
                 ))}
             </div>
