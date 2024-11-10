@@ -22,34 +22,34 @@ const Login = () => {
     try {
       const url = `${import.meta.env.VITE_URL}/login`;
       const { data: res } = await axios.post(url, data); // Destructure response
-
+  
       if (res.token) {
         const { role } = res.data;
-
+  
         localStorage.setItem("token", res.token); // Store the JWT token
         localStorage.setItem("userRole", role); // Store the user's role
-
+  
         switch (role) {
           case 1:
             navigate("/home");
-            break;
+            return;
           case 2:
             navigate("/manager");
-            break;
+            return;
+          case 3:
+            navigate("/admin");
+            return;
           default:
             navigate("/home"); // Default route
+            return;
         }
       }
     } catch (error) {
-      if (
-        error.response &&
-        error.response.status >= 400 &&
-        error.response.status <= 500
-      ) {
+      if (error.response && error.response.status >= 400 && error.response.status <= 500) {
         setError(error.response.data.message);
       }
     }
-  };
+  };  
   // Function to handle Google login
   const signInWithGoogle = () => {
     signInWithPopup(auth, googleProvider)

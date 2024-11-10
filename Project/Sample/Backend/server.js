@@ -129,14 +129,16 @@ app.post("/login", async (req, res) => {
     return res.status(400).json({ message: "All fields are required" });
   }
 
+  // Define admin credentials
+  const adminCredentials = {
+    email: "admin@pathway.com",
+    password: "admin123",
+    role: 3
+  };
+
   try {
     const user = await User.findOne({ email });
     const manager = await managerModel.findOne({ email });
-
-    // If neither user nor manager is found
-    if (!user && !manager) {
-      return res.status(400).json({ message: "Invalid email or password." });
-    }
 
     let currentUser, role;
 
@@ -148,12 +150,17 @@ app.post("/login", async (req, res) => {
       currentUser = manager;
       role = manager.role;
     } else if (user) {
-    
-      if (user.password !== user.password) {
+      const isMatch = await bcrypt.compare(password, user.password);
+      if (!isMatch) {
         return res.status(401).json({ message: "Invalid email or password" });
       }
       currentUser = user;
       role = user.role;
+    } else if (email === adminCredentials.email && password === adminCredentials.password) {
+      currentUser = { _id: "admin", email: adminCredentials.email, name: "Admin" };
+      role = adminCredentials.role;
+    } else {
+      return res.status(400).json({ message: "Invalid email or password." });
     }
 
     // Generate JWT token
@@ -175,9 +182,7 @@ app.post("/login", async (req, res) => {
     });
   } catch (error) {
     console.error("Login error:", error);
-    res
-      .status(500)
-      .json({ message: "Something went wrong.", error: error.message });
+    res.status(500).json({ message: "Something went wrong.", error: error.message });
   }
 });
 
