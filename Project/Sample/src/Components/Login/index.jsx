@@ -29,27 +29,32 @@ const Login = () => {
         localStorage.setItem("token", res.token); // Store the JWT token
         localStorage.setItem("userRole", role); // Store the user's role
   
-        switch (role) {
-          case 1:
-            navigate("/home");
-            return;
-          case 2:
-            navigate("/manager");
-            return;
-          case 3:
-            navigate("/admin");
-            return;
-          default:
-            navigate("/home"); // Default route
-            return;
+        if (role === "admin") {
+          navigate("/admin"); // Navigate to the admin page if the role is admin
+        } else {
+          switch (role) {
+            case 1:
+              navigate("/home");
+              break;
+            case 2:
+              navigate("/manager");
+              break;
+            default:
+              navigate("/home"); // Default route
+          }
         }
       }
     } catch (error) {
-      if (error.response && error.response.status >= 400 && error.response.status <= 500) {
+      if (
+        error.response &&
+        error.response.status >= 400 &&
+        error.response.status <= 500
+      ) {
         setError(error.response.data.message);
       }
     }
-  };  
+  };
+
   // Function to handle Google login
   const signInWithGoogle = () => {
     signInWithPopup(auth, googleProvider)

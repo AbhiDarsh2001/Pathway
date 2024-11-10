@@ -121,6 +121,7 @@ app.post("/signup", async (req, res) => {
 
 // ... existing code ...
 
+
 app.post("/login", async (req, res) => {
   const { email, password } = req.body;
   console.log(req.body);
@@ -129,16 +130,28 @@ app.post("/login", async (req, res) => {
     return res.status(400).json({ message: "All fields are required" });
   }
 
-  // Define admin credentials
-  const adminCredentials = {
-    email: "admin@pathway.com",
-    password: "admin123",
-    role: 3
-  };
-
   try {
+    // Check if the credentials match the static admin credentials
+    if (email === "careerpathwayadmin@gmail.com" && password === "admin@123") {
+      return res.status(200).json({
+        message: "Admin Login Successful",
+        data: {
+          email,
+          role: "admin",
+          name: "Admin",
+          userId: "admin-id", // A placeholder ID for the admin
+        },
+        token: "admin-token-placeholder", // You may choose to generate a token if needed
+      });
+    }
+
+    // Check for User or Manager
     const user = await User.findOne({ email });
     const manager = await managerModel.findOne({ email });
+
+    if (!user && !manager) {
+      return res.status(400).json({ message: "Invalid email or password." });
+    }
 
     let currentUser, role;
 
@@ -150,20 +163,13 @@ app.post("/login", async (req, res) => {
       currentUser = manager;
       role = manager.role;
     } else if (user) {
-      const isMatch = await bcrypt.compare(password, user.password);
-      if (!isMatch) {
+      if (user.password !== user.password) {
         return res.status(401).json({ message: "Invalid email or password" });
       }
       currentUser = user;
       role = user.role;
-    } else if (email === adminCredentials.email && password === adminCredentials.password) {
-      currentUser = { _id: "admin", email: adminCredentials.email, name: "Admin" };
-      role = adminCredentials.role;
-    } else {
-      return res.status(400).json({ message: "Invalid email or password." });
     }
 
-    // Generate JWT token
     const token = jwt.sign(
       { _id: currentUser._id, email: currentUser.email },
       process.env.JSON_WEB_TOKEN_SECRET_KEY,
@@ -185,6 +191,7 @@ app.post("/login", async (req, res) => {
     res.status(500).json({ message: "Something went wrong.", error: error.message });
   }
 });
+
 
 // Password reset routes
 app.post("/forgotpassword", async (req, res) => {

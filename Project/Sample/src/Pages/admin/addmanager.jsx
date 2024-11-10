@@ -4,8 +4,10 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import Sidebar from './sidebar'; // Import the Sidebar component
+import useAuth from "../../Components/Function/useAuth";
 
 function AddManager() {
+  useAuth();
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');

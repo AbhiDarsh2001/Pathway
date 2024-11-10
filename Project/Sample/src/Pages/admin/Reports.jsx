@@ -2,8 +2,10 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Sidebar from './sidebar';
 import './Reports.css';
+import useAuth from '../../Components/Function/useAuth';
 
 const Reports = () => {
+  useAuth();
   const [reports, setReports] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);

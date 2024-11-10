@@ -3,8 +3,10 @@ import './jobform.css';
 import axios from 'axios';
 import { useNavigate, useParams } from 'react-router-dom';
 import Sidebar from './sidebar';
+import useAuth from '../../Components/Function/useAuth';
 
 const JobForm = () => {
+  useAuth();
   const { id } = useParams(); // Get the job ID from the URL
   const [formData, setFormData] = useState({
     name: '',

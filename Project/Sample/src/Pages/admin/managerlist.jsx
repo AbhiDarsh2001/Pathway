@@ -2,8 +2,10 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import './managerlist.css'; // Assuming similar styling file like joblist.css
 import Sidebar from './sidebar'; // Assuming Sidebar component exists
+import useAuth from '../../Components/Function/useAuth';
 
 const ManagerList = () => {
+    useAuth();
     const [managers, setManagers] = useState([]);
 
     useEffect(() => {

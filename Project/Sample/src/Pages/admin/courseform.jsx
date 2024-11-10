@@ -3,8 +3,10 @@ import './courseform.css';
 import axios from 'axios';
 import { useNavigate, useParams } from 'react-router-dom';
 import Sidebar from './sidebar';
+import useAuth from '../../Components/Function/useAuth';
 
 const CourseForm = () => {
+  useAuth();
   const { id } = useParams(); // Get id from URL to determine if we are editing
   const [formData, setFormData] = useState({
     name: '',

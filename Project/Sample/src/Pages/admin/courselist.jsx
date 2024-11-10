@@ -2,8 +2,10 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import './courselist.css';
 import Sidebar from './sidebar';
+import useAuth from '../../Components/Function/useAuth';
 
 const CourseList = () => {
+    useAuth();
     const [courses, setCourses] = useState([]);
 
     useEffect(() => {

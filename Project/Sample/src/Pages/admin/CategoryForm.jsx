@@ -4,8 +4,10 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Sidebar from './sidebar';
 import './CategoryForm.css';
+import useAuth from '../../Components/Function/useAuth';
 
 const CategoryForm = () => {
+  useAuth();
   const [categories, setCategories] = useState([]);
   const [newCategory, setNewCategory] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('');

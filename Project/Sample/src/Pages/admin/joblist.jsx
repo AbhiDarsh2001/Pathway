@@ -2,8 +2,10 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import './joblist.css';
 import Sidebar from './sidebar'; // Assuming Sidebar component exists
+import useAuth from '../../Components/Function/useAuth';
 
 const JobList = () => {
+    useAuth();
     const [jobs, setJobs] = useState([]);
 
     useEffect(() => {

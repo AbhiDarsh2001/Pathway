@@ -2,8 +2,10 @@
 import React from 'react';
 import Sidebar from './sidebar'; // Adjust the import path if necessary
 import './dashboard.css';
+import useAuth from '../../Components/Function/useAuth';
 
 const Dashboard = () => {
+  useAuth();
   return (
     <div className="dashboard-container">
       {/* Sidebar */}
