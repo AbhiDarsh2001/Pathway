@@ -10,10 +10,8 @@ const MJobForm = () => {
     name: '',
     description: '',
     eligibility: '',
-    industry: '',
-    category: '',
+    industry: ''
   });
-  const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
   const navigate = useNavigate();
@@ -44,7 +42,6 @@ const MJobForm = () => {
             description: jobData.description,
             eligibility: Array.isArray(jobData.eligibility) ? jobData.eligibility.join(', ') : jobData.eligibility,
             industry: Array.isArray(jobData.industry) ? jobData.industry.join(', ') : jobData.industry,
-            category: jobData.category && jobData.category._id ? jobData.category._id : jobData.category,
           });
         } catch (error) {
           console.error('Error fetching job details:', error);
@@ -164,12 +161,6 @@ const MJobForm = () => {
               onChange={handleChange}
               required
             >
-              <option value="">Select a category</option>
-              {categories.map((category) => (
-                <option key={category._id} value={category._id}>
-                  {category.name}
-                </option>
-              ))}
             </select>
           </div>
           <button type="submit" disabled={loading}>
