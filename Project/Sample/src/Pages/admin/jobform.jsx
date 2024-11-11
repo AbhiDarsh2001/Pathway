@@ -12,7 +12,6 @@ const JobForm = () => {
     name: '',
     description: '',
     eligibility: '',
-    categories: '',
     industry: '',
   });
 

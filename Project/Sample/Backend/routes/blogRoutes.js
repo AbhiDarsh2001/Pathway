@@ -1,11 +1,14 @@
 // routes/blogRoutes.js
 const express = require('express');
 const Blog = require('../models/BlogModel');
-const multer = require('multer'); 
+const multer = require('multer');
 const fs = require('fs');
 const path = require('path');
 const router = express.Router();
-const jwt = require('jsonwebtoken'); // Make sure to import jwt
+const jwt = require('jsonwebtoken');
+const dotenv = require('dotenv');
+
+dotenv.config();
 
 // Ensure 'uploads/' folder exists
 const storage = multer.diskStorage({
@@ -26,11 +29,16 @@ const upload = multer({ storage });
 // Middleware to verify JWT token
 const verifyToken = (req, res, next) => {
   const authHeader = req.header('Authorization');
-  const token = authHeader && authHeader.split(' ')[1];
-  if (!token) return res.status(401).json({ error: 'Access denied' });
+  const token = authHeader && authHeader.startsWith('Bearer ')
+    ? authHeader.split(' ')[1]
+    : authHeader;
+
+  if (!token) {
+    return res.status(401).json({ error: 'Access denied' });
+  }
 
   try {
-    const verified = jwt.verify(token, process.env.JWT_SECRET);
+    const verified = jwt.verify(token, process.env.JSON_WEB_TOKEN_SECRET_KEY);
     req.user = verified;
     next();
   } catch (error) {
@@ -38,30 +46,29 @@ const verifyToken = (req, res, next) => {
   }
 };
 
-
 // Add a new blog (protected route)
-router.post('/add', upload.single('image'), async (req, res) => {
-  console.log(req.body);
+router.post('/add', verifyToken, upload.single('image'), async (req, res) => {
   try {
-    const { title, content, author } = req.body;
-    const image = req.file ?  `/uploads/${req.file.filename}` : '';
+    const { title, content } = req.body;
+    const author = req.user._id; // Set author as the user ID from the verified token
+    const image = req.file ? `/uploads/${req.file.filename}` : '';
+    
     const newBlog = new Blog({ title, content, author, image });
     await newBlog.save();
     res.status(201).json({ message: 'Blog added successfully', blog: newBlog });
   } catch (error) {
     console.error(error);
-    return res.status(500).json({ error: error.message || 'Error adding blog' });
+    res.status(500).json({ error: 'Error adding blog' });
   }
 });
-
 
 // Get all blogs
 router.get('/', async (req, res) => {
   try {
-    const blogs = await Blog.find({status:'active'}).populate('author', 'name');
+    const blogs = await Blog.find({ status: 'active' }).populate('author', 'name');
     res.status(200).json(blogs);
   } catch (error) {
-    return res.status(500).json({ error: 'Error fetching blogs' });
+    res.status(500).json({ error: 'Error fetching blogs' });
   }
 });
 
@@ -73,15 +80,14 @@ router.delete('/delete/:id', verifyToken, async (req, res) => {
       return res.status(404).json({ error: 'Blog not found' });
     }
 
-    // Check if the current user is the author of the blog
-    if (blog.author.toString() !== req.user.id) {
+    if (blog.author.toString() !== req.user._id) {
       return res.status(403).json({ error: 'Not authorized to delete this blog' });
     }
 
     await Blog.findByIdAndDelete(req.params.id);
     res.status(200).json({ message: 'Blog deleted successfully' });
   } catch (error) {
-    return res.status(500).json({ error: 'Error deleting blog' });
+    res.status(500).json({ error: 'Error deleting blog' });
   }
 });
 
@@ -93,8 +99,7 @@ router.put('/edit/:id', verifyToken, upload.single('image'), async (req, res) =>
       return res.status(404).json({ error: 'Blog not found' });
     }
 
-    // Check if the current user is the author of the blog
-    if (blog.author.toString() !== req.user.id) {
+    if (blog.author.toString() !== req.user._id) {
       return res.status(403).json({ error: 'Not authorized to edit this blog' });
     }
 
@@ -108,7 +113,7 @@ router.put('/edit/:id', verifyToken, upload.single('image'), async (req, res) =>
     const updatedBlog = await Blog.findByIdAndUpdate(req.params.id, updateData, { new: true });
     res.status(200).json({ message: 'Blog updated successfully', blog: updatedBlog });
   } catch (error) {
-    return res.status(500).json({ error: 'Error updating blog' });
+    res.status(500).json({ error: 'Error updating blog' });
   }
 });
 

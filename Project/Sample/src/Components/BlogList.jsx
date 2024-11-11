@@ -100,8 +100,8 @@ const BlogList = () => {
       await axios.put(`${import.meta.env.VITE_URL}/blog/edit/${editingBlog._id}`, formData, {
         headers: { 
           'Content-Type': 'multipart/form-data',
-          Authorization: token
-        },
+          Authorization: `Bearer ${token}`
+        },  
       });
 
       handleCancelEdit();
@@ -184,7 +184,7 @@ const BlogList = () => {
                         <option value="False Information">False Information</option>
                         <option value="Nudity or Sexual Content">Nudity or Sexual Content</option>
                         <option value="Promoting Unwanted Content">Promoting Unwanted Content</option>
-                        <option value="I Just Don’t Like the Post">I Just Don’t Like the Post</option>
+                        {/* <option value="I Just Don’t Like the Post">I Just Don’t Like the Post</option> */}
                       </select>
                       <button 
                         onClick={() => handleReportClick(blog._id)}
