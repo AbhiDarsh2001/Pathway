@@ -19,18 +19,18 @@ const Sidebar = () => {
           <FontAwesomeIcon icon={faHome} />
           <span className="sidebar-label">Dashboard</span>
         </button>
-        <button onClick={() => navigate('/addcourse')}>
+        {/* <button onClick={() => navigate('/addcourse')}>
           <FontAwesomeIcon icon={faPlus} />
           <span className="sidebar-label">Add Course</span>
-        </button>
+        </button> */}
         <button onClick={() => navigate('/iconcourse')}>
           <FontAwesomeIcon icon={faEye} />
            <span className="sidebar-label">View Courses</span>
         </button>
-        <button onClick={() => navigate('/addjob')}>
+        {/* <button onClick={() => navigate('/addjob')}>
           <FontAwesomeIcon icon={faPlus} />
            <span className="sidebar-label">Add Job</span>
-        </button>
+        </button> */}
         <button onClick={() => navigate('/iconjob')}>
           <FontAwesomeIcon icon={faEye} />
         <span className="sidebar-label">View Jobs</span>
