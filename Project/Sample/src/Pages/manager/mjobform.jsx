@@ -19,18 +19,18 @@ const MJobForm = () => {
   const navigate = useNavigate();
 
   // Fetch available categories from the database
-  useEffect(() => {
-    const fetchCategories = async () => {
-      try {
-        const response = await axios.get(`${import.meta.env.VITE_URL}/category`);
-        setCategories(response.data);
-      } catch (error) {
-        console.error('Error fetching categories:', error);
-        setErrorMessage('Error fetching categories');
-      }
-    };
-    fetchCategories();
-  }, []);
+  // useEffect(() => {
+  //   const fetchCategories = async () => {
+  //     try {
+  //       const response = await axios.get(`${import.meta.env.VITE_URL}/category`);
+  //       setCategories(response.data);
+  //     } catch (error) {
+  //       console.error('Error fetching categories:', error);
+  //       setErrorMessage('Error fetching categories');
+  //     }
+  //   };
+  //   fetchCategories();
+  // }, []);
 
   // Fetch job details if we are editing
   useEffect(() => {
