@@ -2,8 +2,10 @@ import React, { useEffect, useState } from 'react';
 import './mviewcourse.css';
 import { useParams, useNavigate } from 'react-router-dom';
 import MSidebar from './msidebar';
+import useAuth from '../../Components/Function/useAuth';
 
 const MVCourseDetails = () => {
+  useAuth();
   const { id } = useParams();
   const navigate = useNavigate();
   const [course, setCourse] = useState(null);

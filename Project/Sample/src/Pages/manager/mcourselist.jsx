@@ -2,8 +2,10 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import './mcourselist.css';
 import MSidebar from './msidebar';
+import useAuth from '../../Components/Function/useAuth';
 
 const MCourseList = () => {
+    useAuth();
     const [courses, setCourses] = useState([]);
 
     useEffect(() => {

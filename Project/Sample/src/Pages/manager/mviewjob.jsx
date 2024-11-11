@@ -2,8 +2,10 @@ import React, { useEffect, useState } from 'react';
 import './mviewjob.css';
 import { useParams, useNavigate } from 'react-router-dom';
 import MSidebar from './msidebar';
+import useAuth from '../../Components/Function/useAuth';
 
 const MVJobDetails = () => {
+    useAuth();
     const { id } = useParams();
     const navigate = useNavigate();
     const [job, setJob] = useState(null);

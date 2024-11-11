@@ -3,8 +3,10 @@ import './mjobform.css';
 import axios from 'axios';
 import { useNavigate, useParams } from 'react-router-dom';
 import MSidebar from './msidebar';
+import useAuth from '../../Components/Function/useAuth';
 
 const MJobForm = () => {
+  useAuth();
   const { id } = useParams();
   const [formData, setFormData] = useState({
     name: '',

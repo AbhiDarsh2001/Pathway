@@ -2,8 +2,16 @@
 import React from 'react';
 import { useNavigate } from "react-router-dom";
 import './msidebar.css'; // Assuming you have a CSS file for styling
+import useAuth from '../../Components/Function/useAuth';
 
 const MSidebar = () => {
+  useAuth();
+
+  const handleLogout = () => {
+    localStorage.removeItem('token'); // Clear auth token
+    navigate('/login'); // Redirect to login page
+  };
+
   const navigate = useNavigate();
  
   return (
@@ -14,6 +22,9 @@ const MSidebar = () => {
       <button  onClick={() => navigate('/maddjob')}>Add Job</button>
       <button onClick={() => navigate('/miconjob')}>View Job</button>
       <button onClick={() => navigate('/miconcourse')}>View Course</button>
+      <button onClick={handleLogout} className="dropdown-option logout-button">
+              Logout
+      </button>
     </div>
   );
 };

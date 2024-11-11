@@ -5,6 +5,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import MSidebar from './msidebar';
 
 const MCourseForm = () => {
+  useAuth();
   const { id } = useParams(); // Get id from URL to determine if we are editing
   const [formData, setFormData] = useState({
     name: '',
