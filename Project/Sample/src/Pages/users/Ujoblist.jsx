@@ -39,9 +39,9 @@ const UJobList = () => {
     <div>
       <Header />
       <div className="job-list-container">
-        <div className="filter-component">
+        {/* <div className="filter-component">
           <FilterComponent setFilters={setFilters} type="job" />
-        </div>
+        </div> */}
 
         <div className="job-list">
           {jobs.map((job) => (
