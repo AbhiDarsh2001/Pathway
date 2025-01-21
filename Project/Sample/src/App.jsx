@@ -35,6 +35,7 @@ import BlogForm from './Components/BlogForm';
 import BlogList from './Components/BlogList';
 import ViewReportedBlg from "./Pages/admin/ViewReport";
 import AdminLogout from "./Pages/admin/Logout";
+import InstituteRegistration from "./Pages/Institute/institute";
 
 function App() {
     return (
@@ -80,6 +81,8 @@ function App() {
       		<Route path="/add-blog" element={<BlogForm />} />
 			<Route path="/reports" element={<ViewReportedBlg />} />
 			<Route path="/logout" element={<AdminLogout />} />
+			
+			<Route path="/institute" element={<InstituteRegistration />} />
 
         </Routes>
     );

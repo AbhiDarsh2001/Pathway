@@ -1,4 +1,4 @@
-const express = require("express");
+ const express = require("express");
 const mongoose = require("mongoose");
 const dotenv = require("dotenv");
 const jwt = require("jsonwebtoken");
@@ -26,7 +26,17 @@ const blogRoutes = require("./routes/blogRoutes");
 const managerModel = require("./models/AddManager.js");
 const reportRoutes = require("./routes/reportRoutes.js");
 const ViewReportRoutes = require("./routes/Reportroute.js");
+const InstituteRoutes= require("./routes/institute.js");
 // Middleware for CORS
+
+// LOCAL HOST
+// app.use(
+//   cors({
+//     origin: "http://localhost:5173",
+//     methods: ["GET", "POST", "PUT", "DELETE"],
+//   })
+// );
+SERVER
 app.use(
   cors({
     origin: "https://pathway-1-frontend.onrender.com",
@@ -271,6 +281,7 @@ app.use("/", SearchCourse);
 app.use("/blog", blogRoutes);
 app.use("/report", reportRoutes);
 app.use('/viewreport',ViewReportRoutes);
+app.use('/institute',InstituteRoutes);
 
 // Example route for categories and subcategories
 app.get("/categories/:categoryId/subcategories", async (req, res) => {
