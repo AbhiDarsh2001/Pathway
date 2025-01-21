@@ -36,7 +36,7 @@ const InstituteRoutes= require("./routes/institute.js");
 //     methods: ["GET", "POST", "PUT", "DELETE"],
 //   })
 // );
-SERVER
+//SERVER
 app.use(
   cors({
     origin: "https://pathway-1-frontend.onrender.com",
