@@ -36,6 +36,9 @@ import BlogList from './Components/BlogList';
 import ViewReportedBlg from "./Pages/admin/ViewReport";
 import AdminLogout from "./Pages/admin/Logout";
 import InstituteRegistration from "./Pages/Institute/institute";
+import InstitutionList from "./Pages/admin/institutionList";
+import ChatBot from "./Components/ChatBot/chatbot";
+import ErrorBoundary from './Components/ChatBot/ErrorBoundary';
 
 function App() {
     return (
@@ -83,6 +86,12 @@ function App() {
 			<Route path="/logout" element={<AdminLogout />} />
 			
 			<Route path="/institute" element={<InstituteRegistration />} />
+			<Route path="/institutionList" element={<InstitutionList />} />
+			<Route path="/chatBot" element={
+				<ErrorBoundary>
+					<ChatBot />
+				</ErrorBoundary>
+			} />
 
         </Routes>
     );

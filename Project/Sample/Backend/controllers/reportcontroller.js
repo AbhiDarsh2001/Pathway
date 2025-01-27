@@ -6,7 +6,7 @@ const User = require('../models/RegisterModel');
 
 // Submit a new report
 const submitReport = async (req, res) => {
-  console.log(req.body)
+  console.log(req.body) 
   const { blogId, reason, userId } = req.body;
       
   try {

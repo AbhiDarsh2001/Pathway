@@ -1,4 +1,13 @@
- const express = require("express");
+process.on('warning', (warning) => {
+  if (warning.name === 'DeprecationWarning' && 
+      warning.message.includes('punycode')) {
+    return; // Ignore punycode deprecation warning
+  }
+  // Log other warnings
+  console.warn(warning.name, warning.message);
+});
+
+const express = require("express");
 const mongoose = require("mongoose");
 const dotenv = require("dotenv");
 const jwt = require("jsonwebtoken");
@@ -27,22 +36,25 @@ const managerModel = require("./models/AddManager.js");
 const reportRoutes = require("./routes/reportRoutes.js");
 const ViewReportRoutes = require("./routes/Reportroute.js");
 const InstituteRoutes= require("./routes/institute.js");
+//const chatBot=require("./routes/chatBot.js");
+
+const gemini=require("./routes/gemini.js");
 // Middleware for CORS
 
 // LOCAL HOST
-// app.use(
-//   cors({
-//     origin: "http://localhost:5173",
-//     methods: ["GET", "POST", "PUT", "DELETE"],
-//   })
-// );
-//SERVER
 app.use(
   cors({
-    origin: "https://pathway-1-frontend.onrender.com",
+    origin: "http://localhost:5173",
     methods: ["GET", "POST", "PUT", "DELETE"],
   })
 );
+//SERVER
+// app.use(
+//   cors({
+//     origin: "https://pathway-1-frontend.onrender.com",
+//     methods: ["GET", "POST", "PUT", "DELETE"],
+//   })
+// );
 
 
 // Load environment variables
@@ -282,6 +294,9 @@ app.use("/blog", blogRoutes);
 app.use("/report", reportRoutes);
 app.use('/viewreport',ViewReportRoutes);
 app.use('/institute',InstituteRoutes);
+//app.use('/chatBot',chatBot);
+
+app.use('/gemini',gemini);
 
 // Example route for categories and subcategories
 app.get("/categories/:categoryId/subcategories", async (req, res) => {

@@ -1,3 +1,4 @@
+//models/institute.js
 const mongoose = require("mongoose");
 
 const instituteSchema = new mongoose.Schema({
@@ -10,7 +11,7 @@ const instituteSchema = new mongoose.Schema({
   address: { type: String, required: true },
   //subjects: {type: String, required: true},
   founded: { type: Date, required: true },
-  //qualification:{type:String, required: true},
+  //qualification:{type:String, required: true},  
   specialization: {type:String, required: true},
   //experience: {type:String, required: true},
   idCard: { type: String, required: false },

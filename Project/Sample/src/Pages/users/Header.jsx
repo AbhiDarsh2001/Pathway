@@ -11,7 +11,7 @@ const Header = () => {
     localStorage.removeItem('token'); // Clear auth token
     navigate('/login'); // Redirect to login page
   };
-
+ 
   return (
     <header className="header">
       <nav>
@@ -20,6 +20,7 @@ const Header = () => {
         <a href="/Ujoblist" className="nav-link" id="viewjob">Job</a>
         <a href="/Ucourselist" className="nav-link" id="viewcourse">Course</a>
         <a href="/blogs" className="nav-link" id='viewblog'>Blog</a>
+        <a href="/chatBot" className="nav-link" id='chatBot'>ChatBot</a>
         <USearchEntrance />
 
         {/* Profile with Hover Dropdown */}

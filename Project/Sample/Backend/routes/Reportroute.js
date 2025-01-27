@@ -13,4 +13,4 @@ router.put('/unblock/:blogId', unblockBlog);
 // Delete reported blog
 router.delete('/delete/:blogId', deleteBlog);
 
-module.exports = router;
+module.exports = router; 

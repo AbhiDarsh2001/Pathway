@@ -11,7 +11,7 @@ const CourseList = () => {
     useEffect(() => {
         const fetchCourses = async () => {
             try {
-                const response = await fetch(`${import.meta.env.VITE_URL}/viewcourse/all`);
+                const response = await fetch(`  /viewcourse/all`);
                 if (!response.ok) {
                     throw new Error('Failed to fetch courses');
                 }

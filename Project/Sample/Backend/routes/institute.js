@@ -1,79 +1,106 @@
+// routes/institute.js
 const express = require("express");
 const upload = require("../config/multerStorage");
 const Teacher = require("../models/institute");
-const nodemailer = require('nodemailer'); // package to sent email
-const dotenv = require('dotenv');
+const nodemailer = require("nodemailer");
+const dotenv = require("dotenv");
 
-dotenv.config()
+dotenv.config();
 
 const router = express.Router();
 
-// configure nodemailer transporter
+// Configure nodemailer transporter
 const transporter = nodemailer.createTransport({
-  service:'gmail',
+  service: "gmail",
   auth: {
     user: process.env.EMAIL_USER,
-    pass: process.env.EMAIL_PASS
+    pass: process.env.EMAIL_PASS,
+  },
+});
+
+// Route to register a teacher/institute
+router.post(
+  "/register",
+  upload.fields([
+    { name: "idCard", maxCount: 1 },
+    { name: "photo", maxCount: 1 },
+    { name: "resume", maxCount: 1 },
+  ]),
+  async (req, res) => {
+    try {
+      const { firstname, email, phone, founded, address, altPhone, specialization } = req.body;
+      const files = req.files; // Files uploaded by Multer
+
+      // Save the uploaded file URLs
+      const teacher = new Teacher({
+        firstname,
+        email,
+        phone,
+        altPhone,
+        founded,
+        address,
+        specialization,
+        idCard: files.idCard ? files.idCard[0].path : null,
+        photo: files.photo ? files.photo[0].path : null,
+        resume: files.resume ? files.resume[0].path : null,
+      });
+
+      await teacher.save();
+
+      const mailOptions = {
+        from: "your-email@gmail.com",
+        to: email,
+        subject: "Registration successful",
+        text: `Hello, ${firstname},\n\nYour registration was successful! We are thrilled to have you on board.\n\nBest regards,\nThe CareerPathway Team`,
+      };
+
+      transporter.sendMail(mailOptions, (error, info) => {
+        if (error) {
+          console.log("Error sending email:", error);
+        } else {
+          console.log("Email sent: " + info.response);
+        }
+      });
+
+      res.status(200).json({
+        success: true,
+        message: "Registration successful",
+        teacher: teacher, // Include the teacher details in the response
+      });
+    } catch (error) {
+      console.error("Error during registration:", error);
+      res.status(500).json({ message: "Error during registration", error });
+    }
+  }
+);
+
+// Route to fetch all registered teachers/institutes
+router.get("/all", async (req, res) => {
+  try {
+    const teachers = await Teacher.find(); // Fetch all teacher records
+    res.status(200).json({
+      success: true,
+      data: teachers,
+    });
+  } catch (error) {
+    console.error("Error fetching:", error);
+    res.status(500).json({
+      success: false,
+      message: "Failed to fetch",
+      error,
+    });
   }
 });
 
-router.post("/register", upload.fields([
-  { name: "idCard", maxCount: 1 },
-  { name: "photo", maxCount: 1 },
-  //{ name: "degreeCertificate", maxCount: 1 },
-  //{ name: "experienceCertificate", maxCount: 1 },
-  { name: "resume", maxCount: 1 },
-]), async (req, res) => {
+// get all instutes
+
+router.get("/teachersreq", async (req, res) => {
   try {
-    const { firstname, email,phone, founded, address, altPhone, specialization} = req.body;
-    const files = req.files; // Files uploaded by Multer
-    
-    // Save the uploaded file URLs from Cloudinary
-    const teacher = new Teacher({
-      firstname,
-      //lastname,
-      email,
-      phone,
-      altPhone,
-      //gender,
-      founded,
-      address,
-      specialization,
-      idCard: files.idCard[0].path,
-      photo: files.photo[0].path,
-      //degreeCertificate: files.degreeCertificate[0].path,
-      //experienceCertificate: files.experienceCertificate[0].path,
-      resume: files.resume[0].path,
-    });
-
-    await teacher.save();
-
-    const mailOptions = {
-      from:'your-email@gmail.com',
-      to:email,
-      subject:' Registration successfull',
-      text:`Hello, ${firstname},\n\nYour registration as a teacher was successful! We are thrilled to have you on board.\n\nBest regards,\nThe CareerPathway Team`
-    };
-
-    transporter.sendMail(mailOptions,(error, info) => {
-      if (error) {
-        console.log('Error sending email:' ,error);
-      }
-      else {
-        console.log('Email sent: ' + info.response);
-      }
-    });
-
-    res.status(200).json({
-        success: true,  // Add the success flag
-        message: "registration successful",
-        teacher: teacher, // Include the teacher details in response
-      });
-      
+      const teachers = await Teacher.find({active:false});
+      res.status(200).json(teachers);
   } catch (error) {
-    console.error("Error during registration:", error);
-    res.status(500).json({ message: "Error during registration", error });
-  }
+      res.status(500).json({ message: "Error fetching teachers", error: error.message });
+    }
 });
 
 module.exports = router;
