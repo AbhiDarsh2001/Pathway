@@ -9,9 +9,8 @@ const Home = () => {
   useAuth();
   return (
     <div className="home-container">
-      {/* Sidebar for categories */}
+      {/* Sidebar */}
       <div className="sidebar">
-        {/* Logo on Top-Left Corner */}
         <div className="logo-container">
           <img
             src="src/assets/CareerPathway.png"
@@ -19,30 +18,39 @@ const Home = () => {
             className="logo"
           />
         </div>
-        {/* <div className="filter">
-          <FilterComponent />
-        </div> */}
+        {/* Add navigation links */}
+        <nav className="sidebar-nav">
+          <a href="/dashboard" className="nav-item">Dashboard</a>
+          <a href="/courses" className="nav-item">Courses</a>
+          <a href="/tests" className="nav-item">Psychometric Tests</a>
+          <a href="/discussions" className="nav-item">Discussions</a>
+        </nav>
       </div>
 
       {/* Main Content Area */}
-      <div className="content" style={{ margin: "50px 0px 50px 250px" }}>
+      <div className="content">
         <Header />
 
-        {/* Welcome Section with Project Details */}
+        {/* Welcome Section with enhanced styling */}
         <div className="welcome-section">
           <h2>Welcome to CareerPathway</h2>
-          <p>
-            CareerPathway is designed to assist students and professionals in
-            making informed decisions about their education and career paths.
-            Explore detailed information on various courses, job opportunities,
-            and take mock psychometric tests to discover your strengths.
-          </p>
-          <p>
-            You can browse course categories, search for specific programs, or
-            connect with institutions and peers through articles and
-            discussions. Start by filtering courses or exploring the blogs
-            shared by others.
-          </p>
+          <div className="welcome-cards">
+            <div className="info-card">
+              <h3>Explore Courses</h3>
+              <p>Browse through our extensive collection of courses and educational programs.</p>
+              <button className="action-button">View Courses</button>
+            </div>
+            <div className="info-card">
+              <h3>Take Tests</h3>
+              <p>Discover your strengths with our psychometric tests.</p>
+              <button className="action-button">Start Test</button>
+            </div>
+            <div className="info-card">
+              <h3>Join Discussions</h3>
+              <p>Connect with peers and share your experiences.</p>
+              <button className="action-button">Join Now</button>
+            </div>
+          </div>
         </div>
       </div>
     </div>

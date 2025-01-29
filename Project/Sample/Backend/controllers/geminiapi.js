@@ -46,7 +46,7 @@ const chatWithGemini = async (message) => {
             chatHistory = chatHistory.slice(-20);
         }
 
-        return response;
+        return response; 
     } catch (error) {
         console.error('Error in chatWithGemini:', error);
         throw error;

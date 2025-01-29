@@ -36,24 +36,51 @@ const UJobList = () => {
   }, [filters]);
 
   return (
-    <div>
-      <Header />
-      <div className="job-list-container">
-        {/* <div className="filter-component">
-          <FilterComponent setFilters={setFilters} type="job" />
-        </div> */}
+    <div className="home-container">
+      {/* Filter Sidebar */}
+      <div className="filter-sidebar">
+        <div className="logo-container">
+          <img
+            src="src/assets/CareerPathway.png"
+            alt="Career Pathway Logo"
+            className="logo"
+          />
+        </div>
+        <FilterComponent setFilters={setFilters} type="job" />
+      </div>
 
-        <div className="job-list">
-          {jobs.map((job) => (
-            <div key={job._id} className="job-item">
-              <h2>{job.name}</h2>
-              <p>{job.description}</p>
-              <p>Category: {job.category ? job.category.name : 'N/A'}</p>
-              <Link to={`/Uviewjob/${job._id}`}>
-                <button className="detail-btn">Details</button>
-              </Link>
+      {/* Main Content */}
+      <div className="content">
+        <Header />
+        <div className="welcome-section">
+          <div className="section-header">
+            <h2>Available Job Opportunities</h2>
+            <div className="search-box">
+              <input type="text" placeholder="Search jobs..." className="search-input" />
             </div>
-          ))}
+          </div>
+
+          <div className="job-grid">
+            {jobs.map((job) => (
+              <div key={job._id} className="job-card">
+                <div className="job-card-content">
+                  <h3>{job.name}</h3>
+                  <p className="job-description">{job.description}</p>
+                  <div className="job-meta">
+                    <span className="category-tag">
+                      {job.category ? job.category.name : 'N/A'}
+                    </span>
+                    <span className="job-location">
+                      <i className="fas fa-map-marker-alt"></i> {job.location || 'Location N/A'}
+                    </span>
+                  </div>
+                  <Link to={`/Uviewjob/${job._id}`}>
+                    <button className="view-details-btn">View Details</button>
+                  </Link>
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     </div>

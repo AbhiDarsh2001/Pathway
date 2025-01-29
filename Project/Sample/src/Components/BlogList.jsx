@@ -1,6 +1,7 @@
 // components/BlogList.jsx
 import React, { useEffect, useState } from 'react';
 import { FaThumbsUp, FaEdit, FaTrash } from 'react-icons/fa';
+import { Link } from 'react-router-dom';
 import axios from 'axios';
 import './blogList.css';
 import Header from '../Pages/users/Header';
@@ -131,94 +132,133 @@ const BlogList = () => {
   };
 
   return (
-    <div className="blog-list">
-      <h1>Blog List</h1>
-      <div>
-        <Header />
+    <div className="home-container">
+      {/* Sidebar */}
+      <div className="sidebar">
+        <div className="logo-container">
+          <img
+            src="src/assets/CareerPathway.png"
+            alt="Career Pathway Logo"
+            className="logo"
+          />
+        </div>
+        
+        <div className="sidebar-nav">
+          <Link to="/home" className="nav-item">
+            Home
+          </Link>
+          <Link to="/ujoblist" className="nav-item">
+            Jobs
+          </Link>
+          <Link to="/ucourselist" className="nav-item">
+            Courses
+          </Link>
+          <Link to="/ubloglist" className="nav-item">
+            Blogs
+          </Link>
+          <Link to="/uprofile" className="nav-item">
+            Profile
+          </Link>
+        </div>
       </div>
-      {blogs.length > 0 ? (
-        [...blogs].reverse().map((blog, index) => (
-          <div key={index} className="blog-card">
-            {editingBlog && editingBlog._id === blog._id ? (
-              <div className="edit-form">
-                <input
-                  type="text"
-                  value={editTitle}
-                  onChange={(e) => setEditTitle(e.target.value)}
-                />
-                <textarea
-                  value={editContent}
-                  onChange={(e) => setEditContent(e.target.value)}
-                />
-                <input type="file" onChange={handleImageChange} />
-                <button onClick={handleSaveEdit}>Save</button>
-                <button onClick={handleCancelEdit}>Cancel</button>
-              </div>
-            ) : (
-              <>
-                <h2>{blog.title}</h2>
-                <p><strong>{blog.author?.name || 'Unknown'}</strong></p>
-                {blog.image && (
-                  <img
-                    src={`${import.meta.env.VITE_URL}${blog.image}`}
-                    alt="Blog"
-                    className="blog-image"
-                  />
-                )}
-                <p>{blog.content}</p>
 
-                <div className="action-section">
-                  {currentUser && currentUser.id === blog.author._id ? (
-                    <>
-                      <button onClick={() => handleEdit(blog)}>
-                        <FaEdit /> Edit
-                      </button>
-                      <button onClick={() => handleDelete(blog._id)}>
-                        <FaTrash /> Delete
-                      </button>
-                    </>
+      {/* Main Content */}
+      <div className="content">
+        <div className="welcome-section">
+          <div className="section-header">
+            <h2>Blog Posts</h2>
+            <div className="search-box">
+              <input type="text" placeholder="Search blogs..." className="search-input" />
+            </div>
+          </div>
+
+          <div className="blog-grid">
+            {blogs.length > 0 ? (
+              [...blogs].reverse().map((blog, index) => (
+                <div key={index} className="blog-card">
+                  {editingBlog && editingBlog._id === blog._id ? (
+                    <div className="edit-form">
+                      <input
+                        type="text"
+                        value={editTitle}
+                        onChange={(e) => setEditTitle(e.target.value)}
+                      />
+                      <textarea
+                        value={editContent}
+                        onChange={(e) => setEditContent(e.target.value)}
+                      />
+                      <input type="file" onChange={handleImageChange} />
+                      <button onClick={handleSaveEdit}>Save</button>
+                      <button onClick={handleCancelEdit}>Cancel</button>
+                    </div>
                   ) : (
                     <>
-                      <select onChange={(e) => setReportReason(e.target.value)} value={reportReason}>
-                        <option value="Violence Content">Violence Content</option>
-                        <option value="False Information">False Information</option>
-                        <option value="Nudity or Sexual Content">Nudity or Sexual Content</option>
-                        <option value="Promoting Unwanted Content">Promoting Unwanted Content</option>
-                        {/* <option value="I Just Don’t Like the Post">I Just Don’t Like the Post</option> */}
-                      </select>
-                      <button 
-                        onClick={() => handleReportClick(blog._id)}
-                        className="report-button"
-                      >
-                        Report
-                      </button>
+                      <h2>{blog.title}</h2>
+                      <p><strong>{blog.author?.name || 'Unknown'}</strong></p>
+                      {blog.image && (
+                        <img
+                          src={`${import.meta.env.VITE_URL}${blog.image}`}
+                          alt="Blog"
+                          className="blog-image"
+                        />
+                      )}
+                      <p>{blog.content}</p>
+
+                      <div className="action-section">
+                        {currentUser && currentUser.id === blog.author._id ? (
+                          <>
+                            <button onClick={() => handleEdit(blog)}>
+                              <FaEdit /> Edit
+                            </button>
+                            <button onClick={() => handleDelete(blog._id)}>
+                              <FaTrash /> Delete
+                            </button>
+                          </>
+                        ) : (
+                          <>
+                            <select onChange={(e) => setReportReason(e.target.value)} value={reportReason}>
+                              <option value="Violence Content">Violence Content</option>
+                              <option value="False Information">False Information</option>
+                              <option value="Nudity or Sexual Content">Nudity or Sexual Content</option>
+                              <option value="Promoting Unwanted Content">Promoting Unwanted Content</option>
+                              {/* <option value="I Just Don't Like the Post">I Just Don't Like the Post</option> */}
+                            </select>
+                            <button 
+                              onClick={() => handleReportClick(blog._id)}
+                              className="report-button"
+                            >
+                              Report
+                            </button>
+                          </>
+                        )}
+                      </div>
+
+                      {blog.showComments && (
+                        <div className="comment-section">
+                          <input
+                            type="text"
+                            placeholder="Add a comment..."
+                            onKeyDown={(e) => {
+                              if (e.key === 'Enter') handleLike(index, e.target.value);
+                            }}
+                          />
+                          <ul className="comments-list">
+                            {blog.comments?.map((comment, i) => (
+                              <li key={i}>{comment}</li>
+                            ))}
+                          </ul>
+                        </div>
+                      )}
                     </>
                   )}
                 </div>
-
-                {blog.showComments && (
-                  <div className="comment-section">
-                    <input
-                      type="text"
-                      placeholder="Add a comment..."
-                      onKeyDown={(e) => {
-                        if (e.key === 'Enter') handleLike(index, e.target.value);
-                      }}
-                    />
-                    <ul className="comments-list">
-                      {blog.comments?.map((comment, i) => (
-                        <li key={i}>{comment}</li>
-                      ))}
-                    </ul>
-                  </div>
-                )}
-              </>
+              ))
+            ) : (
+              <p className="no-blogs">No blogs available</p>
             )}
           </div>
-        ))
-      ) : (
-        <p className="no-blogs">No blogs available</p>
-      )}
+        </div>
+      </div>
     </div>
   );
 };

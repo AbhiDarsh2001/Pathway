@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import Header from './Header';
 import useAuth from '../../Components/Function/useAuth';
 import FilterComponent from '../../Components/Filter/filter';
-import CourseList from '../../Components/CourseList';
-import './Ucourselist.css'; // Make sure the updated styles are imported
+import './Ucourselist.css';
 
 const UCourseList = () => {
     useAuth();
@@ -36,16 +36,52 @@ const UCourseList = () => {
     }, [filters]);
 
     return (
-        <div>
-            <Header />
-            <div className="course-list-container">
-                {/* Left-side filter */}
-                <div className="filter-component">
-                    <FilterComponent setFilters={setFilters} />
+        <div className="home-container">
+            {/* Filter Sidebar */}
+            <div className="filter-sidebar">
+                <div className="logo-container">
+                    <img
+                        src="src/assets/CareerPathway.png"
+                        alt="Career Pathway Logo"
+                        className="logo"
+                    />
                 </div>
+                <FilterComponent setFilters={setFilters} type="course" />
+            </div>
 
-                {/* Right-side course list */}
-                <CourseList courses={courses} />
+            {/* Main Content */}
+            <div className="content">
+                <Header />
+                <div className="welcome-section">
+                    <div className="section-header">
+                        <h2>Available Course Opportunities</h2>
+                        <div className="search-box">
+                            <input type="text" placeholder="Search courses..." className="search-input" />
+                        </div>
+                    </div>
+
+                    <div className="course-grid">
+                        {courses.map((course) => (
+                            <div key={course._id} className="course-card">
+                                <div className="course-card-content">
+                                    <h3>{course.name}</h3>
+                                    <p className="course-description">{course.description}</p>
+                                    <div className="course-meta">
+                                        <span className="category-tag">
+                                            {course.category ? course.category.name : 'N/A'}
+                                        </span>
+                                        <span className="course-duration">
+                                            <i className="fas fa-clock"></i> {course.duration || 'Duration N/A'}
+                                        </span>
+                                    </div>
+                                    <Link to={`/Uviewcourse/${course._id}`}>
+                                        <button className="view-details-btn">View Details</button>
+                                    </Link>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                </div>
             </div>
         </div>
     );
