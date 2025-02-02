@@ -37,7 +37,7 @@ const reportRoutes = require("./routes/reportRoutes.js");
 const ViewReportRoutes = require("./routes/Reportroute.js");
 const InstituteRoutes= require("./routes/institute.js");
 //const chatBot=require("./routes/chatBot.js");
-
+const TestRoutes=require("./routes/Test.js");
 const gemini=require("./routes/gemini.js");
 // Middleware for CORS
 
@@ -295,6 +295,8 @@ app.use("/report", reportRoutes);
 app.use('/viewreport',ViewReportRoutes);
 app.use('/institute',InstituteRoutes);
 //app.use('/chatBot',chatBot);
+app.use('/test',TestRoutes);
+
 
 app.use('/gemini',gemini);
 

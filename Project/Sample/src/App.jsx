@@ -39,6 +39,10 @@ import InstituteRegistration from "./Pages/Institute/institute";
 import InstitutionList from "./Pages/admin/institutionList";
 import ChatBot from "./Components/ChatBot/chatbot";
 import ErrorBoundary from './Components/ChatBot/ErrorBoundary';
+import AddTest from "./Pages/admin/AddTest";
+import Tests from "./Components/Tests/tests";
+import TestBox from "./Components/Tests/TestBox";
+import QuizPage from "./Components/Tests/Testpage";
 
 function App() {
     return (
@@ -92,6 +96,11 @@ function App() {
 					<ChatBot />
 				</ErrorBoundary>
 			} />
+			<Route path="/addtest" element={<AddTest />} />
+			<Route path="/tests" element={<Tests />} />
+			<Route path="/testbox" element={<TestBox />} />
+			<Route path="/quiz/:testId" element={<QuizPage />} />
+
 
         </Routes>
     );
