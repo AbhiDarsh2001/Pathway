@@ -160,7 +160,7 @@ const ChatBot = () => {
         <div className="sidebar">
           <div className="logo-container">
             <Typography variant="h5" sx={{ color: '#0277bd', fontWeight: 'bold', textAlign: 'center' }}>
-              AI Learning Hub
+              Career Pathway
             </Typography>
           </div>
 
