@@ -153,11 +153,11 @@ const BlogList = () => {
           <Link to="/ucourselist" className="nav-item">
             Courses
           </Link>
-          <Link to="/ubloglist" className="nav-item">
+          <Link to="/blogs" className="nav-item">
             Blogs
           </Link>
-          <Link to="/uprofile" className="nav-item">
-            Profile
+          <Link to="/tests" className="nav-item">
+            Tests
           </Link>
         </div>
       </div>

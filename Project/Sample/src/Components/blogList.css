@@ -19,16 +19,19 @@
 }
 
 .blog-card {
-    background-color: #fff;
+    background-color: #f8fbfd;
     margin-bottom: 2rem;
     padding: 1.5rem;
     border-radius: 12px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 8px rgba(2, 119, 189, 0.08);
     transition: transform 0.2s ease-in-out;
+    border: 1px solid transparent;
 }
 
 .blog-card:hover {
-    transform: scale(1.02);
+    background-color: #ffffff;
+    border-color: #b3e5fc;
+    transform: translateX(2px);
 }
 
 .blog-card h2 {
@@ -60,19 +63,21 @@
 }
 
 .action-section button {
-    background-color: transparent;
+    background-color: #e3f2fd;
+    color: #0277bd;
     border: none;
-    display: flex;
-    align-items: center;
-    gap: 5px;
+    border-radius: 20px;
     cursor: pointer;
-    font-size: 16px;
-    color: #007bff;
-    transition: color 0.3s;
+    font-size: 0.9rem;
+    padding: 6px 12px;
+    transition: all 0.3s ease;
 }
 
 .action-section button:hover {
-    color: #0056b3;
+    background-color: #0277bd;
+    color: white;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(2, 119, 189, 0.2);
 }
 
 .comment-section {

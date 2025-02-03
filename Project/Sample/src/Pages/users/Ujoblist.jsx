@@ -55,9 +55,9 @@ const UJobList = () => {
         <div className="welcome-section">
           <div className="section-header">
             <h2>Available Job Opportunities</h2>
-            <div className="search-box">
+            {/* <div className="search-box">
               <input type="text" placeholder="Search jobs..." className="search-input" />
-            </div>
+            </div> */}
           </div>
 
           <div className="job-grid">

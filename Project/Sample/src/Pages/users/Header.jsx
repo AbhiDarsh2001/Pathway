@@ -21,7 +21,7 @@ const Header = () => {
         <a href="/Ucourselist" className="nav-link" id="viewcourse">Course</a>
         <a href="/blogs" className="nav-link" id='viewblog'>Blog</a>
         <a href="/chatBot" className="nav-link" id='chatBot'>ChatBot</a>
-        <USearchEntrance />
+        {/* <USearchEntrance /> */}
 
         {/* Profile with Hover Dropdown */}
         <div className="profile-container">

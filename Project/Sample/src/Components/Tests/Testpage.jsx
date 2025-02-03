@@ -1,8 +1,11 @@
 import { useEffect, useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, Link } from "react-router-dom";
 import Swal from "sweetalert2";
+import useAuth from '../../Components/Function/useAuth';
+import './TestBox.css';
 
 const QuizPage = () => {
+    useAuth();
   const { testId } = useParams();
   const navigate = useNavigate();
   const [quiz, setQuiz] = useState(null);
@@ -123,69 +126,106 @@ const QuizPage = () => {
   if (!quiz) return <div className="not-found-container">Quiz not found</div>;
 
   return (
-    <div style={{ padding: "20px", maxWidth: "800px", margin: "auto" }}>
-      <h1>{quiz.title}</h1>
-      <p><strong>Duration:</strong> {quiz.duration} minutes</p>
-      <p><strong>Total Marks:</strong> {quiz.totalMarks}</p>
-      <p><strong>Description:</strong> {quiz.description}</p>
-      
-      {quiz.questions?.map((q, qIndex) => (
-        <div key={qIndex} style={{ 
-          marginBottom: "20px", 
-          padding: "15px", 
-          border: "1px solid #ddd", 
-          borderRadius: "10px", 
-          backgroundColor: "#f9f9f9" 
-        }}>
-          <h3>Q{qIndex + 1}. {q.questionText}</h3>
-          {q.options?.map((option, oIndex) => (
-            <label key={oIndex} style={{ 
-              display: "block", 
-              margin: "10px 0",
-              padding: "8px",
-              cursor: submitted ? "default" : "pointer",
-              backgroundColor: answers[qIndex] === oIndex ? "#e3f2fd" : "transparent",
-              borderRadius: "5px"
-            }}>
-              <input 
-                type="radio" 
-                name={`question-${qIndex}`} 
-                value={oIndex} 
-                checked={answers[qIndex] === oIndex}
-                onChange={() => handleOptionChange(qIndex, oIndex)}
-                disabled={submitted}
-              />
-              {option.optionText}
-            </label>
-          ))}
-          <p style={{ fontSize: "14px", color: "#666", marginTop: "10px" }}>
-            Marks: {q.marks}
-          </p>
+    <div className="home-container">
+      {/* Sidebar */}
+      <div className="sidebar">
+        <div className="logo-container">
+          <img
+            src="src/assets/CareerPathway.png"
+            alt="Career Pathway Logo"
+            className="logo"
+          />
         </div>
-      ))}
+        
+        <div className="sidebar-nav">
+          <Link to="/home" className="nav-item">Home</Link>
+          <Link to="/ujoblist" className="nav-item">Jobs</Link>
+          <Link to="/ucourselist" className="nav-item">Courses</Link>
+          <Link to="/ubloglist" className="nav-item">Blogs</Link>
+          <Link to="/tests" className="nav-item">Tests</Link>
+        </div>
+      </div>
 
-      {!submitted ? (
-        <button 
-          onClick={handleSubmit} 
-          disabled={loading}
-          style={{ 
-            padding: "10px 20px", 
-            backgroundColor: loading ? "#ccc" : "#007bff", 
-            color: "#fff", 
-            border: "none", 
-            borderRadius: "5px", 
-            cursor: loading ? "not-allowed" : "pointer" 
-          }}
-        >
-          {loading ? "Submitting..." : "Submit Quiz"}
-        </button>
-      ) : (
-        <div className="success-message">
-          <p>Quiz submitted! Your responses have been recorded.</p>
-          <p>Score: {score}</p>
-          <button onClick={() => navigate('/tests')}>Back to Tests</button>
-        </div>
-      )}
+      {/* Main Content */}
+      <div className="content">
+        {loading && <div className="loading">Loading quiz...</div>}
+        {error && (
+          <div className="error">
+            <p>Error: {error}</p>
+            <button className="start-test-btn" onClick={() => navigate('/tests')}>
+              Back to Tests
+            </button>
+          </div>
+        )}
+        {!loading && !error && quiz && (
+          <div className="welcome-section">
+            <div className="quiz-container">
+              <h1>{quiz.title}</h1>
+              <div className="quiz-info">
+                <p><strong>Duration:</strong> {quiz.duration} minutes</p>
+                <p><strong>Total Marks:</strong> {quiz.totalMarks}</p>
+                <p><strong>Description:</strong> {quiz.description}</p>
+              </div>
+              
+              {quiz.questions?.map((q, qIndex) => (
+                <div key={qIndex} style={{ 
+                  marginBottom: "20px", 
+                  padding: "15px", 
+                  border: "1px solid #ddd", 
+                  borderRadius: "10px", 
+                  backgroundColor: "#f9f9f9" 
+                }}>
+                  <h3>Q{qIndex + 1}. {q.questionText}</h3>
+                  {q.options?.map((option, oIndex) => (
+                    <label key={oIndex} style={{ 
+                      display: "block", 
+                      margin: "10px 0",
+                      padding: "8px",
+                      cursor: submitted ? "default" : "pointer",
+                      backgroundColor: answers[qIndex] === oIndex ? "#e3f2fd" : "transparent",
+                      borderRadius: "5px"
+                    }}>
+                      <input 
+                        type="radio" 
+                        name={`question-${qIndex}`} 
+                        value={oIndex} 
+                        checked={answers[qIndex] === oIndex}
+                        onChange={() => handleOptionChange(qIndex, oIndex)}
+                        disabled={submitted}
+                      />
+                      {option.optionText}
+                    </label>
+                  ))}
+                  <p style={{ fontSize: "14px", color: "#666", marginTop: "10px" }}>
+                    Marks: {q.marks}
+                  </p>
+                </div>
+              ))}
+
+              {!submitted ? (
+                <button 
+                  onClick={handleSubmit} 
+                  disabled={loading}
+                  className="start-test-btn"
+                >
+                  {loading ? "Submitting..." : "Submit Quiz"}
+                </button>
+              ) : (
+                <div className="success-message">
+                  <p>Quiz submitted! Your responses have been recorded.</p>
+                  <p>Score: {score}</p>
+                  <button 
+                    className="start-test-btn"
+                    onClick={() => navigate('/tests')}
+                  >
+                    Back to Tests
+                  </button>
+                </div>
+              )}
+            </div>
+          </div>
+        )}
+      </div>
     </div>
   );
 };

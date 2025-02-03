@@ -4,6 +4,7 @@ import Header from './Header';
 import useAuth from '../../Components/Function/useAuth';
 import FilterComponent from '../../Components/Filter/filter';
 import './Ucourselist.css';
+import USearchEntrance from '../../Components/search/search';
 
 const UCourseList = () => {
     useAuth();
@@ -54,9 +55,9 @@ const UCourseList = () => {
                 <Header />
                 <div className="welcome-section">
                     <div className="section-header">
-                        <h2>Available Course Opportunities</h2>
+                        <h2>Course</h2>
                         <div className="search-box">
-                            <input type="text" placeholder="Search courses..." className="search-input" />
+                        <USearchEntrance />                        
                         </div>
                     </div>
 

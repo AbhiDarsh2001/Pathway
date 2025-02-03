@@ -2,9 +2,16 @@ import React from "react";
 import "./tests.css";
 import useAuth from "../Function/useAuth";
 import Header from "../../Pages/users/Header";
+import { useNavigate } from "react-router-dom";
 
 const Tests = () => {
   useAuth();
+  const navigate = useNavigate();
+
+  const handleStartTest = () => {
+    navigate('/testbox');
+  };
+
   return (
     <div className="home-container">
       {/* Sidebar */}
@@ -18,10 +25,10 @@ const Tests = () => {
         </div>
         {/* Navigation links */}
         <nav className="sidebar-nav">
-          <a href="/dashboard" className="nav-item">Dashboard</a>
-          <a href="/courses" className="nav-item">Courses</a>
-          <a href="/tests" className="nav-item active">Psychometric Tests</a>
-          <a href="/discussions" className="nav-item">Discussions</a>
+          <a href="/home" className="nav-item">Dashboard</a>
+          <a href="/Ucourselist" className="nav-item">Courses</a>
+          <a href="/tests" className="nav-item">Psychometric Tests</a>
+          <a href="/blogs" className="nav-item">Discussions</a>
         </nav>
       </div>
 
@@ -41,7 +48,7 @@ const Tests = () => {
             <div className="info-card">
               <h3>Aptitude Test</h3>
               <p>Evaluate your skills and cognitive abilities.</p>
-              <button className="action-button">Begin Test</button>
+              <button className="action-button" onClick={handleStartTest}>Begin Test</button>
             </div>
             {/* <div className="info-card">
               <h3>Career Interest Test</h3>

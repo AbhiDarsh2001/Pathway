@@ -1,7 +1,10 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
+import useAuth from '../../Components/Function/useAuth';
+import './TestBox.css';
 
 const TestBox = () => {
+  useAuth();
   const [mockTests, setMockTests] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -27,36 +30,61 @@ const TestBox = () => {
       });
   }, []);
 
-  if (loading) return <div className="loading-container">Loading tests...</div>;
-  if (error) return <div className="error-container">Error: {error}</div>;
-  if (!mockTests.length) return <div className="no-data-container">No tests available</div>;
-
   return (
-    <div style={{ display: "flex", flexWrap: "wrap", gap: "20px", padding: "20px" }}>
-      {mockTests.map((test) => (
-        <div 
-          key={test._id} 
-          onClick={() => navigate(`/quiz/${test._id}`)} 
-          style={{
-            border: "1px solid #ddd",
-            padding: "15px",
-            borderRadius: "10px",
-            boxShadow: "2px 2px 10px rgba(0, 0, 0, 0.1)",
-            textAlign: "center",
-            width: "250px",
-            backgroundColor: "#fff",
-            cursor: "pointer",
-            transition: "transform 0.2s",
-            '&:hover': {
-              transform: "scale(1.02)"
-            }
-          }}
-        >
-          <h2 style={{ fontSize: "18px", fontWeight: "bold" }}>{test.title}</h2>
-          <p style={{ fontSize: "14px", color: "#555" }}>Total Marks: {test.totalMarks}</p>
-          <p style={{ fontSize: "14px", color: "#666" }}>Duration: {test.duration} mins</p>
+    <div className="home-container">
+      {/* Sidebar */}
+      <div className="sidebar">
+        <div className="logo-container">
+          <img
+            src="src/assets/CareerPathway.png"
+            alt="Career Pathway Logo"
+            className="logo"
+          />
         </div>
-      ))}
+        
+        <div className="sidebar-nav">
+          <Link to="/home" className="nav-item">Home</Link>
+          <Link to="/ujoblist" className="nav-item">Jobs</Link>
+          <Link to="/ucourselist" className="nav-item">Courses</Link>
+          <Link to="/blogs" className="nav-item">Blogs</Link>
+          <Link to="/tests" className="nav-item">Tests</Link>
+        </div>
+      </div>
+
+      {/* Main Content */}
+      <div className="content">
+        <div className="welcome-section">
+          <div className="section-header">
+            <h2>Available Tests</h2>
+            <div className="search-box">
+              <input type="text" placeholder="Search tests..." className="search-input" />
+            </div>
+          </div>
+
+          {loading && <div className="loading">Loading tests...</div>}
+          {error && <div className="error">Error: {error}</div>}
+          {!loading && !error && !mockTests.length && (
+            <div className="empty">No tests available</div>
+          )}
+
+          <div className="tests-container">
+            {mockTests.map((test) => (
+              <div 
+                key={test._id} 
+                className="test-box"
+                onClick={() => navigate(`/quiz/${test._id}`)}
+              >
+                <h2 className="test-title">{test.title}</h2>
+                <div className="test-details">
+                  <span>Total Marks: {test.totalMarks}</span>
+                  <span>Duration: {test.duration} mins</span>
+                </div>
+                <button className="start-test-btn">Start Test</button>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
     </div>
   );
 };
