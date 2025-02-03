@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
 
 const QuizPage = () => {
   const { testId } = useParams();
@@ -9,6 +10,7 @@ const QuizPage = () => {
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [score, setScore] = useState(null);
 
   useEffect(() => {
     const fetchQuiz = async () => {
@@ -49,29 +51,62 @@ const QuizPage = () => {
 
   const handleSubmit = async () => {
     if (submitted) return;
-    
+
     try {
       setLoading(true);
-      const response = await fetch(`http://localhost:8080/test/${testId}/submit`, {
+      setError(null);
+
+      const token = localStorage.getItem('token');
+      if (!token) {
+        throw new Error('No authentication token found');
+      }
+
+      // Convert answers object to array format
+      const answersArray = quiz.questions.map((_, index) => {
+        return {
+          questionIndex: index,
+          selectedOption: answers[index] !== undefined ? answers[index] : null
+        };
+      });
+
+      // Log the data being sent
+      console.log('Submitting answers:', answersArray);
+
+      const response = await fetch(`http://localhost:8080/test/submit/${testId}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          'Authorization': token,
         },
-        body: JSON.stringify({ 
-          testId,
-          answers 
-        }),
+        body: JSON.stringify({ answers: answersArray }),
       });
 
+      const data = await response.json();
+
       if (!response.ok) {
-        throw new Error('Failed to submit quiz');
+        console.error('Server response:', data);
+        throw new Error(data.message || 'Failed to submit quiz');
       }
 
-      const result = await response.json();
       setSubmitted(true);
-      console.log("Quiz submitted successfully", result);
+      setScore(data.score);
+      
+      Swal.fire({
+        title: 'Quiz Submitted!',
+        text: `Your score: ${data.score}/${data.totalPossibleScore} (${data.percentage.toFixed(2)}%)`,
+        icon: 'success',
+        confirmButtonText: 'OK'
+      });
+
     } catch (err) {
       console.error("Error submitting quiz:", err);
+      
+      Swal.fire({
+        title: 'Error!',
+        text: err.message || 'Failed to submit quiz',
+        icon: 'error',
+        confirmButtonText: 'OK'
+      });
       setError(err.message);
     } finally {
       setLoading(false);
@@ -147,6 +182,7 @@ const QuizPage = () => {
       ) : (
         <div className="success-message">
           <p>Quiz submitted! Your responses have been recorded.</p>
+          <p>Score: {score}</p>
           <button onClick={() => navigate('/tests')}>Back to Tests</button>
         </div>
       )}

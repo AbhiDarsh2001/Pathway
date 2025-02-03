@@ -2,6 +2,27 @@ const express = require('express');
 const router = express.Router();
 const MockTest = require('../models/Testmodel'); // Assuming the MockTest model is in the 'models' folder
 const PsychometricTest = require('../models/Testmodel');
+const jwt = require('jsonwebtoken')
+const dotenv = require('dotenv')
+const QuizResult = require('../models/Quizresult');
+
+dotenv.config()
+
+const verifyToken = (req, res, next) => {
+  const token = req.headers['authorization'];
+  if (!token) {
+    return res.status(403).json({ message: "No token provided." });
+  }
+
+  // No need to split - keeping consistent with profile routes
+  jwt.verify(token, process.env.JSON_WEB_TOKEN_SECRET_KEY, (err, decoded) => {
+    if (err) {
+      return res.status(401).json({ message: "Failed to authenticate token." });
+    }
+    req.email = decoded.email;
+    next();
+  });
+};
 
 
 // get number of mocktest
@@ -269,16 +290,21 @@ router.get('/tests', async (req, res) => {
 });
 
 // Get a single test by ID
-router.get('/test/:id', async (req, res) => {
+router.get("/test/:id", async (req, res) => {
   try {
+    console.log('Fetching test with ID:', req.params.id);
     const test = await MockTest.findById(req.params.id);
+    
     if (!test) {
-      return res.status(404).json({ message: 'Test not found' });
+      console.log('Test not found for ID:', req.params.id);
+      return res.status(404).json({ message: "Test not found" });
     }
+    
+    console.log('Test found:', test.title);
     res.json(test);
-  } catch (error) {
-    console.error('Error fetching test:', error);
-    res.status(500).json({ message: 'Error fetching test details' });
+  } catch (err) {
+    console.error('Error fetching test:', err);
+    res.status(500).json({ message: err.message });
   }
 });
 
@@ -344,45 +370,130 @@ router.post('/add-test', async (req, res) => {
     }
 });
 
-// Add this new route for submitting test answers
-router.post('/:testId/submit', async (req, res) => {
-  try {
-    const { testId } = req.params;
-    const { answers } = req.body;
 
-    // Fetch the test
-    const test = await MockTest.findById(testId);
-    if (!test) {
-      return res.status(404).json({ message: 'Test not found' });
+//Result
+router.post('/submit/:testId', verifyToken, async (req, res) => {
+  const { testId } = req.params;
+  const { answers } = req.body;
+  const { email } = req;
+
+  try {
+    // Log incoming data for debugging
+    console.log('Received submission:', {
+      testId,
+      email,
+      answers
+    });
+
+    const quiz = await MockTest.findById(testId);
+    if (!quiz) {
+      return res.status(404).json({ message: "Quiz not found" });
     }
 
-    // Calculate score
+    // Validate answers format
+    if (!Array.isArray(answers)) {
+      return res.status(400).json({ 
+        message: "Invalid answers format. Expected an array of answers." 
+      });
+    }
+
     let score = 0;
     let totalPossibleScore = 0;
 
-    test.questions.forEach((question, index) => {
-      const userAnswer = answers[index];
-      if (typeof userAnswer === 'number' && 
-          question.options[userAnswer] && 
-          question.options[userAnswer].isCorrect) {
-        score += question.marks;
-      }
+    // Log questions and answers for debugging
+    console.log('Quiz questions:', quiz.questions.length);
+    console.log('Submitted answers:', answers.length);
+
+    quiz.questions.forEach((question, index) => {
       totalPossibleScore += question.marks;
+      
+      // Safely access the answer
+      const answer = answers[index];
+      if (!answer) {
+        console.log(`No answer provided for question ${index}`);
+        return;
+      }
+
+      const selectedOption = answer.selectedOption;
+      console.log(`Question ${index}: Selected option ${selectedOption}`);
+
+      if (typeof selectedOption === 'number' && 
+          question.options[selectedOption] && 
+          question.options[selectedOption].isCorrect) {
+        score += question.marks;
+        console.log(`Correct answer for question ${index}, added ${question.marks} marks`);
+      }
     });
 
-    // You might want to save the submission to a database here
-    
-    res.status(200).json({
-      message: 'Test submitted successfully',
+    // Create and save quiz result
+    const quizResult = new QuizResult({
+      email,
+      testId,
+      score
+    });
+
+    await quizResult.save();
+    console.log('Quiz result saved:', quizResult);
+
+    res.json({ 
+      message: "Quiz submitted successfully", 
       score,
       totalPossibleScore,
       percentage: (score / totalPossibleScore) * 100
     });
 
-  } catch (error) {
-    console.error('Error submitting test:', error);
-    res.status(500).json({ message: 'Error submitting test', error: error.message });
+  } catch (err) {
+    console.error("Error submitting quiz:", err);
+    // Send more detailed error information
+    res.status(500).json({ 
+      message: "Failed to submit quiz",
+      error: err.message,
+      stack: process.env.NODE_ENV === 'development' ? err.stack : undefined
+    });
   }
 });
+
+
+
+// // Add this new route for submitting test answers
+// router.post('/:testId/submit', async (req, res) => {
+//   try {
+//     const { testId } = req.params;
+//     const { answers } = req.body;
+
+//     // Fetch the test
+//     const test = await MockTest.findById(testId);
+//     if (!test) {
+//       return res.status(404).json({ message: 'Test not found' });
+//     }
+
+//     // Calculate score
+//     let score = 0;
+//     let totalPossibleScore = 0;
+
+//     test.questions.forEach((question, index) => {
+//       const userAnswer = answers[index];
+//       if (typeof userAnswer === 'number' && 
+//           question.options[userAnswer] && 
+//           question.options[userAnswer].isCorrect) {
+//         score += question.marks;
+//       }
+//       totalPossibleScore += question.marks;
+//     });
+
+//     // You might want to save the submission to a database here
+    
+//     res.status(200).json({
+//       message: 'Test submitted successfully',
+//       score,
+//       totalPossibleScore,
+//       percentage: (score / totalPossibleScore) * 100
+//     });
+
+//   } catch (error) {
+//     console.error('Error submitting test:', error);
+//     res.status(500).json({ message: 'Error submitting test', error: error.message });
+//   }
+// });
 
 module.exports = router;
