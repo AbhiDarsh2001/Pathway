@@ -1,3 +1,54 @@
+.home-container {
+    display: flex;
+    min-height: 100vh;
+}
+
+.sidebar {
+    width: 250px;
+    background-color: #fff;
+    padding: 20px;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+}
+
+.logo-container {
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.logo {
+    max-width: 150px;
+    height: auto;
+}
+
+.content {
+    flex: 1;
+    padding: 20px;
+    background-color: #f5f5f5;
+}
+
+.welcome-section {
+    background-color: #fff;
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.add-test-container {
+    padding: 20px;
+}
+
+.test-form {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
 .admin-layout {
     display: flex;
     min-height: 100vh;
@@ -23,12 +74,6 @@
     text-align: center;
     margin-bottom: 2rem;
     font-size: 2rem;
-}
-
-.test-form {
-    display: flex;
-    flex-direction: column;
-    gap: 1.5rem;
 }
 
 .form-group {

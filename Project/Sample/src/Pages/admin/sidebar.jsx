@@ -32,7 +32,7 @@ const Sidebar = () => {
            <span className="sidebar-label">Add Job</span>
         </button> */}
         <button onClick={() => navigate('/iconjob')}>
-          <FontAwesomeIcon icon={faEye} />
+          <FontAwesomeIcon icon={faEye} /> 
         <span className="sidebar-label">View Jobs</span>
         </button>
         <button onClick={() => navigate('/addmanager')}>

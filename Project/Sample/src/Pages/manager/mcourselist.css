@@ -94,3 +94,104 @@
         font-size: 14px;
     }
 }
+
+.home-container {
+    display: flex;
+    min-height: 100vh;
+}
+
+.sidebar {
+    width: 250px;
+    background-color: #fff;
+    padding: 20px;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+}
+
+.logo-container {
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.logo {
+    max-width: 150px;
+    height: auto;
+}
+
+.content {
+    flex: 1;
+    padding: 20px;
+    background-color: #f5f5f5;
+}
+
+.welcome-section {
+    background-color: #fff;
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.course-grid,
+.job-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+}
+
+.course-card,
+.job-card {
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s;
+}
+
+.course-card:hover,
+.job-card:hover {
+    transform: translateY(-5px);
+}
+
+.course-card-content,
+.job-card-content {
+    padding: 20px;
+}
+
+.course-card h3,
+.job-card h3 {
+    margin: 0 0 10px 0;
+    color: #333;
+}
+
+.course-description,
+.job-description,
+.job-category {
+    color: #666;
+    margin-bottom: 15px;
+}
+
+.view-details-btn {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 100%;
+}
+
+.view-details-btn:hover {
+    background-color: #0056b3;
+}
+
+@media (max-width: 768px) {
+    .course-grid,
+    .job-grid {
+        grid-template-columns: 1fr;
+    }
+}

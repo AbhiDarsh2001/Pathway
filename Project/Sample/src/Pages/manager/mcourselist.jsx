@@ -26,18 +26,41 @@ const MCourseList = () => {
     }, []);
 
     return (
-        <div className="course-list-page">
-            {<MSidebar/>}
-            <div className="Course-list">
-                {courses.map((course) => (
-                    <div key={course._id} className="course-item">
-                        <h2>{course.name}</h2>
-                        <p>{course.fullName}</p>
-                        <Link to={`/mviewcourse/${course._id}`}>
-                            <button className="detail-btn">Details</button>
-                        </Link>
+        <div className="home-container">
+            {/* Sidebar */}
+            <div className="sidebar">
+                <div className="logo-container">
+                    <img
+                        src="src/assets/CareerPathway.png"
+                        alt="Career Pathway Logo"
+                        className="logo"
+                    />
+                </div>
+                <MSidebar />
+            </div>
+
+            {/* Main Content Area */}
+            <div className="content">
+                {/* Course List Section */}
+                <div className="welcome-section">
+                    <div className="section-header">
+                        <h2>Courses</h2>
                     </div>
-                ))}
+                    
+                    <div className="course-grid">
+                        {courses.map((course) => (
+                            <div key={course._id} className="course-card">
+                                <div className="course-card-content">
+                                    <h3>{course.name}</h3>
+                                    <p className="course-description">{course.fullName}</p>
+                                    <Link to={`/mviewcourse/${course._id}`}>
+                                        <button className="view-details-btn">View Details</button>
+                                    </Link>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                </div>
             </div>
         </div>
     );

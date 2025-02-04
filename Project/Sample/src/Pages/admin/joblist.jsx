@@ -3,10 +3,12 @@ import { Link } from 'react-router-dom';
 import './joblist.css';
 import Sidebar from './sidebar';
 import useAuth from '../../Components/Function/useAuth';
+import { useParams, useNavigate } from 'react-router-dom';
 
 const JobList = () => {
     useAuth();
     const [jobs, setJobs] = useState([]);
+    const navigate = useNavigate();
 
     useEffect(() => {
         const fetchJobs = async () => {
@@ -44,8 +46,8 @@ const JobList = () => {
                 {/* Job List Section */}
                 <div className="welcome-section">
                     <div className="section-header">
-                        <h2>Available Job Positions</h2>
-                        <button className="action-button">+ Add New Job</button>
+                        <h2>Job </h2>
+                        <button className="action-button" onClick={() => navigate(`/addjob`)}>+ Add New Job</button>
                     </div>
                     
                     <div className="job-grid">

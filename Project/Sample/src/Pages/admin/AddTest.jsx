@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import "./AddTest.css";
+import Sidebar from './sidebar';
 
 const ManMockTestForm = () => {
     const [formData, setFormData] = useState({
@@ -184,150 +185,172 @@ const ManMockTestForm = () => {
     };
 
     return (
-        <div className="add-test-container">
-            <h2 className="add-test-title">Add Mock Test</h2>
-            <form className="test-form" onSubmit={handleSubmit}>
-                <div className="form-group">
-                    <input 
-                        type="text" 
-                        name="title" 
-                        placeholder="Title" 
-                        value={formData.title} 
-                        onChange={handleChange} 
-                        required 
-                        className="input-field"
-                    />
-                    <input 
-                        type="text" 
-                        name="description" 
-                        placeholder="Description" 
-                        value={formData.description} 
-                        onChange={handleChange} 
-                        required 
-                        className="input-field"
-                    />
-                    <input 
-                        type="number" 
-                        name="duration" 
-                        placeholder="Duration (minutes)" 
-                        value={formData.duration} 
-                        onChange={handleChange} 
-                        required 
-                        className="input-field"
-                    />
-                    <input 
-                        type="number" 
-                        name="totalMarks" 
-                        placeholder="Total Marks" 
-                        value={formData.totalMarks} 
-                        onChange={handleChange} 
-                        required 
-                        className="input-field"
-                    />
-                    <input 
-                        type="number" 
-                        name="numberOfQuestions" 
-                        placeholder="Number of Questions" 
-                        value={formData.numberOfQuestions} 
-                        onChange={handleChange} 
-                        required 
-                        className="input-field"
-                    />
-                    <input 
-                        type="number" 
-                        name="passingMarks" 
-                        placeholder="Passing Marks" 
-                        value={formData.passingMarks} 
-                        onChange={handleChange} 
-                        required 
-                        className="input-field"
+        <div className="home-container">
+            {/* Sidebar */}
+            <div className="sidebar">
+                <div className="logo-container">
+                    <img
+                        src="src/assets/CareerPathway.png"
+                        alt="Career Pathway Logo"
+                        className="logo"
                     />
                 </div>
+                <Sidebar />
+            </div>
 
-                {formData.numberOfQuestions && (
-                    <div className="progress-indicator">
-                        Questions added: {formData.questions.length} / {formData.numberOfQuestions}
+            {/* Main Content Area */}
+            <div className="content">
+                <div className="welcome-section">
+                    <div className="section-header">
+                        <h2>Add Mock Test</h2>
                     </div>
-                )}
+                    
+                    <div className="add-test-container">
+                        <form className="test-form" onSubmit={handleSubmit}>
+                            <div className="form-group">
+                                <input 
+                                    type="text" 
+                                    name="title" 
+                                    placeholder="Title" 
+                                    value={formData.title} 
+                                    onChange={handleChange} 
+                                    required 
+                                    className="input-field"
+                                />
+                                <input 
+                                    type="text" 
+                                    name="description" 
+                                    placeholder="Description" 
+                                    value={formData.description} 
+                                    onChange={handleChange} 
+                                    required 
+                                    className="input-field"
+                                />
+                                <input 
+                                    type="number" 
+                                    name="duration" 
+                                    placeholder="Duration (minutes)" 
+                                    value={formData.duration} 
+                                    onChange={handleChange} 
+                                    required 
+                                    className="input-field"
+                                />
+                                <input 
+                                    type="number" 
+                                    name="totalMarks" 
+                                    placeholder="Total Marks" 
+                                    value={formData.totalMarks} 
+                                    onChange={handleChange} 
+                                    required 
+                                    className="input-field"
+                                />
+                                <input 
+                                    type="number" 
+                                    name="numberOfQuestions" 
+                                    placeholder="Number of Questions" 
+                                    value={formData.numberOfQuestions} 
+                                    onChange={handleChange} 
+                                    required 
+                                    className="input-field"
+                                />
+                                <input 
+                                    type="number" 
+                                    name="passingMarks" 
+                                    placeholder="Passing Marks" 
+                                    value={formData.passingMarks} 
+                                    onChange={handleChange} 
+                                    required 
+                                    className="input-field"
+                                />
+                            </div>
 
-                {(!formData.numberOfQuestions || formData.questions.length < parseInt(formData.numberOfQuestions)) ? (
-                    <div className="question-section">
-                        <h3 className="question-title">Add Question</h3>
-                        <input 
-                            type="text" 
-                            name="questionText" 
-                            placeholder="Question" 
-                            value={currentQuestion.questionText} 
-                            onChange={handleQuestionChange} 
-                            required 
-                            className="input-field"
-                        />
-                        <input 
-                            type="number" 
-                            name="marks" 
-                            placeholder="Marks" 
-                            value={currentQuestion.marks} 
-                            onChange={handleQuestionChange} 
-                            required 
-                            className="input-field"
-                        />
-
-                        <h4 className="question-title">Options</h4>
-                        <div className="options-container">
-                            {currentQuestion.options.map((option, index) => (
-                                <div key={index} className="option-group">
-                                    <input
-                                        type="text"
-                                        placeholder={`Option ${index + 1}`}
-                                        value={option.optionText}
-                                        onChange={(e) => handleOptionChange(index, "optionText", e.target.value)}
-                                        required
-                                        className="input-field option-input"
-                                    />
-                                    <label className="checkbox-label">
-                                        <input
-                                            type="checkbox"
-                                            checked={option.isCorrect}
-                                            onChange={(e) => handleOptionChange(index, "isCorrect", e.target.checked)}
-                                        />
-                                        Correct
-                                    </label>
+                            {formData.numberOfQuestions && (
+                                <div className="progress-indicator">
+                                    Questions added: {formData.questions.length} / {formData.numberOfQuestions}
                                 </div>
-                            ))}
-                            <button type="button" onClick={handleAddOption} className="button add-button">Add Option</button>
-                        </div>
+                            )}
 
-                        <h4 className="question-title">Steps</h4>
-                        <div className="steps-container">
-                            {currentQuestion.steps.map((step, index) => (
-                                <div key={index}>
-                                    <input
-                                        type="text"
-                                        placeholder={`Step ${index + 1}`}
-                                        value={step}
-                                        onChange={(e) => handleStepChange(index, e.target.value)}
-                                        required
+                            {(!formData.numberOfQuestions || formData.questions.length < parseInt(formData.numberOfQuestions)) ? (
+                                <div className="question-section">
+                                    <h3 className="question-title">Add Question</h3>
+                                    <input 
+                                        type="text" 
+                                        name="questionText" 
+                                        placeholder="Question" 
+                                        value={currentQuestion.questionText} 
+                                        onChange={handleQuestionChange} 
+                                        required 
                                         className="input-field"
                                     />
+                                    <input 
+                                        type="number" 
+                                        name="marks" 
+                                        placeholder="Marks" 
+                                        value={currentQuestion.marks} 
+                                        onChange={handleQuestionChange} 
+                                        required 
+                                        className="input-field"
+                                    />
+
+                                    <h4 className="question-title">Options</h4>
+                                    <div className="options-container">
+                                        {currentQuestion.options.map((option, index) => (
+                                            <div key={index} className="option-group">
+                                                <input
+                                                    type="text"
+                                                    placeholder={`Option ${index + 1}`}
+                                                    value={option.optionText}
+                                                    onChange={(e) => handleOptionChange(index, "optionText", e.target.value)}
+                                                    required
+                                                    className="input-field option-input"
+                                                />
+                                                <label className="checkbox-label">
+                                                    <input
+                                                        type="checkbox"
+                                                        checked={option.isCorrect}
+                                                        onChange={(e) => handleOptionChange(index, "isCorrect", e.target.checked)}
+                                                    />
+                                                    Correct
+                                                </label>
+                                            </div>
+                                        ))}
+                                        <button type="button" onClick={handleAddOption} className="button add-button">Add Option</button>
+                                    </div>
+
+                                    <h4 className="question-title">Steps</h4>
+                                    <div className="steps-container">
+                                        {currentQuestion.steps.map((step, index) => (
+                                            <div key={index}>
+                                                <input
+                                                    type="text"
+                                                    placeholder={`Step ${index + 1}`}
+                                                    value={step}
+                                                    onChange={(e) => handleStepChange(index, e.target.value)}
+                                                    required
+                                                    className="input-field"
+                                                />
+                                            </div>
+                                        ))}
+                                        <button type="button" onClick={handleAddStep} className="button add-button">Add Step</button>
+                                    </div>
+
+                                    <button type="button" onClick={handleAddQuestion} className="button add-button">Add Question</button>
                                 </div>
-                            ))}
-                            <button type="button" onClick={handleAddStep} className="button add-button">Add Step</button>
-                        </div>
+                            ) : (
+                                <p className="max-questions-message">Maximum number of questions reached.</p>
+                            )}
 
-                        <button type="button" onClick={handleAddQuestion} className="button add-button">Add Question</button>
+                            <button 
+                                type="submit" 
+                                className="button submit-button"
+                                disabled={!formData.numberOfQuestions || formData.questions.length !== parseInt(formData.numberOfQuestions)}
+                            >
+                                Submit Test
+                            </button>
+                        </form>
                     </div>
-                ) : (
-                    <p className="max-questions-message">Maximum number of questions reached.</p>
-                )}
-
-                <button 
-                    type="submit" 
-                    className="button submit-button"
-                    disabled={!formData.numberOfQuestions || formData.questions.length !== parseInt(formData.numberOfQuestions)}
-                >
-                    Submit Test
-                </button>
-            </form>
+                </div>
+            </div>
         </div>
     );
 };
