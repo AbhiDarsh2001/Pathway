@@ -51,6 +51,10 @@ const Sidebar = () => {
           <FontAwesomeIcon icon={faThList} />
           <span className="sidebar-label">Category</span>
         </button>
+        <button onClick={() => navigate('/addtest')}>
+          <FontAwesomeIcon icon={faThList} />
+          <span className="sidebar-label">ADD Test</span>
+        </button>
       
       <button className="logout-btn" onClick={() => navigate('/logout')}>
         <FontAwesomeIcon icon={faSignOutAlt} />

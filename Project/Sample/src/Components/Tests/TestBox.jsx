@@ -56,9 +56,9 @@ const TestBox = () => {
         <div className="welcome-section">
           <div className="section-header">
             <h2>Available Tests</h2>
-            <div className="search-box">
+            {/* <div className="search-box">
               <input type="text" placeholder="Search tests..." className="search-input" />
-            </div>
+            </div> */}
           </div>
 
           {loading && <div className="loading">Loading tests...</div>}

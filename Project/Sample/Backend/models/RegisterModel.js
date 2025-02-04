@@ -36,7 +36,7 @@ const userSchema = mongoose.Schema({
 
     education: {
         type: String,
-        enum:[ '10','+2','Under Graduate', 'Post Graduate'],
+        enum:[ '10','+2','Undergraduate', 'PostGraduate'],
         required: false
     },
 

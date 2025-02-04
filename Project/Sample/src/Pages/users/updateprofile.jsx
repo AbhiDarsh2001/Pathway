@@ -15,7 +15,7 @@ function UEditProfile() {
     courses: [],
     marks: {
       tenthMark: 0,
-      twelfthMark: 0,
+      twelthMark: 0,
       degreeMark: 0,
       pgMark: 0
     }
@@ -58,7 +58,7 @@ function UEditProfile() {
       setUser((prevState) => ({
         ...prevState,
         courses: [],
-        marks: { tenthMark: 0, twelfthMark: 0, degreeMark: 0, pgMark: 0 }
+        marks: { tenthMark: 0, twelthMark: 0, degreeMark: 0, pgMark: 0 }
       }));
     }
   };
@@ -255,8 +255,8 @@ function UEditProfile() {
                 Twelfth Mark:
                 <input
                   type="number"
-                  name="twelfthMark"
-                  value={user.marks.twelfthMark || ''}
+                  name="twelthMark"
+                  value={user.marks.twelthMark || ''}
                   onChange={handleMarksChange}
                 />
               </label>

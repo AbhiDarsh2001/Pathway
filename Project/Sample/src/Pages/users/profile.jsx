@@ -60,12 +60,12 @@ function Profile() {
       )}
 
       {/* Conditionally render Marks only if they exist and are greater than 0 */}
-      {(user.marks?.tenthMark > 0 || user.marks?.twelfthMark > 0 || user.marks?.degreeMark > 0 || user.marks?.pgMark > 0) && (
+      {(user.marks?.tenthMark > 0 || user.marks?.twelthMark > 0 || user.marks?.degreeMark > 0 || user.marks?.pgMark > 0) && (
         <>
           <p><strong>Marks:</strong></p>
           <ul>
             {user.marks?.tenthMark > 0 && <li>Tenth Mark: {user.marks.tenthMark}</li>}
-            {user.marks?.twelfthMark > 0 && <li>Twelfth Mark: {user.marks.twelfthMark}</li>}
+            {user.marks?.twelthMark > 0 && <li>Twelth Mark: {user.marks.twelthMark}</li>}
             {user.marks?.degreeMark > 0 && <li>Degree Mark: {user.marks.degreeMark}</li>}
             {user.marks?.pgMark > 0 && <li>PG Mark: {user.marks.pgMark}</li>}
           </ul>

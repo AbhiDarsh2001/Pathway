@@ -25,9 +25,9 @@ const Dashboard = () => {
           <p>Welcome to the admin dashboard! You can manage courses, jobs, and view statistics here.</p>
           
           {/* Button to navigate to the institution list */}
-          <button className="btn-institution-list" onClick={handleInstitutionList}>
+          {/* <button className="btn-institution-list" onClick={handleInstitutionList}>
             View Institution List
-          </button>
+          </button> */}
         </div>
       </div>
     </div>
