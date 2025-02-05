@@ -132,4 +132,52 @@
 
 .loading {
   color: #007bff;
+}
+
+.timer {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background-color: #fff;
+  padding: 10px 20px;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+  font-size: 1.2em;
+  font-weight: bold;
+  color: #333;
+  z-index: 1000;
+}
+
+.timer.warning {
+  color: #f44336;
+  animation: pulse 1s infinite;
+}
+
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+  100% { transform: scale(1); }
+}
+
+.quiz-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.start-section {
+  text-align: center;
+  padding: 20px;
+  background: #f5f5f5;
+  border-radius: 10px;
+  margin: 20px 0;
+}
+
+.start-section h2 {
+  margin-bottom: 15px;
+}
+
+.start-section p {
+  margin: 10px 0;
 } 

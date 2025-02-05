@@ -14,6 +14,10 @@ const QuizPage = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [score, setScore] = useState(null);
+  
+  // Add new state variables for timer
+  const [timeRemaining, setTimeRemaining] = useState(null);
+  const [timerActive, setTimerActive] = useState(false);
 
   useEffect(() => {
     const fetchQuiz = async () => {
@@ -31,6 +35,8 @@ const QuizPage = () => {
         }
         
         setQuiz(data);
+        // Set initial time from quiz duration (converting minutes to seconds)
+        setTimeRemaining(data.duration * 60);
       } catch (err) {
         console.error("Error fetching quiz:", err);
         setError(err.message);
@@ -44,6 +50,48 @@ const QuizPage = () => {
     }
   }, [testId]);
 
+  // Add timer effect
+  useEffect(() => {
+    let timer;
+    if (timerActive && timeRemaining > 0) {
+      timer = setInterval(() => {
+        setTimeRemaining(prev => {
+          if (prev <= 1) {
+            clearInterval(timer);
+            handleSubmit(true); // Auto submit when time expires
+            return 0;
+          }
+          return prev - 1;
+        });
+      }, 1000);
+    }
+    return () => clearInterval(timer);
+  }, [timerActive, timeRemaining]);
+
+  // Format time remaining
+  const formatTime = (seconds) => {
+    const minutes = Math.floor(seconds / 60);
+    const remainingSeconds = seconds % 60;
+    return `${minutes}:${remainingSeconds.toString().padStart(2, '0')}`;
+  };
+
+  const startTest = () => {
+    setTimerActive(true);
+    // You might want to show a confirmation dialog here
+    Swal.fire({
+      title: 'Start Test?',
+      text: `You will have ${quiz.duration} minutes to complete this test.`,
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Start',
+      cancelButtonText: 'Cancel'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        setTimerActive(true);
+      }
+    });
+  };
+
   const handleOptionChange = (questionIndex, optionIndex) => {
     if (submitted) return;
     setAnswers(prev => ({
@@ -52,7 +100,7 @@ const QuizPage = () => {
     }));
   };
 
-  const handleSubmit = async () => {
+  const handleSubmit = async (isAutoSubmit = false) => {
     if (submitted) return;
 
     try {
@@ -64,16 +112,10 @@ const QuizPage = () => {
         throw new Error('No authentication token found');
       }
 
-      // Convert answers object to array format
-      const answersArray = quiz.questions.map((_, index) => {
-        return {
-          questionIndex: index,
-          selectedOption: answers[index] !== undefined ? answers[index] : null
-        };
-      });
-
-      // Log the data being sent
-      console.log('Submitting answers:', answersArray);
+      const answersArray = quiz.questions.map((_, index) => ({
+        questionIndex: index,
+        selectedOption: answers[index] !== undefined ? answers[index] : null
+      }));
 
       const response = await fetch(`http://localhost:8080/test/submit/${testId}`, {
         method: 'POST',
@@ -81,21 +123,24 @@ const QuizPage = () => {
           'Content-Type': 'application/json',
           'Authorization': token,
         },
-        body: JSON.stringify({ answers: answersArray }),
+        body: JSON.stringify({ 
+          answers: answersArray,
+          timeRemaining // Include remaining time in submission
+        }),
       });
 
       const data = await response.json();
 
       if (!response.ok) {
-        console.error('Server response:', data);
         throw new Error(data.message || 'Failed to submit quiz');
       }
 
       setSubmitted(true);
       setScore(data.score);
+      setTimerActive(false);
       
       Swal.fire({
-        title: 'Quiz Submitted!',
+        title: isAutoSubmit ? 'Time\'s Up!' : 'Quiz Submitted!',
         text: `Your score: ${data.score}/${data.totalPossibleScore} (${data.percentage.toFixed(2)}%)`,
         icon: 'success',
         confirmButtonText: 'OK'
@@ -103,7 +148,6 @@ const QuizPage = () => {
 
     } catch (err) {
       console.error("Error submitting quiz:", err);
-      
       Swal.fire({
         title: 'Error!',
         text: err.message || 'Failed to submit quiz',
@@ -160,66 +204,85 @@ const QuizPage = () => {
         {!loading && !error && quiz && (
           <div className="welcome-section">
             <div className="quiz-container">
-              <h1>{quiz.title}</h1>
-              <div className="quiz-info">
-                <p><strong>Duration:</strong> {quiz.duration} minutes</p>
-                <p><strong>Total Marks:</strong> {quiz.totalMarks}</p>
-                <p><strong>Description:</strong> {quiz.description}</p>
+              <div className="quiz-header">
+                <h1>{quiz.title}</h1>
+                {timerActive && (
+                  <div className="timer">
+                    Time Remaining: {formatTime(timeRemaining)}
+                  </div>
+                )}
               </div>
-              
-              {quiz.questions?.map((q, qIndex) => (
-                <div key={qIndex} style={{ 
-                  marginBottom: "20px", 
-                  padding: "15px", 
-                  border: "1px solid #ddd", 
-                  borderRadius: "10px", 
-                  backgroundColor: "#f9f9f9" 
-                }}>
-                  <h3>Q{qIndex + 1}. {q.questionText}</h3>
-                  {q.options?.map((option, oIndex) => (
-                    <label key={oIndex} style={{ 
-                      display: "block", 
-                      margin: "10px 0",
-                      padding: "8px",
-                      cursor: submitted ? "default" : "pointer",
-                      backgroundColor: answers[qIndex] === oIndex ? "#e3f2fd" : "transparent",
-                      borderRadius: "5px"
-                    }}>
-                      <input 
-                        type="radio" 
-                        name={`question-${qIndex}`} 
-                        value={oIndex} 
-                        checked={answers[qIndex] === oIndex}
-                        onChange={() => handleOptionChange(qIndex, oIndex)}
-                        disabled={submitted}
-                      />
-                      {option.optionText}
-                    </label>
-                  ))}
-                  <p style={{ fontSize: "14px", color: "#666", marginTop: "10px" }}>
-                    Marks: {q.marks}
-                  </p>
-                </div>
-              ))}
 
-              {!submitted ? (
-                <button 
-                  onClick={handleSubmit} 
-                  disabled={loading}
-                  className="start-test-btn"
-                >
-                  {loading ? "Submitting..." : "Submit Quiz"}
-                </button>
-              ) : (
-                <div className="success-message">
-                  <p>Quiz submitted! Your responses have been recorded.</p>
-                  <p>Score: {score}</p>
+              {!timerActive ? (
+                <div className="start-section">
+                  <h2>Test Instructions</h2>
+                  <p>Duration: {quiz.duration} minutes</p>
+                  <p>Total Marks: {quiz.totalMarks}</p>
+                  <p>{quiz.description}</p>
                   <button 
                     className="start-test-btn"
-                    onClick={() => navigate('/tests')}
+                    onClick={startTest}
                   >
-                    Back to Tests
+                    Start Test
                   </button>
+                </div>
+              ) : (
+                <div className="quiz-content">
+                  {quiz.questions?.map((q, qIndex) => (
+                    <div key={qIndex} style={{ 
+                      marginBottom: "20px", 
+                      padding: "15px", 
+                      border: "1px solid #ddd", 
+                      borderRadius: "10px", 
+                      backgroundColor: "#f9f9f9" 
+                    }}>
+                      <h3>Q{qIndex + 1}. {q.questionText}</h3>
+                      {q.options?.map((option, oIndex) => (
+                        <label key={oIndex} style={{ 
+                          display: "block", 
+                          margin: "10px 0",
+                          padding: "8px",
+                          cursor: submitted ? "default" : "pointer",
+                          backgroundColor: answers[qIndex] === oIndex ? "#e3f2fd" : "transparent",
+                          borderRadius: "5px"
+                        }}>
+                          <input 
+                            type="radio" 
+                            name={`question-${qIndex}`} 
+                            value={oIndex} 
+                            checked={answers[qIndex] === oIndex}
+                            onChange={() => handleOptionChange(qIndex, oIndex)}
+                            disabled={submitted}
+                          />
+                          {option.optionText}
+                        </label>
+                      ))}
+                      <p style={{ fontSize: "14px", color: "#666", marginTop: "10px" }}>
+                        Marks: {q.marks}
+                      </p>
+                    </div>
+                  ))}
+
+                  {!submitted ? (
+                    <button 
+                      onClick={() => handleSubmit()} 
+                      disabled={loading}
+                      className="start-test-btn"
+                    >
+                      {loading ? "Submitting..." : "Submit Quiz"}
+                    </button>
+                  ) : (
+                    <div className="success-message">
+                      <p>Quiz submitted! Your responses have been recorded.</p>
+                      <p>Score: {score}</p>
+                      <button 
+                        className="start-test-btn"
+                        onClick={() => navigate('/tests')}
+                      >
+                        Back to Tests
+                      </button>
+                    </div>
+                  )}
                 </div>
               )}
             </div>

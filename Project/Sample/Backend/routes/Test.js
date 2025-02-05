@@ -374,20 +374,20 @@ router.post('/add-test', async (req, res) => {
 //Result
 router.post('/submit/:testId', verifyToken, async (req, res) => {
   const { testId } = req.params;
-  const { answers } = req.body;
+  const { answers, timeRemaining } = req.body; // Add timeRemaining to track time left
   const { email } = req;
 
   try {
-    // Log incoming data for debugging
-    console.log('Received submission:', {
-      testId,
-      email,
-      answers
-    });
-
     const quiz = await MockTest.findById(testId);
     if (!quiz) {
       return res.status(404).json({ message: "Quiz not found" });
+    }
+
+    // Check if time has expired (timeRemaining <= 0)
+    if (timeRemaining <= 0) {
+      return res.status(400).json({ 
+        message: "Time has expired. Test automatically submitted." 
+      });
     }
 
     // Validate answers format
@@ -444,11 +444,9 @@ router.post('/submit/:testId', verifyToken, async (req, res) => {
 
   } catch (err) {
     console.error("Error submitting quiz:", err);
-    // Send more detailed error information
     res.status(500).json({ 
       message: "Failed to submit quiz",
-      error: err.message,
-      stack: process.env.NODE_ENV === 'development' ? err.stack : undefined
+      error: err.message
     });
   }
 });
