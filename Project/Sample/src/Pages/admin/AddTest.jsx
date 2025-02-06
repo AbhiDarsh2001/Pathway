@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "./AddTest.css";
 import Sidebar from './sidebar';
@@ -20,6 +20,22 @@ const ManMockTestForm = () => {
         marks: "",
         steps: [""]
     });
+
+    const [tests, setTests] = useState([]);
+    const [editingTest, setEditingTest] = useState(null);
+
+    useEffect(() => {
+        fetchTests();
+    }, []);
+
+    const fetchTests = async () => {
+        try {
+            const response = await axios.get("http://localhost:8080/test/viewallmocktest");
+            setTests(response.data);
+        } catch (error) {
+            console.error("Error fetching tests:", error);
+        }
+    };
 
     // Handle input changes for test fields
     const handleChange = (e) => {
@@ -144,32 +160,44 @@ const ManMockTestForm = () => {
         }
     };
 
-    // Submit form
+    // Add these functions for edit and delete
+    const handleEdit = (test) => {
+        setEditingTest(test);
+        setFormData({
+            title: test.title,
+            description: test.description,
+            duration: test.duration,
+            totalMarks: test.totalMarks,
+            numberOfQuestions: test.numberOfQuestions,
+            passingMarks: test.passingMarks,
+            questions: test.questions
+        });
+    };
+
+    const handleDelete = async (testId) => {
+        if (window.confirm("Are you sure you want to delete this test?")) {
+            try {
+                await axios.delete(`http://localhost:8080/test/delete/${testId}`);
+                alert("Test deleted successfully");
+                fetchTests();
+            } catch (error) {
+                console.error("Error deleting test:", error);
+                alert("Error deleting test");
+            }
+        }
+    };
+
+    // Modify handleSubmit to handle both create and update
     const handleSubmit = async (e) => {
         e.preventDefault();
-
-        // Validate if there are any questions added
-        if (formData.questions.length === 0) {
-            alert("Please add at least one question before submitting.");
-            return;
-        }
-
-        // Validate if number of questions matches actual questions added
-        if (formData.questions.length !== parseInt(formData.numberOfQuestions)) {
-            alert(`Please add exactly ${formData.numberOfQuestions} questions. Currently added: ${formData.questions.length}`);
-            return;
-        }
-
-        // Calculate total marks from questions and validate
-        const calculatedTotalMarks = formData.questions.reduce((sum, q) => sum + parseInt(q.marks), 0);
-        if (calculatedTotalMarks !== parseInt(formData.totalMarks)) {
-            alert(`Total marks mismatch. Sum of question marks (${calculatedTotalMarks}) should equal total marks (${formData.totalMarks})`);
-            return;
-        }
-
         try {
-            const response = await axios.post("http://localhost:8080/test/add", formData);
-            alert(response.data.message);
+            if (editingTest) {
+                await axios.put(`http://localhost:8080/test/update/${editingTest._id}`, formData);
+                alert("Test updated successfully");
+            } else {
+                await axios.post("http://localhost:8080/test/add", formData);
+                alert("Test added successfully");
+            }
             setFormData({
                 title: "",
                 description: "",
@@ -179,8 +207,10 @@ const ManMockTestForm = () => {
                 passingMarks: "",
                 questions: []
             });
+            setEditingTest(null);
+            fetchTests();
         } catch (error) {
-            alert("Error adding test: " + (error.response?.data?.message || error.message));
+            alert("Error: " + error.response?.data?.message || error.message);
         }
     };
 
@@ -202,9 +232,27 @@ const ManMockTestForm = () => {
             <div className="content">
                 <div className="welcome-section">
                     <div className="section-header">
-                        <h2>Add Mock Test</h2>
+                        <h2>{editingTest ? 'Edit Test' : 'Add New Test'}</h2>
                     </div>
                     
+                    {/* Add this section to display existing tests */}
+                    <div className="existing-tests">
+                        <h3>Existing Tests</h3>
+                        <div className="tests-grid">
+                            {tests.map((test) => (
+                                <div key={test._id} className="test-card">
+                                    <h4>{test.title}</h4>
+                                    <p>Duration: {test.duration} minutes</p>
+                                    <p>Total Marks: {test.totalMarks}</p>
+                                    <div className="test-actions">
+                                        <button onClick={() => handleEdit(test)}>Edit</button>
+                                        <button onClick={() => handleDelete(test._id)}>Delete</button>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+
                     <div className="add-test-container">
                         <form className="test-form" onSubmit={handleSubmit}>
                             <div className="form-group">

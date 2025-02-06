@@ -494,4 +494,70 @@ router.post('/submit/:testId', verifyToken, async (req, res) => {
 //   }
 // });
 
+// Add these routes to handle test updates and deletion
+
+// Update test
+router.put('/update/:id', async (req, res) => {
+    try {
+        const { id } = req.params;
+        const updates = req.body;
+
+        // Validate the updates
+        if (updates.questions) {
+            for (let question of updates.questions) {
+                if (!question.questionText?.trim()) {
+                    return res.status(400).json({ message: 'Question text is required' });
+                }
+                if (!Array.isArray(question.options) || question.options.length < 2) {
+                    return res.status(400).json({ message: 'Each question must have at least 2 options' });
+                }
+                if (!question.options.some(opt => opt.isCorrect)) {
+                    return res.status(400).json({ message: 'Each question must have at least one correct option' });
+                }
+            }
+        }
+
+        const updatedTest = await MockTest.findByIdAndUpdate(
+            id,
+            updates,
+            { new: true, runValidators: true }
+        );
+
+        if (!updatedTest) {
+            return res.status(404).json({ message: 'Test not found' });
+        }
+
+        res.json({
+            message: 'Test updated successfully',
+            test: updatedTest
+        });
+    } catch (error) {
+        console.error('Error updating test:', error);
+        res.status(500).json({ message: 'Error updating test', error: error.message });
+    }
+});
+
+// Delete test
+router.delete('/delete/:id', async (req, res) => {
+    try {
+        const { id } = req.params;
+        const deletedTest = await MockTest.findByIdAndDelete(id);
+
+        if (!deletedTest) {
+            return res.status(404).json({ message: 'Test not found' });
+        }
+
+        // Also delete associated results
+        await QuizResult.deleteMany({ testId: id });
+
+        res.json({
+            message: 'Test and associated results deleted successfully',
+            test: deletedTest
+        });
+    } catch (error) {
+        console.error('Error deleting test:', error);
+        res.status(500).json({ message: 'Error deleting test', error: error.message });
+    }
+});
+
 module.exports = router;
