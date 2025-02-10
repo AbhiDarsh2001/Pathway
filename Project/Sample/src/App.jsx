@@ -43,6 +43,7 @@ import AddTest from "./Pages/admin/AddTest";
 import Tests from "./Components/Tests/tests";
 import TestBox from "./Components/Tests/TestBox";
 import QuizPage from "./Components/Tests/Testpage";
+import PersonalityTest from "./Pages/admin/PersonalityTest";
 
 function App() {
     return (
@@ -101,6 +102,7 @@ function App() {
 			<Route path="/tests" element={<Tests />} />
 			<Route path="/testbox" element={<TestBox />} />
 			<Route path="/quiz/:testId" element={<QuizPage />} />
+			<Route path="/personality-test" element={<PersonalityTest />} />
 
 
         </Routes>

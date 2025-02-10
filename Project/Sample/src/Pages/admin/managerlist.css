@@ -200,3 +200,19 @@
         grid-template-columns: 1fr;
     }
 }
+
+.view-details-btn.delete {
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    width: 100%;
+    margin-top: 10px;
+    transition: background-color 0.3s ease;
+}
+
+.view-details-btn.delete:hover {
+    background-color: #c82333;
+}

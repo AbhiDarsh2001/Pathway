@@ -496,7 +496,7 @@ router.post('/submit/:testId', verifyToken, async (req, res) => {
 
 // Add these routes to handle test updates and deletion
 
-// Update test
+// Modify the update route to handle question updates
 router.put('/update/:id', async (req, res) => {
     try {
         const { id } = req.params;
@@ -504,16 +504,40 @@ router.put('/update/:id', async (req, res) => {
 
         // Validate the updates
         if (updates.questions) {
+            if (!Array.isArray(updates.questions)) {
+                return res.status(400).json({ message: 'Questions must be an array' });
+            }
+
+            // Validate each question
             for (let question of updates.questions) {
                 if (!question.questionText?.trim()) {
                     return res.status(400).json({ message: 'Question text is required' });
                 }
                 if (!Array.isArray(question.options) || question.options.length < 2) {
-                    return res.status(400).json({ message: 'Each question must have at least 2 options' });
+                    return res.status(400).json({ 
+                        message: 'Each question must have at least 2 options' 
+                    });
                 }
                 if (!question.options.some(opt => opt.isCorrect)) {
-                    return res.status(400).json({ message: 'Each question must have at least one correct option' });
+                    return res.status(400).json({ 
+                        message: 'Each question must have at least one correct option' 
+                    });
                 }
+                if (!question.marks || isNaN(question.marks)) {
+                    return res.status(400).json({ 
+                        message: 'Each question must have valid marks' 
+                    });
+                }
+            }
+
+            // Validate total marks
+            const totalMarks = updates.questions.reduce(
+                (sum, q) => sum + parseInt(q.marks), 0
+            );
+            if (totalMarks !== parseInt(updates.totalMarks)) {
+                return res.status(400).json({ 
+                    message: `Sum of question marks (${totalMarks}) does not match total marks (${updates.totalMarks})` 
+                });
             }
         }
 
@@ -533,7 +557,10 @@ router.put('/update/:id', async (req, res) => {
         });
     } catch (error) {
         console.error('Error updating test:', error);
-        res.status(500).json({ message: 'Error updating test', error: error.message });
+        res.status(500).json({ 
+            message: 'Error updating test', 
+            error: error.message 
+        });
     }
 });
 

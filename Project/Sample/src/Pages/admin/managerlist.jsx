@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import './managerlist.css'; // Assuming similar styling file like joblist.css
 import Sidebar from './sidebar'; // Assuming Sidebar component exists
 import useAuth from '../../Components/Function/useAuth';
@@ -8,6 +8,7 @@ import Swal from 'sweetalert2';
 const ManagerList = () => {
     useAuth();
     const [managers, setManagers] = useState([]);
+    const navigate = useNavigate();
 
     useEffect(() => {
         fetchManagers();
@@ -93,23 +94,26 @@ const ManagerList = () => {
                 <div className="welcome-section">
                     <div className="section-header">
                         <h2>Managers</h2>
+                        <button className="action-button" onClick={() => navigate('/addmanager')}>+ Add New Manager</button>
                     </div>
                     
-                    <div className="manager-grid">
+                    <div className="job-grid">
                         {managers.map((manager) => (
-                            <div key={manager._id} className="manager-card">
-                                <div className="manager-card-content">
-                                    <div className="manager-header">
-                                        <h3>{manager.name}</h3>
-                                        <button 
-                                            className="delete-btn"
-                                            onClick={() => handleDelete(manager._id, manager.name)}
-                                            title="Delete Manager"
-                                        >
-                                            ×
-                                        </button>
+                            <div key={manager._id} className="job-card">
+                                <div className="job-card-content">
+                                    <h3>{manager.name}</h3>
+                                    <p className="job-description">{manager.email}</p>
+                                    <div className="job-meta">
+                                        <span className="job-type">
+                                            <i className="fas fa-user"></i> Manager
+                                        </span>
                                     </div>
-                                    <p className="manager-email">{manager.email}</p>
+                                    <button 
+                                        className="view-details-btn delete"
+                                        onClick={() => handleDelete(manager._id, manager.name)}
+                                    >
+                                        Delete Manager
+                                    </button>
                                 </div>
                             </div>
                         ))}

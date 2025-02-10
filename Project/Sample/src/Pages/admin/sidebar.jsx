@@ -35,10 +35,10 @@ const Sidebar = () => {
           <FontAwesomeIcon icon={faEye} /> 
         <span className="sidebar-label">View Jobs</span>
         </button>
-        <button onClick={() => navigate('/addmanager')}>
+        {/* <button onClick={() => navigate('/addmanager')}>
           <FontAwesomeIcon icon={faUser} />
           <span className="sidebar-label">Add Manager</span>
-        </button>
+        </button> */}
         <button onClick={() => navigate('/iconmanager')}>
           <FontAwesomeIcon icon={faEye} />
          <span className="sidebar-label">View Managers</span>
@@ -54,6 +54,9 @@ const Sidebar = () => {
         <button onClick={() => navigate('/addtest')}>
           <FontAwesomeIcon icon={faThList} />
           <span className="sidebar-label">Test</span>
+        </button>
+        <button onClick={() => navigate('/personality-test')}>
+          Personality Test
         </button>
       
       <button className="logout-btn" onClick={() => navigate('/logout')}>

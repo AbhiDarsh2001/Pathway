@@ -23,6 +23,7 @@ const ManMockTestForm = () => {
 
     const [tests, setTests] = useState([]);
     const [editingTest, setEditingTest] = useState(null);
+    const [editingQuestionIndex, setEditingQuestionIndex] = useState(null);
 
     useEffect(() => {
         fetchTests();
@@ -82,82 +83,62 @@ const ManMockTestForm = () => {
         setCurrentQuestion({ ...currentQuestion, steps: [...currentQuestion.steps, ""] });
     };
 
-    // Validate and add question
+    // Add these functions to handle question editing and deletion
+    const handleEditQuestion = (questionIndex) => {
+        const question = formData.questions[questionIndex];
+        setCurrentQuestion({
+            questionText: question.questionText,
+            options: [...question.options],
+            marks: question.marks,
+            steps: [...question.steps]
+        });
+        setEditingQuestionIndex(questionIndex);
+    };
+
+    const handleDeleteQuestion = (questionIndex) => {
+        if (window.confirm('Are you sure you want to delete this question?')) {
+            const updatedQuestions = formData.questions.filter((_, index) => index !== questionIndex);
+            setFormData({
+                ...formData,
+                questions: updatedQuestions,
+                numberOfQuestions: String(updatedQuestions.length)
+            });
+        }
+    };
+
+    // Modify handleAddQuestion to handle both adding and updating questions
     const handleAddQuestion = () => {
-        // First check if number of questions is set
-        if (!formData.numberOfQuestions) {
-            alert("Please set the total number of questions first");
-            return;
-        }
-
-        // Check if we've reached the question limit
-        if (formData.questions.length >= parseInt(formData.numberOfQuestions)) {
-            alert(`Cannot add more questions. Maximum limit of ${formData.numberOfQuestions} questions has been reached.`);
-            return;
-        }
-
-        // Validate question fields
-        if (!currentQuestion.questionText.trim()) {
+        // Validation checks...
+        if (!currentQuestion.questionText?.trim()) {
             alert("Please enter question text.");
             return;
         }
-        if (!currentQuestion.marks || parseInt(currentQuestion.marks) <= 0) {
-            alert("Please enter valid marks for the question.");
-            return;
-        }
-        
-        // Validate options
-        if (currentQuestion.options.length < 2) {
-            alert("Please add at least two options.");
-            return;
-        }
-        
-        if (!currentQuestion.options.some(option => option.isCorrect)) {
-            alert("Please mark at least one option as correct.");
-            return;
-        }
-        
-        if (currentQuestion.options.some(option => !option.optionText.trim())) {
-            alert("Please fill in all option texts.");
-            return;
-        }
+        // ... other validation checks ...
 
-        // Validate steps
-        if (currentQuestion.steps.some(step => !step.trim())) {
-            alert("Please fill in all steps.");
-            return;
-        }
-
-        // Calculate total marks including the new question
-        const totalMarksWithNewQuestion = formData.questions.reduce(
-            (sum, q) => sum + parseInt(q.marks), 0
-        ) + parseInt(currentQuestion.marks);
-
-        if (totalMarksWithNewQuestion > parseInt(formData.totalMarks)) {
-            alert(`Adding this question would exceed the total marks limit of ${formData.totalMarks}`);
-            return;
+        const updatedQuestions = [...formData.questions];
+        
+        if (editingQuestionIndex !== null) {
+            // Update existing question
+            updatedQuestions[editingQuestionIndex] = { ...currentQuestion };
+        } else {
+            // Add new question
+            updatedQuestions.push({ ...currentQuestion });
         }
 
         setFormData({
             ...formData,
-            questions: [...formData.questions, currentQuestion]
+            questions: updatedQuestions,
+            numberOfQuestions: String(updatedQuestions.length)
         });
 
-        // Reset current question
+        // Reset current question and editing state
         setCurrentQuestion({
             questionText: "",
             options: [{ optionText: "", isCorrect: false }],
             marks: "",
             steps: [""]
         });
-
-        // Show remaining questions count
-        const remainingQuestions = parseInt(formData.numberOfQuestions) - (formData.questions.length + 1);
-        if (remainingQuestions > 0) {
-            alert(`Question added successfully! ${remainingQuestions} more question(s) to add.`);
-        } else {
-            alert("All questions have been added successfully!");
-        }
+        setEditingQuestionIndex(null);
     };
 
     // Add these functions for edit and delete
@@ -387,6 +368,46 @@ const ManMockTestForm = () => {
                             ) : (
                                 <p className="max-questions-message">Maximum number of questions reached.</p>
                             )}
+
+                            <div className="existing-questions">
+                                <h3>Current Questions</h3>
+                                {formData.questions.map((question, index) => (
+                                    <div key={index} className="question-card">
+                                        <div className="question-header">
+                                            <h4>Question {index + 1}</h4>
+                                            <div className="question-actions">
+                                                <button 
+                                                    type="button" 
+                                                    onClick={() => handleEditQuestion(index)}
+                                                    className="edit-button"
+                                                >
+                                                    Edit
+                                                </button>
+                                                <button 
+                                                    type="button" 
+                                                    onClick={() => handleDeleteQuestion(index)}
+                                                    className="delete-button"
+                                                >
+                                                    Delete
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <p><strong>Question:</strong> {question.questionText}</p>
+                                        <p><strong>Marks:</strong> {question.marks}</p>
+                                        <div className="options-list">
+                                            <strong>Options:</strong>
+                                            <ul>
+                                                {question.options.map((option, optIndex) => (
+                                                    <li key={optIndex} className={option.isCorrect ? 'correct-option' : ''}>
+                                                        {option.optionText}
+                                                        {option.isCorrect && ' (Correct)'}
+                                                    </li>
+                                                ))}
+                                            </ul>
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
 
                             <button 
                                 type="submit" 

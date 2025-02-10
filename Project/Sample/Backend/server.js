@@ -39,6 +39,8 @@ const InstituteRoutes= require("./routes/institute.js");
 //const chatBot=require("./routes/chatBot.js");
 const TestRoutes=require("./routes/Test.js");
 const gemini=require("./routes/gemini.js");
+const questionRoutes = require("./routes/questionRoutes");
+
 // Middleware for CORS
 
 // LOCAL HOST
@@ -296,6 +298,8 @@ app.use('/viewreport',ViewReportRoutes);
 app.use('/institute',InstituteRoutes);
 //app.use('/chatBot',chatBot);
 app.use('/test', TestRoutes);
+app.use('/personal', questionRoutes);
+
 
 
 app.use('/gemini',gemini);
