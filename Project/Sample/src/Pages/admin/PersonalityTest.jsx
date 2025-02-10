@@ -3,6 +3,8 @@ import axios from 'axios';
 import Sidebar from './sidebar';
 import './personalityTest.css';
 import useAuth from '../../Components/Function/useAuth';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTrash, faTimes } from '@fortawesome/free-solid-svg-icons';
 
 const PersonalityTest = () => {
   useAuth();
@@ -19,6 +21,8 @@ const PersonalityTest = () => {
   });
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [selectedQuestion, setSelectedQuestion] = useState(null);
 
   useEffect(() => {
     fetchQuestions();
@@ -75,11 +79,18 @@ const PersonalityTest = () => {
     }
   };
 
-  const handleDelete = async (id) => {
+  const initiateDelete = (question) => {
+    setSelectedQuestion(question);
+    setShowDeleteModal(true);
+  };
+
+  const handleDelete = async () => {
     try {
-      await axios.delete(`${import.meta.env.VITE_URL}/personal/delete-question/${id}`);
+      await axios.delete(`${import.meta.env.VITE_URL}/personal/delete-question/${selectedQuestion._id}`);
       setSuccess('Question deleted successfully!');
       fetchQuestions();
+      setShowDeleteModal(false);
+      setSelectedQuestion(null);
     } catch (error) {
       setError('Failed to delete question');
       console.error('Error deleting question:', error);
@@ -177,10 +188,11 @@ const PersonalityTest = () => {
                   </td>
                   <td>
                     <button
-                      className="delete-btn"
-                      onClick={() => handleDelete(question._id)}
+                      className="icon-delete-btn"
+                      onClick={() => initiateDelete(question)}
+                      title="Delete Question"
                     >
-                      Delete
+                      <FontAwesomeIcon icon={faTrash} />
                     </button>
                   </td>
                 </tr>
@@ -188,6 +200,39 @@ const PersonalityTest = () => {
             </tbody>
           </table>
         </div>
+
+        {/* Delete Confirmation Modal */}
+        {showDeleteModal && (
+          <div className="modal-overlay">
+            <div className="delete-modal">
+              <button className="modal-close" onClick={() => setShowDeleteModal(false)}>
+                <FontAwesomeIcon icon={faTimes} />
+              </button>
+              <div className="modal-content">
+                <div className="modal-icon">
+                  <FontAwesomeIcon icon={faTrash} />
+                </div>
+                <h3>Confirm Delete</h3>
+                <p>Are you sure you want to delete this question?</p>
+                <div className="modal-question">"{selectedQuestion?.question}"</div>
+                <div className="modal-buttons">
+                  <button 
+                    className="cancel-btn"
+                    onClick={() => setShowDeleteModal(false)}
+                  >
+                    Cancel
+                  </button>
+                  <button 
+                    className="confirm-delete-btn"
+                    onClick={handleDelete}
+                  >
+                    Delete
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
       </main>
     </div>
   );
