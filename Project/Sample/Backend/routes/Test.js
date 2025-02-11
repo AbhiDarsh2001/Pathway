@@ -587,4 +587,21 @@ router.delete('/delete/:id', async (req, res) => {
     }
 });
 
+// Add this route after other routes
+router.get('/results/:email', verifyToken, async (req, res) => {
+  try {
+    const results = await QuizResult.find({ email: req.params.email })
+      .populate('testId', 'title totalMarks')
+      .exec();
+    
+    // Filter out results where testId is null (test was deleted)
+    const validResults = results.filter(result => result.testId != null);
+    
+    res.json(validResults);
+  } catch (error) {
+    console.error('Error fetching test results:', error);
+    res.status(500).json({ message: 'Error fetching test results', error: error.message });
+  }
+});
+
 module.exports = router;

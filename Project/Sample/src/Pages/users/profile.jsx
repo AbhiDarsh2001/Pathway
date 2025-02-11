@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import './profile.css'
 import Header from './Header';
@@ -10,17 +10,26 @@ function Profile() {
   useAuth();
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [testResults, setTestResults] = useState([]);
   const navigate = useNavigate();
 
   useEffect(() => {
-    // Fetch user profile data
-    const fetchUserProfile = async () => {
+    const fetchData = async () => {
       const token = localStorage.getItem('token');
       try {
-        const response = await axios.get(`${import.meta.env.VITE_URL}/vuprofile`, {
+        // Fetch user profile
+        const userResponse = await axios.get(`${import.meta.env.VITE_URL}/vuprofile`, {
           headers: { Authorization: token }
         });
-        setUser(response.data);
+        setUser(userResponse.data);
+
+        // Fetch test results
+        const testResponse = await axios.get(`${import.meta.env.VITE_URL}/test/results/${userResponse.data.email}`, {
+          headers: { Authorization: token }
+        });
+        // Filter out results where testId is null
+        const validResults = testResponse.data.filter(result => result.testId != null);
+        setTestResults(validResults);
       } catch (error) {
         Swal.fire({
           title: 'Error!',
@@ -28,13 +37,13 @@ function Profile() {
           icon: 'error',
           confirmButtonText: 'OK'
         });
-        navigate('/login'); // Redirect to login if there's an error
+        navigate('/login');
       } finally {
         setLoading(false);
       }
     };
 
-    fetchUserProfile();
+    fetchData();
   }, [navigate]);
 
   if (loading) {
@@ -46,34 +55,121 @@ function Profile() {
   }
 
   return (
-    <div>
+    <div className="home-container">
+      {/* Sidebar */}
+      <div className="sidebar">
+        <div className="logo-container">
+          <img
+            src="src/assets/CareerPathway.png"
+            alt="Career Pathway Logo"
+            className="logo"
+          />
+        </div>
+        
+        <div className="sidebar-nav">
+          <Link to="/home" className="nav-item">
+            Home
+          </Link>
+          <Link to="/ujoblist" className="nav-item">
+            Jobs
+          </Link>
+          <Link to="/ucourselist" className="nav-item">
+            Courses
+          </Link>
+          <Link to="/blogs" className="nav-item">
+            Blogs
+          </Link>
+          <Link to="/tests" className="nav-item">
+            Tests
+          </Link>
+        </div>
+      </div>
+
+      {/* Main Content */}
+      <div className="content">
         <Header />
-    <div className="uprofile-container">
-      <h1>User Profile</h1>
-      <p><strong>Name:</strong> {user.name}</p>
-      <p><strong>Email:</strong> {user.email}</p>
-      <p><strong>Phone:</strong> {user.phone}</p>
+        <div className="uprofile-container">
+          <h1>User Profile</h1>
+          
+          {/* Personal Information Section */}
+          <div className="profile-section">
+            <h2>Personal Information</h2>
+            <div className="info-grid">
+              <div className="info-item">
+                <label>Name:</label>
+                <span>{user.name}</span>
+              </div>
+              <div className="info-item">
+                <label>Email:</label>
+                <span>{user.email}</span>
+              </div>
+              <div className="info-item">
+                <label>Phone:</label>
+                <span>{user.phone}</span>
+              </div>
+            </div>
+          </div>
 
-      {/* Conditionally render Courses if they exist */}
-      {user.courses && user.courses.length > 0 && (
-        <p><strong>Courses:</strong> {user.courses.join(', ')}</p>
-      )}
+          {/* Academic Information Section */}
+          {(user.marks?.tenthMark > 0 || user.marks?.twelthMark > 0 || 
+            user.marks?.degreeMark > 0 || user.marks?.pgMark > 0) && (
+            <div className="profile-section">
+              <h2>Academic Information</h2>
+              <div className="info-grid">
+                {user.marks?.tenthMark > 0 && (
+                  <div className="info-item">
+                    <label>10th Mark:</label>
+                    <span>{user.marks.tenthMark}%</span>
+                  </div>
+                )}
+                {user.marks?.twelthMark > 0 && (
+                  <div className="info-item">
+                    <label>12th Mark:</label>
+                    <span>{user.marks.twelthMark}%</span>
+                  </div>
+                )}
+                {user.marks?.degreeMark > 0 && (
+                  <div className="info-item">
+                    <label>Degree Mark:</label>
+                    <span>{user.marks.degreeMark}%</span>
+                  </div>
+                )}
+                {user.marks?.pgMark > 0 && (
+                  <div className="info-item">
+                    <label>PG Mark:</label>
+                    <span>{user.marks.pgMark}%</span>
+                  </div>
+                )}
+              </div>
+            </div>
+          )}
 
-      {/* Conditionally render Marks only if they exist and are greater than 0 */}
-      {(user.marks?.tenthMark > 0 || user.marks?.twelthMark > 0 || user.marks?.degreeMark > 0 || user.marks?.pgMark > 0) && (
-        <>
-          <p><strong>Marks:</strong></p>
-          <ul>
-            {user.marks?.tenthMark > 0 && <li>Tenth Mark: {user.marks.tenthMark}</li>}
-            {user.marks?.twelthMark > 0 && <li>Twelth Mark: {user.marks.twelthMark}</li>}
-            {user.marks?.degreeMark > 0 && <li>Degree Mark: {user.marks.degreeMark}</li>}
-            {user.marks?.pgMark > 0 && <li>PG Mark: {user.marks.pgMark}</li>}
-          </ul>
-        </>
-      )}
+          {/* Aptitude Test Results Section */}
+          {testResults.length > 0 && (
+            <div className="profile-section">
+              <h2>Aptitude Test Results</h2>
+              <div className="test-results-grid">
+                {testResults.map((result, index) => (
+                  result.testId && (
+                    <div key={index} className="test-result-item">
+                      <h3>{result.testId.title}</h3>
+                      <div className="result-details">
+                        <p>Score: {result.score} / {result.testId.totalMarks}</p>
+                        <p>Percentage: {((result.score / result.testId.totalMarks) * 100).toFixed(2)}%</p>
+                        <p>Taken on: {new Date(result.submittedAt).toLocaleDateString()}</p>
+                      </div>
+                    </div>
+                  )
+                ))}
+              </div>
+            </div>
+          )}
 
-      <button className="uprofilebutton" onClick={() => navigate('/userpro')}>Edit Profile</button>
-    </div>
+          <button className="uprofilebutton" onClick={() => navigate('/userpro')}>
+            Edit Profile
+          </button>
+        </div>
+      </div>
     </div>
   );
 }
