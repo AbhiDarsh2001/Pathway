@@ -33,6 +33,7 @@ function UEditProfile() {
         const response = await axios.get(`${import.meta.env.VITE_URL}/vuprofile`, {
           headers: { Authorization: token }
         });
+        
         setUser(response.data);
       } catch (error) {
         Swal.fire({
@@ -41,7 +42,9 @@ function UEditProfile() {
           icon: 'error',
           confirmButtonText: 'OK'
         });
-        navigate('/login');
+        if (error.response?.status === 403) {
+          navigate('/login');
+        }
       } finally {
         setLoading(false);
       }

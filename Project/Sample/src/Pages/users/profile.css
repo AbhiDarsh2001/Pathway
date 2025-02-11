@@ -182,3 +182,60 @@
   background-color: #f0f0f0;
   color: #007bff;
 }
+
+.traits-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+  margin-top: 1.5rem;
+}
+
+.trait-card {
+  background: white;
+  padding: 1.5rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  transition: transform 0.2s;
+}
+
+.trait-card:hover {
+  transform: translateY(-2px);
+}
+
+.trait-card h4 {
+  margin: 0 0 0.5rem 0;
+  color: #333;
+}
+
+.score-bar {
+  height: 10px;
+  background-color: #e9ecef;
+  border-radius: 5px;
+  overflow: hidden;
+  margin: 0.8rem 0;
+}
+
+.score-fill {
+  height: 100%;
+  background-color: #4CAF50;
+  transition: width 0.3s ease, background-color 0.3s;
+}
+
+.score-value {
+  margin: 0;
+  font-weight: 500;
+  color: #666;
+}
+
+.trait-description {
+  font-size: 0.9rem;
+  color: #666;
+  margin-top: 0.5rem;
+  line-height: 1.4;
+}
+
+.test-date {
+  margin-top: 1rem;
+  color: #666;
+  font-size: 0.9rem;
+}

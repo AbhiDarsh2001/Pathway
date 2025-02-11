@@ -29,7 +29,7 @@ const Header = () => {
 
           <div className="profile-dropdown">
             <Link to="/uprofile" className="dropdown-option" >
-              Edit Profile
+              Profile
             </Link>
             <Link to="/add-blog" className="dropdown-option" id="addblog">
               ADD-Blog

@@ -11,23 +11,24 @@ function Profile() {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const [testResults, setTestResults] = useState([]);
+  const [personalityResults, setPersonalityResults] = useState(null);
   const navigate = useNavigate();
 
   useEffect(() => {
     const fetchData = async () => {
       const token = localStorage.getItem('token');
       try {
-        // Fetch user profile
+        // Fetch user profile and test results
         const userResponse = await axios.get(`${import.meta.env.VITE_URL}/vuprofile`, {
           headers: { Authorization: token }
         });
         setUser(userResponse.data);
+        setPersonalityResults(userResponse.data.personalityResults);
 
-        // Fetch test results
+        // Fetch aptitude test results
         const testResponse = await axios.get(`${import.meta.env.VITE_URL}/test/results/${userResponse.data.email}`, {
           headers: { Authorization: token }
         });
-        // Filter out results where testId is null
         const validResults = testResponse.data.filter(result => result.testId != null);
         setTestResults(validResults);
       } catch (error) {
@@ -45,6 +46,40 @@ function Profile() {
 
     fetchData();
   }, [navigate]);
+
+  const getTraitDescription = (trait, score) => {
+    const level = score <= 13 ? 'Low' : score <= 26 ? 'Moderate' : 'High';
+    
+    const descriptions = {
+      Openness: {
+        Low: 'Prefers routine and familiar experiences',
+        Moderate: 'Balance between tradition and new experiences',
+        High: 'Curious and open to new experiences'
+      },
+      Conscientiousness: {
+        Low: 'Flexible and spontaneous',
+        Moderate: 'Balanced between organized and flexible',
+        High: 'Organized and detail-oriented'
+      },
+      Extraversion: {
+        Low: 'Reserved and thoughtful',
+        Moderate: 'Balance between social and solitary',
+        High: 'Outgoing and energized by social interaction'
+      },
+      Agreeableness: {
+        Low: 'Direct and straightforward',
+        Moderate: 'Balance between competitive and cooperative',
+        High: 'Cooperative and compassionate'
+      },
+      Neuroticism: {
+        Low: 'Calm and emotionally stable',
+        Moderate: 'Balanced emotional responses',
+        High: 'Sensitive and emotionally responsive'
+      }
+    };
+
+    return descriptions[trait][level];
+  };
 
   if (loading) {
     return <div>Loading...</div>;
@@ -162,6 +197,31 @@ function Profile() {
                   )
                 ))}
               </div>
+            </div>
+          )}
+
+          {/* Personality Test Results Section */}
+          {personalityResults && (
+            <div className="profile-section">
+              <h2>Personality Test Results</h2>
+              <div className="traits-grid">
+                {Object.entries(personalityResults.scores).map(([trait, score]) => (
+                  <div key={trait} className="trait-card">
+                    <h4>{trait}</h4>
+                    <div className="score-bar">
+                      <div 
+                        className="score-fill"
+                        style={{ width: `${(score / 40) * 100}%` }}
+                      />
+                    </div>
+                    <p className="score-value">{score}/40</p>
+                    <p className="trait-description">{getTraitDescription(trait, score)}</p>
+                  </div>
+                ))}
+              </div>
+              <p className="test-date">
+                Test taken on: {new Date(personalityResults.createdAt).toLocaleDateString()}
+              </p>
             </div>
           )}
 
