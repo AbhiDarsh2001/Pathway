@@ -24,6 +24,15 @@ const PersonalityTest = () => {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [selectedQuestion, setSelectedQuestion] = useState(null);
 
+  // Add personality traits array
+  const personalityTraits = [
+    'Neuroticism',
+    'Agreeableness', 
+    'Conscientiousness',
+    'Openness',
+    'Extraversion'
+  ];
+
   useEffect(() => {
     fetchQuestions();
   }, []);
@@ -124,15 +133,21 @@ const PersonalityTest = () => {
             
             <div className="form-group">
               <label htmlFor="trait">Personality Trait</label>
-              <input
+              <select
                 id="trait"
-                type="text"
                 name="trait"
-                placeholder="Enter personality trait"
                 value={newQuestion.trait}
                 onChange={handleQuestionChange}
                 required
-              />
+                className="trait-select"
+              >
+                <option value="">Select a trait</option>
+                {personalityTraits.map((trait) => (
+                  <option key={trait} value={trait}>
+                    {trait}
+                  </option>
+                ))}
+              </select>
             </div>
             
             <div className="options-container">

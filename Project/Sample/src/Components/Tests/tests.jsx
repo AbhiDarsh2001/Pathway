@@ -12,6 +12,10 @@ const Tests = () => {
     navigate('/testbox');
   };
 
+  const handlepersonTest = () => {
+    navigate('/take-personality-test');
+  };
+
   return (
     <div className="home-container">
       {/* Sidebar */}
@@ -50,11 +54,11 @@ const Tests = () => {
               <p>Evaluate your skills and cognitive abilities.</p>
               <button className="action-button" onClick={handleStartTest}>Begin Test</button>
             </div>
-            {/* <div className="info-card">
-              <h3>Career Interest Test</h3>
+            <div className="info-card">
+              <h3>Personality Test</h3>
               <p>Find career paths that match your interests.</p>
-              <button className="action-button">Take Test</button>
-            </div> */}
+              <button className="action-button" onClick={handlepersonTest}>Take Test</button>
+            </div>
           </div>
 
           {/* Additional Test Categories */}

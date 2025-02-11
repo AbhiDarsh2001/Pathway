@@ -77,7 +77,7 @@ const TestBox = () => {
                 <h2 className="test-title">{test.title}</h2>
                 <div className="test-details">
                   <span>Total Marks: {test.totalMarks}</span>
-                  {/* <span>Duration: {test.duration} mins</span> */}
+                  <span>Duration: {test.duration} mins</span>
                 </div>
                 <button className="start-test-btn">Start Test</button>
               </div>
