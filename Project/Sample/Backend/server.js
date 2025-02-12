@@ -40,6 +40,7 @@ const InstituteRoutes= require("./routes/institute.js");
 const TestRoutes=require("./routes/Test.js");
 const gemini=require("./routes/gemini.js");
 const questionRoutes = require("./routes/questionRoutes");
+const testRoutes = require('./routes/Test');
 
 // Middleware for CORS
 
@@ -299,6 +300,7 @@ app.use('/institute',InstituteRoutes);
 //app.use('/chatBot',chatBot);
 app.use('/test', TestRoutes);
 app.use('/personal', questionRoutes);
+app.use('/career', testRoutes);
 
 
 
@@ -332,3 +334,7 @@ app.use((req, res, next) => {
   }
   next();
 });
+
+app.use(cors());
+app.use(express.json());
+app.use('/career', TestRoutes);

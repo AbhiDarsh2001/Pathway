@@ -1,19 +1,65 @@
 const mongoose = require("mongoose");
 
 const personalityResultSchema = new mongoose.Schema({
-  userId: { 
-    type: mongoose.Schema.Types.ObjectId, 
-    ref: 'User', 
-    required: true 
+  email: {
+    type: String,
+    required: true,
+    trim: true
   },
   scores: {
-    Neuroticism: { type: Number, required: true },
-    Agreeableness: { type: Number, required: true },
-    Conscientiousness: { type: Number, required: true },
-    Openness: { type: Number, required: true },
-    Extraversion: { type: Number, required: true }
+    extraversion: {
+      type: Number,
+      required: true,
+      min: 0,
+      max: 40
+    },
+    agreeableness: {
+      type: Number,
+      required: true,
+      min: 0,
+      max: 40
+    },
+    conscientiousness: {
+      type: Number,
+      required: true,
+      min: 0,
+      max: 40
+    },
+    neuroticism: {
+      type: Number,
+      required: true,
+      min: 0,
+      max: 40
+    },
+    openness: {
+      type: Number,
+      required: true,
+      min: 0,
+      max: 40
+    },
+    math: {
+      type: Number,
+      required: true,
+      min: 0,
+      max: 100
+    },
+    verbal: {
+      type: Number,
+      required: true,
+      min: 0,
+      max: 100
+    },
+    logic: {
+      type: Number,
+      required: true,
+      min: 0,
+      max: 100
+    }
   },
-  createdAt: { type: Date, default: Date.now }
+  timestamp: {
+    type: Date,
+    default: Date.now
+  }
 });
 
 module.exports = mongoose.model("PersonalityResult", personalityResultSchema); 

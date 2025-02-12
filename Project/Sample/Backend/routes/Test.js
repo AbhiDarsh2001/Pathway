@@ -5,23 +5,29 @@ const PsychometricTest = require('../models/Testmodel');
 const jwt = require('jsonwebtoken')
 const dotenv = require('dotenv')
 const QuizResult = require('../models/Quizresult');
+const axios = require('axios');
 
 dotenv.config()
 
 const verifyToken = (req, res, next) => {
   const token = req.headers['authorization'];
   if (!token) {
-    return res.status(403).json({ message: "No token provided." });
+    return res.status(403).json({ 
+      success: false,
+      message: "No token provided." 
+    });
   }
 
-  // No need to split - keeping consistent with profile routes
-  jwt.verify(token, process.env.JSON_WEB_TOKEN_SECRET_KEY, (err, decoded) => {
-    if (err) {
-      return res.status(401).json({ message: "Failed to authenticate token." });
-    }
+  try {
+    const decoded = jwt.verify(token, process.env.JSON_WEB_TOKEN_SECRET_KEY);
     req.email = decoded.email;
     next();
-  });
+  } catch (err) {
+    return res.status(401).json({ 
+      success: false,
+      message: "Failed to authenticate token." 
+    });
+  }
 };
 
 
@@ -602,6 +608,63 @@ router.get('/results/:email', verifyToken, async (req, res) => {
     console.error('Error fetching test results:', error);
     res.status(500).json({ message: 'Error fetching test results', error: error.message });
   }
+});
+
+router.post('/predict-career', verifyToken, async (req, res) => {
+    try {
+        const {
+            extraversion,
+            agreeableness,
+            conscientiousness,
+            neuroticism,
+            openness,
+            math,
+            verbal,
+            logic
+        } = req.body;
+
+        // Validate input
+        const scores = [extraversion, agreeableness, conscientiousness, neuroticism, openness, math, verbal, logic];
+        if (scores.some(score => score === undefined || score === null)) {
+            return res.status(400).json({
+                success: false,
+                message: 'Missing required scores'
+            });
+        }
+
+        // Simple career prediction logic (replace with your ML model)
+        let careerRecommendation;
+        
+        if (math > 7 && logic > 7) {
+            careerRecommendation = "Software Engineering";
+        } else if (verbal > 7 && agreeableness > 7) {
+            careerRecommendation = "Human Resources";
+        } else if (openness > 7 && verbal > 6) {
+            careerRecommendation = "Marketing";
+        } else if (conscientiousness > 7 && math > 6) {
+            careerRecommendation = "Finance";
+        } else if (extraversion > 7 && verbal > 6) {
+            careerRecommendation = "Sales";
+        } else {
+            careerRecommendation = "Business Administration";
+        }
+
+        // Log the prediction process
+        console.log('Input scores:', req.body);
+        console.log('Career recommendation:', careerRecommendation);
+
+        res.json({
+            success: true,
+            careerRecommendation
+        });
+    } catch (error) {
+        console.error('Error in career prediction:', error);
+        res.status(500).json({
+            success: false,
+            message: 'Error generating career prediction',
+            error: error.message
+        });
+    }
 });
 
 module.exports = router;
