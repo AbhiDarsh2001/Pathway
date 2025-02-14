@@ -2,7 +2,7 @@ import React from "react";
 import "./tests.css";
 import useAuth from "../Function/useAuth";
 import Header from "../../Pages/users/Header";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 
 const Tests = () => {
   useAuth();
@@ -57,7 +57,7 @@ const Tests = () => {
             <div className="info-card">
               <h3>Personality Test</h3>
               <p>Find career paths that match your interests.</p>
-              <button className="action-button" onClick={handlepersonTest}>Take Test</button>
+              <Link to="/take-personality-test" className="action-button">Take Test</Link>
             </div>
           </div>
 
@@ -78,6 +78,19 @@ const Tests = () => {
               <p>Evaluate your technical and soft skills.</p>
               <button className="action-button">Start Assessment</button>
             </div> */}
+          </div>
+        </div>
+
+        <div className="tests-container">
+          <h2>Available Tests</h2>
+          <div className="tests-grid">
+            <div className="test-card">
+              <h3>Manual Career Assessment</h3>
+              <p>Input your scores manually for quick career suggestions</p>
+              <Link to="/manual-career-test" className="test-button">
+                Manual Input
+              </Link>
+            </div>
           </div>
         </div>
       </div>

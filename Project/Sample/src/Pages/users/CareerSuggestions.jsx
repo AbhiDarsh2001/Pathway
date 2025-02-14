@@ -16,6 +16,19 @@ const CareerSuggestions = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
+        const manualResults = localStorage.getItem('manualTestResults');
+        
+        if (manualResults) {
+            const results = JSON.parse(manualResults);
+            setPersonalityScores(results.scores);
+            setCareerSuggestion(results.careerRecommendation);
+            setIsDefaultScores(false);
+            setLoading(false);
+            // Clear the results after loading
+            localStorage.removeItem('manualTestResults');
+            return;
+        }
+
         const fetchData = async () => {
             const token = localStorage.getItem('token');
             if (!token) {

@@ -17,6 +17,7 @@ const cors = require("cors");
 const nodemailer = require("nodemailer");
 const User = require("./models/RegisterModel.js");
 const app = express();
+const axios = require('axios');
 
 // Import Routes
 const CourseRoute = require("./routes/course.js");
@@ -338,3 +339,26 @@ app.use((req, res, next) => {
 app.use(cors());
 app.use(express.json());
 app.use('/career', TestRoutes);
+
+// Add this route handler
+app.post('/career/predict-manual', async (req, res) => {
+    try {
+        console.log('Received prediction request:', req.body); // Debug log
+
+        const response = await axios.post(
+            'http://localhost:5000/predict-manual',
+            req.body
+        );
+
+        console.log('ML API response:', response.data); // Debug log
+
+        res.json(response.data);
+    } catch (error) {
+        console.error('Prediction error:', error.response?.data || error.message);
+        res.status(500).json({
+            success: false,
+            error: 'Failed to get career prediction',
+            details: error.response?.data || error.message
+        });
+    }
+});

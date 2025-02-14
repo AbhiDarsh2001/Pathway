@@ -1,0 +1,16 @@
+extraversion,agreeableness,openness,neuroticism,conscientiousness,math,verbal,logic,career
+75,80,85,45,85,95,80,90,Software Engineer
+70,75,90,50,90,90,75,95,Software Engineer
+65,70,85,55,80,85,70,85,Software Engineer
+80,85,80,40,85,90,85,95,Data Scientist
+75,80,90,45,90,95,80,90,Data Scientist
+70,75,85,50,85,90,75,85,Data Scientist
+90,95,80,35,90,70,95,80,Teacher
+85,90,85,30,85,75,90,75,Teacher
+90,85,75,40,90,65,95,70,Teacher
+90,95,85,30,80,65,90,75,HR Manager
+95,90,80,35,85,60,95,70,HR Manager
+85,95,75,40,75,70,85,80,HR Manager
+75,85,90,45,90,85,90,85,Business Analyst
+80,80,85,50,85,80,85,90,Business Analyst
+70,85,80,45,95,90,85,85,Business Analyst 

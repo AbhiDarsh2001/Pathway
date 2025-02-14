@@ -47,6 +47,7 @@ import PersonalityTest from "./Pages/admin/PersonalityTest";
 import TakeTest from './Pages/users/TakeTest';
 import TestResults from './Components/PersonalityTest/TestResults';
 import CareerSuggestions from './Pages/users/CareerSuggestions';
+import ManualCareerTest from './Pages/users/ManualCareerTest';
 
 function App() {
     return (
@@ -109,6 +110,7 @@ function App() {
 			<Route path="/take-personality-test" element={<TakeTest />} />
 			<Route path="/personality-results" element={<TestResults />} />
 			<Route path="/career-suggestions" element={<CareerSuggestions />} />
+			<Route path="/manual-career-test" element={<ManualCareerTest />} />
 
 
         </Routes>
