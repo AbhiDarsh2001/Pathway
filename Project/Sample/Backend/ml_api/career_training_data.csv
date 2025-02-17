@@ -13,4 +13,46 @@ extraversion,agreeableness,openness,neuroticism,conscientiousness,math,verbal,lo
 85,95,75,40,75,70,85,80,HR Manager
 75,85,90,45,90,85,90,85,Business Analyst
 80,80,85,50,85,80,85,90,Business Analyst
-70,85,80,45,95,90,85,85,Business Analyst 
+70,85,80,45,95,90,85,85,Business Analyst
+60,70,80,40,95,95,70,85,Doctor
+65,70,85,45,80,90,75,95,Doctor
+70,75,90,50,90,90,75,95,Doctor
+85,90,80,35,90,70,95,80,Doctor
+75,80,90,45,90,95,80,90,Doctor
+60,70,80,40,95,95,70,85,Doctor
+55,75,75,45,90,90,75,80,Doctor
+50,80,85,50,85,85,80,75,Doctor
+70,80,90,55,85,60,95,85,Lawyer
+65,85,85,50,90,55,90,80,Lawyer
+75,90,80,45,95,50,85,90,Lawyer
+55,75,85,40,90,85,70,90,Architect
+50,70,90,35,85,80,65,95,Architect
+60,80,95,45,80,75,80,85,Architect
+85,90,80,50,85,75,90,80,Journalist
+80,85,85,55,80,70,95,75,Journalist
+75,80,90,45,85,65,85,85,Journalist
+70,85,90,50,95,90,85,90,Financial Analyst
+65,80,85,45,90,85,80,95,Financial Analyst
+60,75,80,40,85,80,75,85,Financial Analyst
+65,70,88,50,85,80,85,90,Financial Analyst
+85,90,75,35,80,60,95,70,Marketing Manager
+90,85,80,30,85,65,90,75,Marketing Manager
+88,92,82,32,88,70,85,78,Marketing Manager
+75,80,90,50,90,85,90,85,Civil Engineer
+70,75,85,55,85,80,85,80,Civil Engineer
+78,82,88,45,88,90,85,90,Civil Engineer
+85,88,75,40,85,92,78,88,Mechanical Engineer
+90,85,80,35,90,88,75,90,Mechanical Engineer
+75,80,85,45,85,90,80,85,Mechanical Engineer
+85,85,90,40,88,75,85,88,Psychologist
+90,90,85,35,85,70,90,85,Psychologist
+80,85,88,42,90,65,95,80,Psychologist
+75,85,80,45,90,88,85,90,Architect
+80,80,85,50,85,85,80,85,Architect
+85,85,90,40,88,78,88,90,Architect
+80,85,85,42,85,90,85,88,Lawyer
+85,90,80,38,90,85,90,85,Lawyer
+75,85,88,45,88,80,85,90,Lawyer
+95,90,85,30,80,55,92,75,Public Relations Specialist
+90,85,80,35,85,50,95,72,Public Relations Specialist
+85,88,78,40,88,45,90,70,Public Relations Specialist
