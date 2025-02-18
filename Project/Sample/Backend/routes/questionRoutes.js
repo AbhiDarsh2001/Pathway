@@ -77,30 +77,82 @@ router.get("/test-questions", verifyToken, async (req, res) => {
   }
 });
 
-// Submit test results (protected)
-router.post("/submit-test", verifyToken, async (req, res) => {
+// Submit test results
+router.post('/submit-test', verifyToken, async (req, res) => {
   try {
     const { scores } = req.body;
-    const result = new PersonalityResult({
-      userId: req.userId, // Use ID from token
-      scores
+    
+    // Validate scores
+    if (!scores || typeof scores !== 'object') {
+      return res.status(400).json({ 
+        success: false, 
+        error: 'Invalid scores format' 
+      });
+    }
+
+    // Validate required score fields
+    const requiredScores = ['extraversion', 'agreeableness', 'conscientiousness', 'neuroticism', 'openness'];
+    for (const trait of requiredScores) {
+      if (typeof scores[trait] !== 'number' || scores[trait] < 0 || scores[trait] > 40) {
+        return res.status(400).json({
+          success: false,
+          error: `Invalid score for ${trait}. Must be a number between 0 and 40.`
+        });
+      }
+    }
+
+    const newTest = new PersonalityResult({
+      email: req.email,
+      scores: {
+        extraversion: scores.extraversion,
+        agreeableness: scores.agreeableness,
+        conscientiousness: scores.conscientiousness,
+        neuroticism: scores.neuroticism,
+        openness: scores.openness,
+        math: scores.math || 0,
+        verbal: scores.verbal || 0,
+        logic: scores.logic || 0
+      },
+      timestamp: new Date()
     });
-    await result.save();
-    res.status(201).json({ success: true, data: result });
+
+    const savedTest = await newTest.save();
+    
+    res.status(200).json({
+      success: true,
+      data: savedTest
+    });
   } catch (error) {
-    res.status(400).json({ success: false, error: error.message });
+    console.error('Submit test error:', error);
+    res.status(500).json({
+      success: false,
+      error: error.message
+    });
   }
 });
 
 // Get user's test results (protected)
 router.get("/results", verifyToken, async (req, res) => {
   try {
-    const results = await PersonalityResult.find({ userId: req.userId })
-      .sort({ createdAt: -1 })
-      .limit(1);
-    res.status(200).json({ success: true, data: results[0] });
+    const results = await PersonalityResult.findOne({ email: req.email })
+      .sort({ timestamp: -1 });
+
+    if (!results) {
+      return res.status(404).json({ 
+        success: false, 
+        message: 'No test results found' 
+      });
+    }
+
+    res.status(200).json({ 
+      success: true, 
+      data: results 
+    });
   } catch (error) {
-    res.status(400).json({ success: false, error: error.message });
+    res.status(400).json({ 
+      success: false, 
+      error: error.message 
+    });
   }
 });
 
@@ -122,10 +174,8 @@ router.get('/results/:email', verifyToken, async (req, res) => {
                     agreeableness: 25,
                     conscientiousness: 25,
                     neuroticism: 25,
-                    openness: 25,
-                    math: 50,           // Default aptitude scores
-                    verbal: 50,
-                    logic: 50
+                    openness: 25
+
                 }
             });
             await result.save();

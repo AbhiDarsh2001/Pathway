@@ -141,12 +141,6 @@ const ManualCareerTest = () => {
                 <div className="manual-test-container">
                     <h2>Manual Career Assessment</h2>
                     <p className="instructions">
-                        Rate each trait on a scale of 0-100, where:
-                        <br />0-20 = Very Low/Poor
-                        <br />21-40 = Below Average
-                        <br />41-60 = Average
-                        <br />61-80 = Above Average
-                        <br />81-100 = Excellent
                     </p>
 
                     <form onSubmit={handleSubmit}>

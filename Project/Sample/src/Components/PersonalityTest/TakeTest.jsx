@@ -50,17 +50,19 @@ const TakeTest = () => {
 
   const calculateTraitScores = () => {
     const traitScores = {
-      Neuroticism: 0,
-      Agreeableness: 0,
-      Conscientiousness: 0,
-      Openness: 0,
-      Extraversion: 0
+      extraversion: 0,
+      agreeableness: 0,
+      conscientiousness: 0,
+      neuroticism: 0,
+      openness: 0
     };
 
-    questions.forEach(question => {
-      const answer = answers[question._id];
-      if (answer) {
-        traitScores[question.trait] += answer.score;
+    // Calculate scores based on answers
+    Object.entries(answers).forEach(([questionId, selectedOption]) => {
+      const question = questions.find(q => q._id === questionId);
+      if (question) {
+        const trait = question.trait.toLowerCase();
+        traitScores[trait] += selectedOption.score;
       }
     });
 
@@ -75,14 +77,46 @@ const TakeTest = () => {
 
     try {
       const scores = calculateTraitScores();
-      await axios.post(
+      
+      // Add validation to ensure all required scores are present
+      if (!scores.extraversion || !scores.agreeableness || 
+          !scores.conscientiousness || !scores.neuroticism || 
+          !scores.openness) {
+        setError('Invalid score calculation');
+        return;
+      }
+
+      // Add default values for math, verbal, and logic scores
+      const submitData = {
+        scores: {
+          ...scores,
+          math: 0,    // These will be updated by a different test
+          verbal: 0,
+          logic: 0
+        }
+      };
+
+      console.log('Submitting scores:', submitData); // Debug log
+
+      const response = await axios.post(
         `${import.meta.env.VITE_URL}/personal/submit-test`, 
-        { scores },
-        { headers: { Authorization: token } }
+        submitData,
+        { 
+          headers: { 
+            'Authorization': token,
+            'Content-Type': 'application/json'
+          } 
+        }
       );
-      navigate('/home');
+
+      if (response.data.success) {
+        navigate('/personality-results');
+      } else {
+        setError(response.data.message || 'Failed to submit test');
+      }
     } catch (error) {
-      setError('Failed to submit test');
+      console.error('Submit error:', error.response?.data || error);
+      setError(error.response?.data?.message || 'Failed to submit test');
       if (error.response?.status === 403) {
         navigate('/login');
       }
