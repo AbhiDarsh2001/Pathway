@@ -41,6 +41,11 @@ const TakeTest = () => {
       ...answers,
       [questionId]: selectedOption
     });
+    
+    // Automatically move to next question if not the last question
+    if (currentQuestion < questions.length - 1) {
+      setCurrentQuestion(curr => curr + 1);
+    }
   };
 
   const calculateTraitScores = () => {

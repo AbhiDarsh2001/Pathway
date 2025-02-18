@@ -44,7 +44,7 @@ import Tests from "./Components/Tests/tests";
 import TestBox from "./Components/Tests/TestBox";
 import QuizPage from "./Components/Tests/Testpage";
 import PersonalityTest from "./Pages/admin/PersonalityTest";
-import TakeTest from './Pages/users/TakeTest';
+import TakeTest from './Components/PersonalityTest/TakeTest';
 import TestResults from './Components/PersonalityTest/TestResults';
 import CareerSuggestions from './Pages/users/CareerSuggestions';
 import ManualCareerTest from './Pages/users/ManualCareerTest';

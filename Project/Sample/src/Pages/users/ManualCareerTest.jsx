@@ -90,6 +90,7 @@ const ManualCareerTest = () => {
                     careerRecommendation: response.data.careerRecommendation
                 });
             } else {
+                console.log(response.data.error);
                 setError(response.data.error || 'Failed to get career prediction');
             }
         } catch (err) {
