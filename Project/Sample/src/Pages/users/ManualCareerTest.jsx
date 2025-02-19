@@ -44,32 +44,46 @@ const ManualCareerTest = () => {
             if (personalityResponse.data.success && personalityResponse.data.data) {
                 const personalityScores = personalityResponse.data.data.scores;
                 
-                // Calculate average scores for math, verbal, and logic from aptitude tests
-                const aptitudeScores = aptitudeResponse.data.reduce((acc, test) => {
-                    if (test.testId?.category) {
-                        const score = (test.score / test.testId.totalMarks) * 100;
-                        acc[test.testId.category.toLowerCase()] = score;
-                    }
-                    return acc;
-                }, {});
+                // Process aptitude test results
+                const aptitudeScores = {
+                    math: 0,
+                    verbal: 0,
+                    logic: 0
+                };
 
-                // Convert personality scores from 0-40 to 0-100 scale
+                // Calculate scores from aptitude tests
+                aptitudeResponse.data.forEach(result => {
+                    if (result.testId && result.testId.title) {
+                        const percentage = (result.score / result.testId.totalMarks) * 100;
+                        const title = result.testId.title.toLowerCase();
+                        
+                        if (title.includes('math')) {
+                            aptitudeScores.math = percentage;
+                        } else if (title.includes('verbal')) {
+                            aptitudeScores.verbal = percentage;
+                        } else if (title.includes('logic')) {
+                            aptitudeScores.logic = percentage;
+                        }
+                    }
+                });
+
+                // Set all scores
                 setScores({
                     extraversion: (personalityScores.extraversion * 2.5).toString(),
                     agreeableness: (personalityScores.agreeableness * 2.5).toString(),
                     openness: (personalityScores.openness * 2.5).toString(),
                     neuroticism: (personalityScores.neuroticism * 2.5).toString(),
                     conscientiousness: (personalityScores.conscientiousness * 2.5).toString(),
-                    math: aptitudeScores.math?.toString() || '',
-                    verbal: aptitudeScores.verbal?.toString() || '',
-                    logic: aptitudeScores.logic?.toString() || ''
+                    math: aptitudeScores.math.toFixed(2).toString(),
+                    verbal: aptitudeScores.verbal.toFixed(2).toString(),
+                    logic: aptitudeScores.logic.toFixed(2).toString()
                 });
 
-                setFieldErrors({}); // Clear any existing field errors
+                setFieldErrors({});
             }
         } catch (err) {
             console.error('Error fetching scores:', err);
-            setError('Failed to fetch scores. Please try again.');
+            setError(err.response?.data?.message || 'Failed to fetch scores. Please try again.');
         } finally {
             setIsLoading(false);
         }
