@@ -57,12 +57,12 @@ const TakeTest = () => {
       openness: 0
     };
 
-    // Calculate scores based on answers
+    // Calculate scores based on answers (keeping original 0-40 scale)
     Object.entries(answers).forEach(([questionId, selectedOption]) => {
       const question = questions.find(q => q._id === questionId);
       if (question) {
         const trait = question.trait.toLowerCase();
-        traitScores[trait] += selectedOption.score;
+        traitScores[trait] += selectedOption.score; // Keep original score (0-40)
       }
     });
 
@@ -78,7 +78,7 @@ const TakeTest = () => {
     try {
       const scores = calculateTraitScores();
       
-      // Add validation to ensure all required scores are present
+      // Add validation to ensure all required scores are present and within 0-40 range
       if (!scores.extraversion || !scores.agreeableness || 
           !scores.conscientiousness || !scores.neuroticism || 
           !scores.openness) {

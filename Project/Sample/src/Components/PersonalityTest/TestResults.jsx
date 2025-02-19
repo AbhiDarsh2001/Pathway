@@ -41,11 +41,11 @@ const TestResults = () => {
 
   const getTraitDescription = (trait, score) => {
     const descriptions = {
-      extraversion: score > 20 ? 'You are outgoing and energetic' : 'You are more reserved and reflective',
-      agreeableness: score > 20 ? 'You are friendly and compassionate' : 'You are more analytical and detached',
-      conscientiousness: score > 20 ? 'You are organized and responsible' : 'You are more flexible and spontaneous',
-      neuroticism: score > 20 ? 'You tend to be more sensitive' : 'You are more emotionally stable',
-      openness: score > 20 ? 'You are curious and creative' : 'You are more conventional and practical'
+      extraversion: score > 50 ? 'You are outgoing and energetic' : 'You are more reserved and reflective',
+      agreeableness: score > 50 ? 'You are friendly and compassionate' : 'You are more analytical and detached',
+      conscientiousness: score > 50 ? 'You are organized and responsible' : 'You are more flexible and spontaneous',
+      neuroticism: score > 50 ? 'You tend to be more sensitive' : 'You are more emotionally stable',
+      openness: score > 50 ? 'You are curious and creative' : 'You are more conventional and practical'
     };
     return descriptions[trait.toLowerCase()] || '';
   };
@@ -59,22 +59,27 @@ const TestResults = () => {
       <h2>Your Personality Test Results</h2>
       
       <div className="traits-grid">
-        {Object.entries(results.scores).map(([trait, score]) => (
+        {Object.entries(results.scores).map(([trait, score]) => {
           // Skip math, verbal, and logic scores as they're from a different test
-          !['math', 'verbal', 'logic'].includes(trait) && (
+          if (['math', 'verbal', 'logic'].includes(trait)) return null;
+          
+          // Convert score from 0-40 to 0-100 scale for display
+          const displayScore = Math.round(score * 2.5);
+          
+          return (
             <div key={trait} className="trait-card">
               <h3>{trait.charAt(0).toUpperCase() + trait.slice(1)}</h3>
               <div className="score-bar">
                 <div 
                   className="score-fill"
-                  style={{ width: `${(score / 40) * 100}%` }}
+                  style={{ width: `${displayScore}%` }}
                 />
               </div>
-              <p className="score-value">{score}/40</p>
-              <p className="trait-description">{getTraitDescription(trait, score)}</p>
+              <p className="score-value">{displayScore}/100</p>
+              <p className="trait-description">{getTraitDescription(trait, displayScore)}</p>
             </div>
-          )
-        ))}
+          );
+        })}
       </div>
 
       <div className="results-date">
