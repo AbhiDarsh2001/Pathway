@@ -60,9 +60,9 @@
 }
 
 .error-message {
-    color: #dc3545;
-    font-size: 0.875rem;
-    margin-top: 0.25rem;
+    color: #ff4444;
+    margin: 10px 0;
+    font-size: 14px;
 }
 
 .global-error {
@@ -142,4 +142,25 @@
 .score-value {
     font-weight: bold;
     color: #007bff;
+}
+
+.fetch-scores-button {
+    background-color: #4a90e2;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-bottom: 20px;
+    font-size: 16px;
+    transition: background-color 0.3s;
+}
+
+.fetch-scores-button:hover {
+    background-color: #357abd;
+}
+
+.fetch-scores-button:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
 } 

@@ -11,31 +11,31 @@ const personalityResultSchema = new mongoose.Schema({
       type: Number,
       required: true,
       min: 0,
-      max: 40
+      max: 100
     },
     agreeableness: {
       type: Number,
       required: true,
       min: 0,
-      max: 40
+      max: 100
     },
     conscientiousness: {
       type: Number,
       required: true,
       min: 0,
-      max: 40
+      max: 100
     },
     neuroticism: {
       type: Number,
       required: true,
       min: 0,
-      max: 40
+      max: 100
     },
     openness: {
       type: Number,
       required: true,
       min: 0,
-      max: 40
+      max: 100
     },
     math: {
       type: Number,

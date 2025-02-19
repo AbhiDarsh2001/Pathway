@@ -93,10 +93,10 @@ router.post('/submit-test', verifyToken, async (req, res) => {
     // Validate required score fields
     const requiredScores = ['extraversion', 'agreeableness', 'conscientiousness', 'neuroticism', 'openness'];
     for (const trait of requiredScores) {
-      if (typeof scores[trait] !== 'number' || scores[trait] < 0 || scores[trait] > 40) {
+      if (typeof scores[trait] !== 'number' || scores[trait] < 0 || scores[trait] > 100) {
         return res.status(400).json({
           success: false,
-          error: `Invalid score for ${trait}. Must be a number between 0 and 40.`
+          error: `Invalid score for ${trait}. Must be a number between 0 and 100.`
         });
       }
     }
@@ -170,12 +170,11 @@ router.get('/results/:email', verifyToken, async (req, res) => {
             result = new PersonalityResult({
                 email: req.params.email,
                 scores: {
-                    extraversion: 25,    // Default scores (mid-range)
-                    agreeableness: 25,
-                    conscientiousness: 25,
-                    neuroticism: 25,
-                    openness: 25
-
+                    extraversion: 50,    // Default scores (mid-range on 100-point scale)
+                    agreeableness: 50,
+                    conscientiousness: 50,
+                    neuroticism: 50,
+                    openness: 50
                 }
             });
             await result.save();
@@ -195,7 +194,7 @@ router.get('/results/:email', verifyToken, async (req, res) => {
         res.json({
             success: true,
             scores: result.scores,
-            isDefault: !result.timestamp // Indicate if these are default scores
+            isDefault: !result.timestamp
         });
     } catch (error) {
         console.error('Error handling personality results:', error);

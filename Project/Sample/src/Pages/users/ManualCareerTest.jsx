@@ -2,9 +2,11 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import Header from './Header';
+import useAuth from '../../Components/Function/useAuth';
 import './ManualCareerTest.css';
 
 const ManualCareerTest = () => {
+    useAuth(); // Add authentication check
     const [scores, setScores] = useState({
         extraversion: '',
         agreeableness: '',
@@ -18,7 +20,60 @@ const ManualCareerTest = () => {
     const [error, setError] = useState(null);
     const [fieldErrors, setFieldErrors] = useState({});
     const [isSubmitting, setIsSubmitting] = useState(false);
-    const [result, setResult] = useState(null); // New state for storing results
+    const [isLoading, setIsLoading] = useState(false);
+    const [result, setResult] = useState(null);
+
+    const token = localStorage.getItem('token');
+
+    const fetchUserScores = async () => {
+        setIsLoading(true);
+        setError(null);
+        try {
+            // Fetch personality test results
+            const personalityResponse = await axios.get(
+                `${import.meta.env.VITE_URL}/personal/results`,
+                { headers: { Authorization: token } }
+            );
+
+            // Fetch aptitude test results
+            const aptitudeResponse = await axios.get(
+                `${import.meta.env.VITE_URL}/test/results/${localStorage.getItem('email')}`,
+                { headers: { Authorization: token } }
+            );
+
+            if (personalityResponse.data.success && personalityResponse.data.data) {
+                const personalityScores = personalityResponse.data.data.scores;
+                
+                // Calculate average scores for math, verbal, and logic from aptitude tests
+                const aptitudeScores = aptitudeResponse.data.reduce((acc, test) => {
+                    if (test.testId?.category) {
+                        const score = (test.score / test.testId.totalMarks) * 100;
+                        acc[test.testId.category.toLowerCase()] = score;
+                    }
+                    return acc;
+                }, {});
+
+                // Convert personality scores from 0-40 to 0-100 scale
+                setScores({
+                    extraversion: (personalityScores.extraversion * 2.5).toString(),
+                    agreeableness: (personalityScores.agreeableness * 2.5).toString(),
+                    openness: (personalityScores.openness * 2.5).toString(),
+                    neuroticism: (personalityScores.neuroticism * 2.5).toString(),
+                    conscientiousness: (personalityScores.conscientiousness * 2.5).toString(),
+                    math: aptitudeScores.math?.toString() || '',
+                    verbal: aptitudeScores.verbal?.toString() || '',
+                    logic: aptitudeScores.logic?.toString() || ''
+                });
+
+                setFieldErrors({}); // Clear any existing field errors
+            }
+        } catch (err) {
+            console.error('Error fetching scores:', err);
+            setError('Failed to fetch scores. Please try again.');
+        } finally {
+            setIsLoading(false);
+        }
+    };
 
     const validateInput = (name, value) => {
         if (value === '') return '';
@@ -141,16 +196,24 @@ const ManualCareerTest = () => {
                 <div className="manual-test-container">
                     <h2>Manual Career Assessment</h2>
                     <p className="instructions">
+                        Enter your scores manually or fetch them from your previous tests.
                     </p>
+
+                    <button 
+                        className="fetch-scores-button"
+                        onClick={fetchUserScores}
+                        disabled={isLoading}
+                    >
+                        {isLoading ? 'Fetching Scores...' : 'Fetch My Scores'}
+                    </button>
+
+                    {error && <div className="error-message">{error}</div>}
 
                     <form onSubmit={handleSubmit}>
                         <div className="scores-input-grid">
                             {traits.map(({ name, label, description }) => (
                                 <div key={name} className="score-input-item">
-                                    <label htmlFor={name}>
-                                        {label}
-                                        <span className="trait-description">{description}</span>
-                                    </label>
+                                    <label htmlFor={name}>{label}</label>
                                     <input
                                         type="text"
                                         id={name}
@@ -158,8 +221,8 @@ const ManualCareerTest = () => {
                                         value={scores[name]}
                                         onChange={handleChange}
                                         className={fieldErrors[name] ? 'error' : ''}
-                                        placeholder="Enter score (0-100)"
                                     />
+                                    <p className="description">{description}</p>
                                     {fieldErrors[name] && (
                                         <span className="error-message">{fieldErrors[name]}</span>
                                     )}
@@ -167,14 +230,12 @@ const ManualCareerTest = () => {
                             ))}
                         </div>
 
-                        {error && <div className="error-message global-error">{error}</div>}
-                        
                         <button 
                             type="submit" 
                             className="submit-button"
                             disabled={isSubmitting}
                         >
-                            {isSubmitting ? 'Processing...' : 'Get Career Suggestion'}
+                            {isSubmitting ? 'Getting Predictions...' : 'Get Career Predictions'}
                         </button>
                     </form>
 
