@@ -113,62 +113,56 @@ const ManualCareerTest = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        
-        // Validate all fields
-        const errors = {};
-        let hasError = false;
-        Object.entries(scores).forEach(([name, value]) => {
-            const error = validateInput(name, value);
-            if (error || value === '') {
-                errors[name] = error || 'This field is required';
-                hasError = true;
-            }
-        });
-
-        if (hasError) {
-            setFieldErrors(errors);
-            return;
-        }
-
         setIsSubmitting(true);
         setError(null);
-        
+
         try {
-            const numericScores = Object.entries(scores).reduce((acc, [key, value]) => ({
-                ...acc,
-                [key]: parseFloat(value)
-            }), {});
+            // Convert all scores to numbers
+            const numericScores = {
+                extraversion: parseFloat(scores.extraversion),
+                agreeableness: parseFloat(scores.agreeableness),
+                conscientiousness: parseFloat(scores.conscientiousness),
+                neuroticism: parseFloat(scores.neuroticism),
+                openness: parseFloat(scores.openness),
+                math: parseFloat(scores.math),
+                verbal: parseFloat(scores.verbal),
+                logic: parseFloat(scores.logic)
+            };
 
-            console.log('Sending scores:', numericScores);
+            // Validate all scores are numbers and within range
+            for (const [trait, score] of Object.entries(numericScores)) {
+                if (isNaN(score)) {
+                    throw new Error(`Invalid score for ${trait}`);
+                }
+                if (score < 10 || score > 100) {
+                    throw new Error(`Score for ${trait} must be between 10 and 100`);
+                }
+            }
 
+            // Send scores to backend
             const response = await axios.post(
                 `${import.meta.env.VITE_URL}/career/predict-manual`,
                 numericScores,
                 {
                     headers: {
+                        'Authorization': token,
                         'Content-Type': 'application/json'
                     }
                 }
             );
 
-            console.log('Response:', response.data);
-
             if (response.data.success) {
+                // Set the result with both prediction and scores
                 setResult({
-                    scores: numericScores,
-                    careerRecommendation: response.data.careerRecommendation
+                    careerRecommendation: response.data.careerRecommendation,
+                    scores: numericScores
                 });
             } else {
-                console.log(response.data.error);
-                setError(response.data.error || 'Failed to get career prediction');
+                setError(response.data.message || 'Failed to get career prediction');
             }
         } catch (err) {
-            console.error('Error details:', err);
-            setError(
-                err.response?.data?.error || 
-                err.response?.data?.details || 
-                'Failed to process scores. Please try again.'
-            );
+            console.error('Submission error:', err);
+            setError(err.message || 'Failed to submit scores');
         } finally {
             setIsSubmitting(false);
         }
@@ -253,20 +247,22 @@ const ManualCareerTest = () => {
                         </button>
                     </form>
 
-                    {/* New Result Section */}
+                    {/* Display the prediction result */}
                     {result && (
                         <div className="result-section">
                             <h3>Your Career Recommendation</h3>
                             <div className="recommendation-card">
                                 <h4>{result.careerRecommendation}</h4>
-                                <p>Based on your input scores:</p>
+                                <p>Based on your scores:</p>
                                 <div className="scores-summary">
                                     {Object.entries(result.scores).map(([trait, score]) => (
                                         <div key={trait} className="score-item">
                                             <span className="trait-label">
                                                 {trait.charAt(0).toUpperCase() + trait.slice(1)}:
                                             </span>
-                                            <span className="score-value">{score}</span>
+                                            <span className="score-value">
+                                                {score.toFixed(2)}
+                                            </span>
                                         </div>
                                     ))}
                                 </div>
