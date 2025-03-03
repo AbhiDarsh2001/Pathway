@@ -48,6 +48,7 @@ import TakeTest from './Components/PersonalityTest/TakeTest';
 import TestResults from './Components/PersonalityTest/TestResults';
 import CareerSuggestions from './Pages/users/CareerSuggestions';
 import ManualCareerTest from './Pages/users/ManualCareerTest';
+import DreamCareer from './Pages/users/DreamCareer';
 
 function App() {
     return (
@@ -111,14 +112,10 @@ function App() {
 			<Route path="/personality-results" element={<TestResults />} />
 			<Route path="/career-suggestions" element={<CareerSuggestions />} />
 			<Route path="/manual-career-test" element={<ManualCareerTest />} />
-
-
+			<Route path="/dreamcareer" element={<DreamCareer />} />
         </Routes>
     );
 }
 
 export default App;
-
-
-
-
+ 

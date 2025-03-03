@@ -250,7 +250,7 @@ app.post("/forgotpassword", async (req, res) => {
         .status(200)
         .send({ error: false, msg: "Verification code sent to your email." });
     }
-  });
+  }); 
 });
 
 app.post("/verifycode", async (req, res) => {

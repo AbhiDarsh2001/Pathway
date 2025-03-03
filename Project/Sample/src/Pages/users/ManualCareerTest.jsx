@@ -204,7 +204,7 @@ const ManualCareerTest = () => {
                 <div className="manual-test-container">
                     <h2>Manual Career Assessment</h2>
                     <p className="instructions">
-                        Enter your scores manually or fetch them from your previous tests.
+                        Enter your scores manually or fetch them from your previous tests (out of 100).
                     </p>
 
                     <button 

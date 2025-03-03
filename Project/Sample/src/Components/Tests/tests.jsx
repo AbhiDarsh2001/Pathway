@@ -82,12 +82,20 @@ const Tests = () => {
         </div>
 
         <div className="tests-container">
-          <h2>Available Tests</h2>
           <div className="tests-grid">
             <div className="test-card">
               <h3>Manual Career Assessment</h3>
               <p>Input your scores manually for quick career suggestions</p>
               <Link to="/manual-career-test" className="test-button">
+                Manual Input
+              </Link>
+            </div>
+          </div>
+          <div className="tests-grid">
+            <div className="test-card">
+              <h3>Select your dream Career</h3>
+              <p>Input your scores</p>
+              <Link to="/dreamcareer" className="test-button">
                 Manual Input
               </Link>
             </div>
