@@ -152,13 +152,14 @@ const ManualCareerTest = () => {
             );
 
             if (response.data.success) {
-                // Set the result with both prediction and scores
+                // Set the result with three career recommendations
                 setResult({
-                    careerRecommendation: response.data.careerRecommendation,
-                    scores: numericScores
+                    careerRecommendations: response.data.careerRecommendations, // Expecting an array of recommendations
+                    scores: numericScores,
+                    probabilities: response.data.probabilities
                 });
             } else {
-                setError(response.data.message || 'Failed to get career prediction');
+                setError(response.data.message || 'Failed to get career predictions');
             }
         } catch (err) {
             console.error('Submission error:', err);
@@ -250,11 +251,27 @@ const ManualCareerTest = () => {
                     {/* Display the prediction result */}
                     {result && (
                         <div className="result-section">
-                            <h3>Your Career Recommendation</h3>
+                            <h3>Your Career Recommendations</h3>
                             <div className="recommendation-card">
-                                <h4>{result.careerRecommendation}</h4>
-                                <p>Based on your scores:</p>
+                                {Array.isArray(result.careerRecommendations) ? (
+                                    <div className="recommendations-list">
+                                        {result.careerRecommendations.map((career, index) => (
+                                            <div key={index} className="recommendation-item">
+                                                <h4>{index + 1}. {career}</h4>
+                                                {result.probabilities && (
+                                                    <p className="probability">
+                                                        Confidence: {(result.probabilities[career] * 100).toFixed(2)}%
+                                                    </p>
+                                                )}
+                                            </div>
+                                        ))}
+                                    </div>
+                                ) : (
+                                    <p>No recommendations available</p>
+                                )}
+                                
                                 <div className="scores-summary">
+                                    <h4>Your Assessment Scores:</h4>
                                     {Object.entries(result.scores).map(([trait, score]) => (
                                         <div key={trait} className="score-item">
                                             <span className="trait-label">

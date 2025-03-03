@@ -37,20 +37,9 @@ def predict_manual():
             'math', 'verbal', 'logic'
         ]
         
-        # Validate input
-        if not data:
-            return jsonify({
-                'success': False,
-                'error': 'No data received'
-            }), 400
-
-        # Check model
-        if model is None:
-            return jsonify({
-                'success': False,
-                'error': 'Model not loaded'
-            }), 500
-
+        # Print available classes from the model
+        print("Available career classes:", model.classes_)
+        
         # Validate and collect features
         feature_values = []
         for feature in features:
@@ -62,12 +51,12 @@ def predict_manual():
             
             try:
                 value = float(data[feature])
-                if not (0 <= value <= 100):  # Updated validation range
+                if not (0 <= value <= 100):
                     return jsonify({
                         'success': False,
                         'error': f'Score for {feature} must be between 0 and 100'
                     }), 400
-                feature_values.append(value)
+                feature_values.append(value/100.0)  # Normalize to 0-1 range
             except ValueError:
                 return jsonify({
                     'success': False,
@@ -76,19 +65,35 @@ def predict_manual():
 
         # Create DataFrame
         df = pd.DataFrame([dict(zip(features, feature_values))])
-        print("Input DataFrame:", df) # Debug log
+        print("Normalized Input DataFrame:", df) # Debug log
 
         # Make prediction
-        prediction = model.predict(df)[0]
-        print("Prediction:", prediction) # Debug log
+        probabilities = model.predict_proba(df)[0]  # Get probability predictions
+        
+        # Print probabilities for each class
+        for class_name, prob in zip(model.classes_, probabilities):
+            print(f"Probability for {class_name}: {prob:.4f}")
+            
+        # Get top 3 career indices
+        top_3_indices = probabilities.argsort()[-3:][::-1]
+        
+        # Convert indices to career names
+        career_recommendations = [model.classes_[i] for i in top_3_indices]
+        
+        print("Final career recommendations:", career_recommendations) # Debug log
         
         return jsonify({
             'success': True,
-            'careerRecommendation': prediction
+            'careerRecommendations': career_recommendations,
+            'probabilities': {
+                career: float(prob) 
+                for career, prob in zip(model.classes_, probabilities)
+            }
         })
 
     except Exception as e:
         print(f"Error in prediction: {str(e)}")  # Debug log
+        print(f"Full error details: ", str(e.__dict__))  # More detailed error info
         return jsonify({
             'success': False,
             'error': str(e)
