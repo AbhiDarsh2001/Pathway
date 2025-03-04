@@ -56,7 +56,7 @@ const Home = () => {
             <div className="info-card">
               <h3>Take Tests</h3>
               <p>Discover your strengths with our psychometric tests.</p>
-              <button className="action-button" onClick={handletest}>Take Test</button>
+              <button className="action-button" id="tests" onClick={handletest}>Take Test</button>
             </div>
             <div className="info-card">
               <h3>Join Discussions</h3>
