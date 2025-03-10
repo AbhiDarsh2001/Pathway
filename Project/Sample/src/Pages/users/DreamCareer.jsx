@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import axios from 'axios';
 import "./DreamCareer.css";
+import USidebar from "./Usidebar";
+import Header from "./Header";
 
 const DreamCareer = () => {
   const [dreamJob, setDreamJob] = useState("");
@@ -18,6 +20,8 @@ const DreamCareer = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
   const [academicDetails, setAcademicDetails] = useState(null);
+  const [isEditing, setIsEditing] = useState(false);
+  const [editedScores, setEditedScores] = useState({});
 
   const token = localStorage.getItem('token');
 
@@ -124,61 +128,115 @@ const DreamCareer = () => {
     }
   };
 
+  const handleEditClick = () => {
+    setIsEditing(true);
+    setEditedScores(scores);
+  };
+
+  const handleScoreChange = (trait, value) => {
+    // Ensure the value is between 0 and 100
+    const numValue = Math.min(Math.max(parseFloat(value) || 0, 0), 100);
+    setEditedScores(prev => ({
+      ...prev,
+      [trait]: numValue.toString()
+    }));
+  };
+
+  const handleSaveScores = () => {
+    setScores(editedScores);
+    setIsEditing(false);
+    // Store the manual test results in localStorage
+    localStorage.setItem('manualTestResults', JSON.stringify({
+      scores: editedScores,
+      careerRecommendation: dreamJob || 'Not specified'
+    }));
+  };
+
   return (
-    <div className="dream-career-container">
-      <h2>Find Your Dream Career Path</h2>
-      {isLoading ? (
-        <div>Loading...</div>
-      ) : (
-        <>
-          {error && <div className="error-message">{error}</div>}
-          <form onSubmit={handleSubmit}>
-            <input
-              type="text"
-              placeholder="Enter your dream job"
-              value={dreamJob}
-              onChange={handleInputChange}
-            />
-            <button type="submit">Find Path</button>
-          </form>
-          {careerPath && (
-            <div className="career-path">
-              <h3>Career Path for {dreamJob}:</h3>
-              <ul>
-                {careerPath.steps.map((step, index) => (
-                  <li key={index}>{step}</li>
-                ))}
-              </ul>
-            </div>
+    <div className="home-container">
+      {/* <USidebar /> */}
+      <div className="main-content">
+        <Header />
+        <div className="dream-career-container">
+          <h2>Find Your Dream Career Path</h2>
+          {isLoading ? (
+            <div>Loading...</div>
+          ) : (
+            <>
+              {error && <div className="error-message">{error}</div>}
+              <form onSubmit={handleSubmit}>
+                <input
+                  type="text"
+                  placeholder="Enter your dream job"
+                  value={dreamJob}
+                  onChange={handleInputChange}
+                />
+                <button type="submit">Find Path</button>
+              </form>
+              {careerPath && (
+                <div className="career-path">
+                  <h3>Career Path for {dreamJob}:</h3>
+                  <ul>
+                    {careerPath.steps.map((step, index) => (
+                      <li key={index}>{step}</li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+              <div className="scores-display">
+                <h3>Your Scores</h3>
+                {!isEditing ? (
+                  <>
+                    <ul>
+                      <li>Extraversion: {scores.extraversion}</li>
+                      <li>Agreeableness: {scores.agreeableness}</li>
+                      <li>Openness: {scores.openness}</li>
+                      <li>Neuroticism: {scores.neuroticism}</li>
+                      <li>Conscientiousness: {scores.conscientiousness}</li>
+                      <li>Math: {scores.math}</li>
+                      <li>Verbal: {scores.verbal}</li>
+                      <li>Logic: {scores.logic}</li>
+                    </ul>
+                    <button onClick={handleEditClick}>Edit Scores</button>
+                  </>
+                ) : (
+                  <div className="edit-scores">
+                    {Object.entries(editedScores).map(([trait, score]) => (
+                      <div key={trait} className="score-input">
+                        <label>{trait.charAt(0).toUpperCase() + trait.slice(1)}:</label>
+                        <input
+                          type="number"
+                          min="0"
+                          max="100"
+                          value={score}
+                          onChange={(e) => handleScoreChange(trait, e.target.value)}
+                        />
+                      </div>
+                    ))}
+                    <div className="edit-buttons">
+                      <button onClick={handleSaveScores}>Save</button>
+                      <button onClick={() => setIsEditing(false)}>Cancel</button>
+                    </div>
+                  </div>
+                )}
+              </div>
+              {academicDetails && (
+                <div className="academic-details">
+                  <h3>Academic Information</h3>
+                  <ul>
+                    {academicDetails.tenthMark > 0 && <li>10th Mark: {academicDetails.tenthMark}%</li>}
+                    {academicDetails.twelthMark > 0 && <li>12th Mark: {academicDetails.twelthMark}%</li>}
+                    {academicDetails.degreeMark > 0 && <li>Degree Mark: {academicDetails.degreeMark}%</li>}
+                    {academicDetails.pgMark > 0 && <li>PG Mark: {academicDetails.pgMark}%</li>}
+                  </ul>
+                </div>
+              )}
+            </>
           )}
-          <div className="scores-display">
-            <h3>Your Scores</h3>
-            <ul>
-              <li>Extraversion: {scores.extraversion}</li>
-              <li>Agreeableness: {scores.agreeableness}</li>
-              <li>Openness: {scores.openness}</li>
-              <li>Neuroticism: {scores.neuroticism}</li>
-              <li>Conscientiousness: {scores.conscientiousness}</li>
-              <li>Math: {scores.math}</li>
-              <li>Verbal: {scores.verbal}</li>
-              <li>Logic: {scores.logic}</li>
-            </ul>
-          </div>
-          {academicDetails && (
-            <div className="academic-details">
-              <h3>Academic Information</h3>
-              <ul>
-                {academicDetails.tenthMark > 0 && <li>10th Mark: {academicDetails.tenthMark}%</li>}
-                {academicDetails.twelthMark > 0 && <li>12th Mark: {academicDetails.twelthMark}%</li>}
-                {academicDetails.degreeMark > 0 && <li>Degree Mark: {academicDetails.degreeMark}%</li>}
-                {academicDetails.pgMark > 0 && <li>PG Mark: {academicDetails.pgMark}%</li>}
-              </ul>
-            </div>
-          )}
-        </>
-      )}
+        </div>
+      </div>
     </div>
   );
-}; 
+};
 
 export default DreamCareer;
