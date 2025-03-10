@@ -18,6 +18,7 @@ const nodemailer = require("nodemailer");
 const User = require("./models/RegisterModel.js");
 const app = express();
 const axios = require('axios');
+const { GoogleGenerativeAI } = require("@google/generative-ai");
 
 // Import Routes
 const CourseRoute = require("./routes/course.js");
@@ -373,4 +374,130 @@ app.post('/career/predict-manual', async (req, res) => {
             details: error.response?.data || error.message
         });
     }
+});
+
+// Update the getCareerPath route handler
+app.post("/api/getCareerPath", async (req, res) => {
+  try {
+    const { dreamJob, scores, academicDetails } = req.body;
+    
+    if (!process.env.GEMINI_API_KEY) {
+      throw new Error('GEMINI_API_KEY is not configured');
+    }
+
+    try {
+      const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
+      const model = genAI.getGenerativeModel({ model: "gemini-1.5-pro-latest" });
+
+      // Safety settings
+      const generationConfig = {
+        temperature: 0.7,
+        topK: 40,
+        topP: 0.95,
+        maxOutputTokens: 2048,
+      };
+
+      // Construct the prompt with null checks
+      const prompt = `As a career counselor, provide a detailed route map for someone aspiring to become a ${dreamJob || 'professional'}.
+
+Academic Profile:
+${academicDetails ? `
+- 10th Grade: ${academicDetails.tenthMark || 'N/A'}%
+- 12th Grade: ${academicDetails.twelthMark || 'N/A'}%
+- Degree: ${academicDetails.degreeMark || 'N/A'}%
+${academicDetails.pgMark ? `- PG: ${academicDetails.pgMark}%` : ''}
+` : 'Academic details not available'}
+
+Personality Scores:
+${scores ? `
+- Extraversion: ${scores.extraversion || 'N/A'}%
+- Agreeableness: ${scores.agreeableness || 'N/A'}%
+- Openness: ${scores.openness || 'N/A'}%
+- Neuroticism: ${scores.neuroticism || 'N/A'}%
+- Conscientiousness: ${scores.conscientiousness || 'N/A'}%
+
+Aptitude Scores:
+- Mathematical: ${scores.math || 'N/A'}%
+- Verbal: ${scores.verbal || 'N/A'}%
+- Logical: ${scores.logic || 'N/A'}%
+` : 'Scores not available'}
+
+Based on their academic performance, personality traits, and aptitude scores, please provide:
+1. A step-by-step career path to reach their dream job
+2. Required qualifications and certifications
+3. Skills they need to develop
+4. Potential challenges they might face based on their scores
+5. Alternative career paths that align with their profile
+
+Please format the response in clear, numbered points.`;
+
+      console.log('Sending prompt to Gemini API:', prompt); // Debug log
+
+      // Generate content with safety settings
+      const result = await model.generateContent({
+        contents: [{ role: "user", parts: [{ text: prompt }] }],
+        generationConfig,
+        safetySettings: [
+          {
+            category: "HARM_CATEGORY_HARASSMENT",
+            threshold: "BLOCK_MEDIUM_AND_ABOVE",
+          },
+          {
+            category: "HARM_CATEGORY_HATE_SPEECH",
+            threshold: "BLOCK_MEDIUM_AND_ABOVE",
+          },
+          {
+            category: "HARM_CATEGORY_SEXUALLY_EXPLICIT",
+            threshold: "BLOCK_MEDIUM_AND_ABOVE",
+          },
+          {
+            category: "HARM_CATEGORY_DANGEROUS_CONTENT",
+            threshold: "BLOCK_MEDIUM_AND_ABOVE",
+          },
+        ],
+      });
+
+      if (!result || !result.response) {
+        throw new Error('No response from Gemini API');
+      }
+
+      const response = result.response;
+      const text = response.text();
+
+      // Process the text to remove asterisks but maintain structure
+      const processText = (text) => {
+        // Replace **text** with <BOLD>text</BOLD> temporarily
+        let processed = text.replace(/\*\*(.*?)\*\*/g, '<BOLD>$1</BOLD>');
+        
+        // Split into lines and process each line
+        const lines = processed.split('\n').map(line => line.trim()).filter(line => line);
+        
+        // Convert back to proper format for frontend
+        return lines.map(line => {
+          return line.replace(/<BOLD>(.*?)<\/BOLD>/g, '**$1**');
+        });
+      };
+
+      const steps = processText(text);
+
+      console.log('Successful response:', { success: true, steps }); // Debug log
+
+      res.json({
+        success: true,
+        steps: steps
+      });
+
+    } catch (apiError) {
+      console.error('Gemini API Error:', apiError);
+      throw new Error(`Gemini API Error: ${apiError.message}`);
+    }
+
+  } catch (error) {
+    console.error('Error in getCareerPath:', error);
+    res.status(500).json({
+      success: false,
+      error: 'Failed to generate career path',
+      details: error.message
+    });
+  }
 });

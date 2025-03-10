@@ -108,23 +108,33 @@ const DreamCareer = () => {
     }
 
     try {
-      const response = await fetch("/api/getCareerPath", {
+      const response = await fetch(`${import.meta.env.VITE_URL}/api/getCareerPath`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          "Authorization": token
         },
-        body: JSON.stringify({ dreamJob }),
+        body: JSON.stringify({
+          dreamJob,
+          scores,
+          academicDetails
+        }),
       });
       
+      const data = await response.json();
+      
       if (!response.ok) {
-        throw new Error("Failed to fetch career path");
+        throw new Error(data.error || data.details || "Failed to fetch career path");
       }
 
-      const data = await response.json();
-      setCareerPath(data);
+      if (data.success && data.steps) {
+        setCareerPath(data);
+      } else {
+        throw new Error("Invalid response format from server");
+      }
     } catch (error) {
       console.error("Error fetching career path:", error);
-      alert("Failed to fetch career path. Please try again later.");
+      alert(error.message || "Failed to fetch career path. Please try again later.");
     }
   };
 
@@ -174,13 +184,57 @@ const DreamCareer = () => {
                 <button type="submit">Find Path</button>
               </form>
               {careerPath && (
-                <div className="career-path">
-                  <h3>Career Path for {dreamJob}:</h3>
-                  <ul>
-                    {careerPath.steps.map((step, index) => (
-                      <li key={index}>{step}</li>
-                    ))}
-                  </ul>
+                <div className="career-path-container">
+                  <h2>Career Path: {dreamJob}</h2>
+                  <div className="career-path-content">
+                    {careerPath.steps.map((step, index) => {
+                      // Updated function to convert text with asterisks to bold without showing asterisks
+                      const formatText = (text) => {
+                        if (!text) return '';
+                        
+                        // Replace **text** with bold elements
+                        const parts = text.split(/(\*\*.*?\*\*)/g);
+                        
+                        return parts.map((part, i) => {
+                          if (part.startsWith('**') && part.endsWith('**')) {
+                            // Extract just the text between ** and make it bold
+                            const boldText = part.substring(2, part.length - 2);
+                            return <strong key={i}>{boldText}</strong>;
+                          }
+                          return part;
+                        });
+                      };
+
+                      // Check for section headers
+                      if (step.includes('1. A step-by-step') || 
+                          step.includes('2. Required qualifications') ||
+                          step.includes('3. Skills') ||
+                          step.includes('4. Potential challenges') ||
+                          step.includes('5. Alternative careers')) {
+                        return (
+                          <div key={index} className="section-header">
+                            <h3>{formatText(step.split('.')[1])}</h3>
+                          </div>
+                        );
+                      }
+                      
+                      // Regular content
+                      return (
+                        <div key={index} className="career-step">
+                          {step.startsWith('-') ? (
+                            <li>{formatText(step.substring(1).trim())}</li>
+                          ) : step.match(/^\d+\./) ? (
+                            <div className="numbered-step">
+                              <span className="step-number">{step.split('.')[0]}</span>
+                              <span className="step-content">{formatText(step.split('.')[1])}</span>
+                            </div>
+                          ) : (
+                            <p>{formatText(step)}</p>
+                          )}
+                        </div>
+                      );
+                    })}
+                  </div>
                 </div>
               )}
               <div className="scores-display">
