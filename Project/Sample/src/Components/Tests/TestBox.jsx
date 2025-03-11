@@ -12,7 +12,7 @@ const TestBox = () => {
 
   useEffect(() => {
     setLoading(true);
-    fetch("http://localhost:8080/test/viewallmocktest")
+    fetch(`${import.meta.env.VITE_URL}/test/viewallmocktest`)
       .then((response) => {
         if (!response.ok) {
           throw new Error('Failed to fetch mock tests');

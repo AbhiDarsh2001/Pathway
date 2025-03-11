@@ -31,7 +31,7 @@ const ManMockTestForm = () => {
 
     const fetchTests = async () => {
         try {
-            const response = await axios.get("http://localhost:8080/test/viewallmocktest");
+            const response = await axios.get(`${import.meta.env.VITE_URL}/test/viewallmocktest`);
             setTests(response.data);
         } catch (error) {
             console.error("Error fetching tests:", error);
@@ -158,7 +158,7 @@ const ManMockTestForm = () => {
     const handleDelete = async (testId) => {
         if (window.confirm("Are you sure you want to delete this test?")) {
             try {
-                await axios.delete(`http://localhost:8080/test/delete/${testId}`);
+                await axios.delete(`${import.meta.env.VITE_URL}/test/delete/${testId}`);
                 alert("Test deleted successfully");
                 fetchTests();
             } catch (error) {
@@ -173,10 +173,10 @@ const ManMockTestForm = () => {
         e.preventDefault();
         try {
             if (editingTest) {
-                await axios.put(`http://localhost:8080/test/update/${editingTest._id}`, formData);
+                await axios.put(`${import.meta.env.VITE_URL}/test/update/${editingTest._id}`, formData);
                 alert("Test updated successfully");
             } else {
-                await axios.post("http://localhost:8080/test/add", formData);
+                await axios.post(`${import.meta.env.VITE_URL}/test/add`, formData);
                 alert("Test added successfully");
             }
             setFormData({

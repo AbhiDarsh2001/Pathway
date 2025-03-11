@@ -32,7 +32,7 @@ const TakeTest = () => {
         setError(null);
         
         try {
-            const response = await axios.post('http://localhost:8080/career/predict-career', formData);
+            const response = await axios.post(`${import.meta.env.VITE_URL}/career/predict-career`, formData);
             
             if (response.data.success) {
                 setPrediction(response.data.careerRecommendation);

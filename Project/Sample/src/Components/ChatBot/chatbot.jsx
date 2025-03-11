@@ -63,7 +63,7 @@ const ChatBot = () => {
       setIsLoading(true);
       console.log('Fetching chat history...');
       const response = await axios.post(
-        'http://localhost:8080/chatBot/userId',
+        `${import.meta.env.VITE_URL}/chatBot/userId`,
         {},
         axiosConfig
       );
@@ -113,7 +113,7 @@ const ChatBot = () => {
     setError('');
 
     try {
-      const response = await axios.post('http://localhost:8080/gemini/chat', {
+      const response = await axios.post(`${import.meta.env.VITE_URL}/gemini/chat`, {
         message: inputMessage
       });
 

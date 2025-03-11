@@ -23,7 +23,7 @@ const QuizPage = () => {
     const fetchQuiz = async () => {
       try {
         setLoading(true);
-        const response = await fetch(`http://localhost:8080/test/test/${testId}`);
+        const response = await fetch(`${import.meta.env.VITE_URL}/test/test/${testId}`);
         
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
@@ -117,7 +117,7 @@ const QuizPage = () => {
         selectedOption: answers[index] !== undefined ? answers[index] : null
       }));
 
-      const response = await fetch(`http://localhost:8080/test/submit/${testId}`, {
+      const response = await fetch(`${import.meta.env.VITE_URL}/test/submit/${testId}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
