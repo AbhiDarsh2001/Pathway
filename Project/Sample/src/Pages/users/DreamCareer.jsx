@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import axios from 'axios';
 import "./DreamCareer.css";
-import USidebar from "./Usidebar";
 import Header from "./Header";
+import { useNavigate } from "react-router-dom";
 
 const DreamCareer = () => {
   const [dreamJob, setDreamJob] = useState("");
@@ -24,6 +24,7 @@ const DreamCareer = () => {
   const [editedScores, setEditedScores] = useState({});
 
   const token = localStorage.getItem('token');
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchDetails = async () => {
@@ -162,131 +163,212 @@ const DreamCareer = () => {
     }));
   };
 
+  const handleHome = () => {
+    navigate("/home");
+  };
+  
+  const handleCourses = () => {
+    navigate("/Ucourselist");
+  };
+  
+  const handleTests = () => {
+    navigate("/tests");
+  };
+  
+  const handleBlogs = () => {
+    navigate("/blogs");
+  };
+
   return (
     <div className="home-container">
-      {/* <USidebar /> */}
-      <div className="main-content">
-        <Header />
-        <div className="dream-career-container">
-          <h2>Find Your Dream Career Path</h2>
-          {isLoading ? (
-            <div>Loading...</div>
-          ) : (
-            <>
-              {error && <div className="error-message">{error}</div>}
-              <form onSubmit={handleSubmit}>
-                <input
-                  type="text"
-                  placeholder="Enter your dream job"
-                  value={dreamJob}
-                  onChange={handleInputChange}
-                />
-                <button type="submit">Find Path</button>
-              </form>
-              {careerPath && (
-                <div className="career-path-container">
-                  <h2>Career Path: {dreamJob}</h2>
-                  <div className="career-path-content">
-                    {careerPath.steps.map((step, index) => {
-                      // Updated function to convert text with asterisks to bold without showing asterisks
-                      const formatText = (text) => {
-                        if (!text) return '';
-                        
-                        // Replace **text** with bold elements
-                        const parts = text.split(/(\*\*.*?\*\*)/g);
-                        
-                        return parts.map((part, i) => {
-                          if (part.startsWith('**') && part.endsWith('**')) {
-                            // Extract just the text between ** and make it bold
-                            const boldText = part.substring(2, part.length - 2);
-                            return <strong key={i}>{boldText}</strong>;
-                          }
-                          return part;
-                        });
-                      };
+      {/* Sidebar */}
+      <div className="sidebar">
+        <div className="logo-container">
+          <img
+            src="src/assets/CareerPathway.png"
+            alt="Career Pathway Logo"
+            className="logo"
+          />
+        </div>
+        <nav className="sidebar-nav">
+          <a href="/home" className="nav-item">Dashboard</a>
+          <a href="/Ucourselist" className="nav-item">Courses</a>
+          <a href="/tests" className="nav-item">Psychometric Tests</a>
+          <a href="/blogs" className="nav-item">Discussions</a>
+        </nav>
+      </div>
 
-                      // Check for section headers
-                      if (step.includes('1. A step-by-step') || 
-                          step.includes('2. Required qualifications') ||
-                          step.includes('3. Skills') ||
-                          step.includes('4. Potential challenges') ||
-                          step.includes('5. Alternative careers')) {
+      {/* Main Content Area */}
+      <div className="content">
+        <Header />
+        
+        <div className="dream-career-content">
+          <div className="welcome-section">
+            <h2>Find Your Dream Career Path</h2>
+            
+            {isLoading ? (
+              <div className="loading-indicator">Loading...</div>
+            ) : (
+              <>
+                {error && <div className="error-message">{error}</div>}
+                
+                <div className="career-search-section">
+                  <form onSubmit={handleSubmit} className="career-search-form">
+                    <input
+                      type="text"
+                      placeholder="Enter your dream job"
+                      value={dreamJob}
+                      onChange={handleInputChange}
+                      className="career-input"
+                    />
+                    <button type="submit" className="action-button">Find Path</button>
+                  </form>
+                </div>
+
+                <div className="career-info-cards">
+                  {/* Scores Card */}
+                  <div className="info-card">
+                    <h3>Your Scores</h3>
+                    {!isEditing ? (
+                      <>
+                        <div className="scores-list">
+                          <div className="score-item">
+                            <span>Extraversion:</span> {scores.extraversion}
+                          </div>
+                          <div className="score-item">
+                            <span>Agreeableness:</span> {scores.agreeableness}
+                          </div>
+                          <div className="score-item">
+                            <span>Openness:</span> {scores.openness}
+                          </div>
+                          <div className="score-item">
+                            <span>Neuroticism:</span> {scores.neuroticism}
+                          </div>
+                          <div className="score-item">
+                            <span>Conscientiousness:</span> {scores.conscientiousness}
+                          </div>
+                          <div className="score-item">
+                            <span>Math:</span> {scores.math}
+                          </div>
+                          <div className="score-item">
+                            <span>Verbal:</span> {scores.verbal}
+                          </div>
+                          <div className="score-item">
+                            <span>Logic:</span> {scores.logic}
+                          </div>
+                        </div>
+                        <button onClick={handleEditClick} className="action-button">Edit Scores</button>
+                      </>
+                    ) : (
+                      <div className="edit-scores">
+                        {Object.entries(editedScores).map(([trait, score]) => (
+                          <div key={trait} className="score-input">
+                            <label>{trait.charAt(0).toUpperCase() + trait.slice(1)}:</label>
+                            <input
+                              type="number"
+                              min="0"
+                              max="100"
+                              value={score}
+                              onChange={(e) => handleScoreChange(trait, e.target.value)}
+                            />
+                          </div>
+                        ))}
+                        <div className="edit-buttons">
+                          <button onClick={handleSaveScores}>Save</button>
+                          <button onClick={() => setIsEditing(false)}>Cancel</button>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Academic Details Card */}
+                  {academicDetails && (
+                    <div className="info-card">
+                      <h3>Academic Information</h3>
+                      <div className="academic-list">
+                        {academicDetails.tenthMark > 0 && (
+                          <div className="academic-item">
+                            <span>10th Mark:</span> {academicDetails.tenthMark}%
+                          </div>
+                        )}
+                        {academicDetails.twelthMark > 0 && (
+                          <div className="academic-item">
+                            <span>12th Mark:</span> {academicDetails.twelthMark}%
+                          </div>
+                        )}
+                        {academicDetails.degreeMark > 0 && (
+                          <div className="academic-item">
+                            <span>Degree Mark:</span> {academicDetails.degreeMark}%
+                          </div>
+                        )}
+                        {academicDetails.pgMark > 0 && (
+                          <div className="academic-item">
+                            <span>PG Mark:</span> {academicDetails.pgMark}%
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  )}
+                </div>
+
+                {/* Career Path Results */}
+                {careerPath && (
+                  <div className="career-path-container">
+                    <h2>Career Path: {dreamJob}</h2>
+                    <div className="career-path-content">
+                      {careerPath.steps.map((step, index) => {
+                        // Updated function to convert text with asterisks to bold without showing asterisks
+                        const formatText = (text) => {
+                          if (!text) return '';
+                          
+                          // Replace **text** with bold elements
+                          const parts = text.split(/(\*\*.*?\*\*)/g);
+                          
+                          return parts.map((part, i) => {
+                            if (part.startsWith('**') && part.endsWith('**')) {
+                              // Extract just the text between ** and make it bold
+                              const boldText = part.substring(2, part.length - 2);
+                              return <strong key={i}>{boldText}</strong>;
+                            }
+                            return part;
+                          });
+                        };
+
+                        // Check for section headers
+                        if (step.includes('1. A step-by-step') || 
+                            step.includes('2. Required qualifications') ||
+                            step.includes('3. Skills') ||
+                            step.includes('4. Potential challenges') ||
+                            step.includes('5. Alternative careers')) {
+                          return (
+                            <div key={index} className="section-header">
+                              <h3>{formatText(step.split('.')[1])}</h3>
+                            </div>
+                          );
+                        }
+                        
+                        // Regular content
                         return (
-                          <div key={index} className="section-header">
-                            <h3>{formatText(step.split('.')[1])}</h3>
+                          <div key={index} className="career-step">
+                            {step.startsWith('-') ? (
+                              <li>{formatText(step.substring(1).trim())}</li>
+                            ) : step.match(/^\d+\./) ? (
+                              <div className="numbered-step">
+                                <span className="step-number">{step.split('.')[0]}</span>
+                                <span className="step-content">{formatText(step.split('.')[1])}</span>
+                              </div>
+                            ) : (
+                              <p>{formatText(step)}</p>
+                            )}
                           </div>
                         );
-                      }
-                      
-                      // Regular content
-                      return (
-                        <div key={index} className="career-step">
-                          {step.startsWith('-') ? (
-                            <li>{formatText(step.substring(1).trim())}</li>
-                          ) : step.match(/^\d+\./) ? (
-                            <div className="numbered-step">
-                              <span className="step-number">{step.split('.')[0]}</span>
-                              <span className="step-content">{formatText(step.split('.')[1])}</span>
-                            </div>
-                          ) : (
-                            <p>{formatText(step)}</p>
-                          )}
-                        </div>
-                      );
-                    })}
-                  </div>
-                </div>
-              )}
-              <div className="scores-display">
-                <h3>Your Scores</h3>
-                {!isEditing ? (
-                  <>
-                    <ul>
-                      <li>Extraversion: {scores.extraversion}</li>
-                      <li>Agreeableness: {scores.agreeableness}</li>
-                      <li>Openness: {scores.openness}</li>
-                      <li>Neuroticism: {scores.neuroticism}</li>
-                      <li>Conscientiousness: {scores.conscientiousness}</li>
-                      <li>Math: {scores.math}</li>
-                      <li>Verbal: {scores.verbal}</li>
-                      <li>Logic: {scores.logic}</li>
-                    </ul>
-                    <button onClick={handleEditClick}>Edit Scores</button>
-                  </>
-                ) : (
-                  <div className="edit-scores">
-                    {Object.entries(editedScores).map(([trait, score]) => (
-                      <div key={trait} className="score-input">
-                        <label>{trait.charAt(0).toUpperCase() + trait.slice(1)}:</label>
-                        <input
-                          type="number"
-                          min="0"
-                          max="100"
-                          value={score}
-                          onChange={(e) => handleScoreChange(trait, e.target.value)}
-                        />
-                      </div>
-                    ))}
-                    <div className="edit-buttons">
-                      <button onClick={handleSaveScores}>Save</button>
-                      <button onClick={() => setIsEditing(false)}>Cancel</button>
+                      })}
                     </div>
                   </div>
                 )}
-              </div>
-              {academicDetails && (
-                <div className="academic-details">
-                  <h3>Academic Information</h3>
-                  <ul>
-                    {academicDetails.tenthMark > 0 && <li>10th Mark: {academicDetails.tenthMark}%</li>}
-                    {academicDetails.twelthMark > 0 && <li>12th Mark: {academicDetails.twelthMark}%</li>}
-                    {academicDetails.degreeMark > 0 && <li>Degree Mark: {academicDetails.degreeMark}%</li>}
-                    {academicDetails.pgMark > 0 && <li>PG Mark: {academicDetails.pgMark}%</li>}
-                  </ul>
-                </div>
-              )}
-            </>
-          )}
+              </>
+            )}
+          </div>
         </div>
       </div>
     </div>

@@ -74,14 +74,45 @@ extraversion,agreeableness,openness,neuroticism,conscientiousness,math,verbal,lo
 45,30,40,95,50,40,75,50,Forensic Scientist
 50,35,45,90,55,45,70,55,Forensic Scientist
 30,40,50,85,50,50,65,60,Forensic Scientist
+40,50,45,80,55,55,70,65,Data Scientist
+35,45,50,75,50,60,65,70,Data Scientist
 85,75,90,30,85,90,80,85,Data Scientist
+80,90,85,35,80,85,90,80,Software Engineer
+85,80,75,40,75,90,85,80,Software Engineer
 70,80,85,35,80,85,90,80,Software Engineer
 90,85,80,40,75,70,95,75,Marketing Manager
+85,90,85,45,70,75,90,80,Marketing Manager
+80,90,85,50,65,80,85,80,Marketing Manager
 75,90,85,35,85,75,85,80,Business Analyst
+70,80,85,40,80,85,90,80,Business Analyst
+85,90,85,45,70,75,90,80,Business Analyst
 85,85,90,30,90,95,80,90,Research Scientist
+80,90,85,35,85,70,95,80,Research Scientist
+85,90,85,40,80,75,90,80,Research Scientist
 80,90,85,35,85,70,95,80,Content Writer
+85,90,85,40,80,75,90,80,Content Writer
+80,85,90,45,75,80,85,90,Content Writer
 90,80,75,45,80,85,75,85,Sales Manager
+90,80,75,45,80,85,75,85,Sales Manager
+85,90,85,50,65,80,85,80,Sales Manager
 85,85,90,30,90,90,85,95,Machine Learning Engineer
+85,85,90,30,90,90,85,95,Machine Learning Engineer
+80,85,90,35,85,80,85,90,Machine Learning Engineer
 75,90,85,40,80,75,90,80,Technical Writer
+80,85,90,45,75,80,85,90,Technical Writer
+85,90,85,50,65,80,85,80,Technical Writer
 90,85,80,35,85,80,85,85,Product Manager
+85,90,85,40,80,85,90,80,Product Manager
+80,85,90,45,75,80,85,90,Product Manager
 80,85,95,25,90,85,80,90,Marine Biologist
+80,85,95,25,90,85,80,90,Marine Biologist
+85,90,85,30,85,80,85,90,Marine Biologist
+60,70,65,50,60,75,80,85,AI Researcher
+65,75,70,45,65,80,85,90,AI Researcher
+70,80,75,40,70,85,90,95,AI Researcher
+55,65,60,55,60,70,75,80,Robotics Engineer
+60,70,65,50,65,75,80,85,Robotics Engineer
+65,75,70,45,70,80,85,90,Robotics Engineer
+50,60,55,60,55,65,70,75,Blockchain Developer
+55,65,60,55,60,70,75,80,Blockchain Developer
+60,70,65,50,65,75,80,85,Blockchain Developer

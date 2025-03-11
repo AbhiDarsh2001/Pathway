@@ -35,7 +35,7 @@ const Home = () => {
         <nav className="sidebar-nav">
           <a href="/home" className="nav-item">Dashboard</a>
           <a href="/Ucourselist" className="nav-item">Courses</a>
-          <a href="/tests" className="nav-item">Psychometric Tests</a>
+          <a href="/tests" className="nav-item">Psychometric Tests & Career Path</a>
           <a href="/blogs" className="nav-item">Discussions</a>
         </nav>
       </div>
@@ -55,7 +55,7 @@ const Home = () => {
             </div>
             <div className="info-card">
               <h3>Take Tests</h3>
-              <p>Discover your strengths with our psychometric tests.</p>
+              <p>Discover your strengths with our psychometric tests and choose your career.</p>
               <button className="action-button" id="tests" onClick={handletest}>Take Test</button>
             </div>
             <div className="info-card">

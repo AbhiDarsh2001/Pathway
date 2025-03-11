@@ -1,14 +1,135 @@
 /* DreamCareer.css */
 
-.home-container {
-    display: flex;
-    min-height: 100vh;
+/* Import home styles */
+@import '../../Components/Home/home.css';
+
+/* Additional styles for DreamCareer */
+.dream-career-content {
+  padding: 1.5rem;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
-.main-content {
-    flex: 1;
-    padding: 20px;
-    background-color: #f5f5f5;
+.career-search-section {
+  max-width: 800px;
+  margin: 1.5rem auto;
+}
+
+.career-search-form {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.career-input {
+  flex: 1;
+  padding: 1rem;
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  font-size: 1rem;
+}
+
+.career-info-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.5rem;
+  margin: 1.5rem 0;
+}
+
+.info-card {
+  background: white;
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.scores-list, .academic-list {
+  margin: 1rem 0;
+}
+
+.score-item, .academic-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid #eee;
+}
+
+.score-item span, .academic-item span {
+  font-weight: 600;
+  color: #2c5282;
+}
+
+.action-button {
+  background: #3498db;
+  color: white;
+  padding: 0.8rem 1.5rem;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.action-button:hover {
+  background: #2980b9;
+  transform: translateY(-2px);
+}
+
+/* Career path styling */
+.career-path-container {
+  background: white;
+  border-radius: 12px;
+  padding: 2rem;
+  margin: 2rem 0;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .sidebar {
+    width: 200px;
+  }
+  
+  .content {
+    margin-left: 200px;
+  }
+  
+  .career-info-cards {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 576px) {
+  .sidebar {
+    width: 0;
+    transform: translateX(-100%);
+  }
+  
+  .content {
+    margin-left: 0;
+  }
+}
+
+.home-container {
+  display: flex;
+  min-height: 100vh;
+  background-color: #f5f5f5;
+}
+
+.sidebar {
+  width: 250px;
+  background-color: #fff;
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+  position: fixed;
+  height: 100vh;
+  z-index: 100;
+}
+
+.content {
+  flex: 1;
+  margin-left: 250px; /* Match the sidebar width */
+  min-height: 100vh;
+  background-color: #f5f5f5;
 }
 
 .dream-career-container {
@@ -349,27 +470,6 @@
   padding-top: 0.2rem;
 }
 
-/* Responsive design */
-@media (max-width: 768px) {
-  .career-path-container {
-    margin: 1rem;
-    padding: 1.5rem;
-  }
-
-  .career-path-container h2 {
-    font-size: 1.5rem;
-  }
-
-  .section-header h3 {
-    font-size: 1.2rem;
-  }
-
-  .career-step {
-    font-size: 1rem;
-    padding: 0.8rem 1rem;
-  }
-}
-
 /* Animation */
 .career-path-container {
   animation: slideIn 0.5s ease-out;
@@ -431,4 +531,10 @@
   margin: 1rem 0;
   background: #fde8e8;
   border-radius: 8px;
+}
+
+/* Update the welcome section */
+.welcome-section {
+  padding: 1rem;
+  background-color: transparent;
 }
