@@ -28,7 +28,7 @@ const Login = () => {
   
         localStorage.setItem("token", res.token); // Store the JWT token
         localStorage.setItem("userRole", role); // Store the user's role
-  
+        localStorage.setItem("userId", res.data.userId);
         if (role === "admin") {
           navigate("/admin"); // Navigate to the admin page if the role is admin
         } else {

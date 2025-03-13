@@ -181,3 +181,39 @@ body {
     grid-template-columns: 1fr;
   }
 }
+
+/* Add styles for premium features */
+.premium-icon {
+  margin-left: 5px;
+  color: gold;
+  font-size: 1.2em;
+  vertical-align: middle;
+}
+
+.premium-nav-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.premium-button {
+  background-color: #ff9800;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin-top: 15px;
+}
+
+.premium-button:hover {
+  background-color: #e68900;
+}
+.premium-message{
+  color: #0277bd;
+  font-size: 1.2em;
+  font-weight: bold;
+}
+
+

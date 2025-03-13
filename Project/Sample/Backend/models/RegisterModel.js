@@ -62,8 +62,20 @@ const userSchema = mongoose.Schema({
             default:0
         }
 
-    }
+    },
+    isPremium: {
+        type: Boolean,
+        default: false
+    },
+    paymentStatus: {
+        type: String,
+        enum: ['pending', 'success', 'failed'],
+        default: 'pending'
+    },
 
+
+
+    
 
 }, { timestamps: true, versionKey: false });
 

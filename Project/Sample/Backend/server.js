@@ -19,7 +19,8 @@ const User = require("./models/RegisterModel.js");
 const app = express();
 const axios = require('axios');
 const { GoogleGenerativeAI } = require("@google/generative-ai");
-
+const paymentRoutes = require('./routes/paymentRoutes');
+const userRoutes = require('./routes/userRoutes');
 // Import Routes
 const CourseRoute = require("./routes/course.js");
 const JobRoute = require("./routes/job.js");
@@ -208,11 +209,12 @@ app.post("/login", async (req, res) => {
       message: "Login Successful",
       data: {
         email: currentUser.email,
-        role: role,
+        role: currentUser.role,
         name: currentUser.name,
         userId: currentUser._id,
       },
       token: token,
+
     });
   } catch (error) {
     console.error("Login error:", error);
@@ -503,3 +505,7 @@ Please format the response in clear, numbered points.`;
     });
   }
 });
+
+// Add payment routes
+app.use('/api/payments', paymentRoutes);
+app.use('/api/users', userRoutes);
