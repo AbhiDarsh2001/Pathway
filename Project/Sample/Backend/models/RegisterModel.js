@@ -72,6 +72,10 @@ const userSchema = mongoose.Schema({
         enum: ['pending', 'success', 'failed'],
         default: 'pending'
     },
+    premiumExpiresAt: {
+        type: Date,
+        default: null
+    },
 
 
 

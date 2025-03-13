@@ -210,10 +210,18 @@ body {
 .premium-button:hover {
   background-color: #e68900;
 }
-.premium-message{
+
+.premium-message {
   color: #0277bd;
   font-size: 1.2em;
   font-weight: bold;
+}
+
+.expiration-info {
+  margin-top: 10px;
+  font-size: 0.8em;
+  color: #555;
+  font-weight: normal;
 }
 
 

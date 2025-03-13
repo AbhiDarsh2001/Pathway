@@ -14,6 +14,7 @@ const Home = () => {
 
   const navigate = useNavigate();
   const [isPremium, setIsPremium] = useState(false);
+  const [premiumExpiresAt, setPremiumExpiresAt] = useState(null);
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -24,6 +25,10 @@ const Home = () => {
         console.log("userData",userData);
         console.log("userData.isPremium",userData.isPremium);
         setIsPremium(userData.isPremium);
+        
+        if (userData.premiumExpiresAt) {
+          setPremiumExpiresAt(new Date(userData.premiumExpiresAt));
+        }
       } catch (error) {
         console.error("Error fetching user data:", error);
       }
@@ -31,6 +36,28 @@ const Home = () => {
 
     fetchUserData();
   }, []);
+
+  // Format the expiration date
+  const formatExpirationDate = (date) => {
+    if (!date) return '';
+    return new Date(date).toLocaleDateString('en-US', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric'
+    });
+  };
+
+  // Calculate days remaining until expiration
+  const getDaysRemaining = (expirationDate) => {
+    if (!expirationDate) return 0;
+    
+    const now = new Date();
+    const expDate = new Date(expirationDate);
+    const diffTime = expDate - now;
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+    
+    return diffDays > 0 ? diffDays : 0;
+  };
 
   const handleviewcourse = () => {
     navigate("/Ucourselist");
@@ -128,7 +155,14 @@ const Home = () => {
           <a href="/blogs" className="nav-item">Discussions</a>
         </nav>
         {isPremium === true ? (
-          <div className="premium-message">You are a Premium Member!</div>
+          <div className="premium-message">
+            You are a Premium Member!
+            <div className="expiration-info">
+              Expires on: {formatExpirationDate(premiumExpiresAt)}
+              <br />
+              {getDaysRemaining(premiumExpiresAt)} days remaining
+            </div>
+          </div>
         ) : (
           <button className="premium-button" onClick={handlePayment}>
             Become a Premium Member
