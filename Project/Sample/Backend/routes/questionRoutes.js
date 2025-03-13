@@ -227,9 +227,9 @@ router.post('/results', verifyToken, async (req, res) => {
                 conscientiousness: scores.conscientiousness,
                 neuroticism: scores.neuroticism,
                 openness: scores.openness,
-                math: scores.math,
-                verbal: scores.verbal,
-                logic: scores.logic
+                // math: scores.math,
+                // verbal: scores.verbal,
+                // logic: scores.logic
             }
         });
 

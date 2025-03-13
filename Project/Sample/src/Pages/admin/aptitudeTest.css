@@ -1,0 +1,43 @@
+.dashboard-container {
+  display: flex;
+}
+
+.aptitude-test-container {
+  flex: 1;
+  padding: 20px;
+}
+
+.aptitude-test-header {
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+.timer-management {
+  margin-top: 20px;
+}
+
+.timer-form {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+.submit-btn {
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+.submit-btn:hover {
+  background-color: #0056b3;
+}
+
+.error-message, .success-message {
+  margin-bottom: 15px;
+  color: red;
+} 

@@ -37,24 +37,24 @@ const personalityResultSchema = new mongoose.Schema({
       min: 0,
       max: 100
     },
-    math: {
-      type: Number,
-      required: true,
-      min: 0,
-      max: 100
-    },
-    verbal: {
-      type: Number,
-      required: true,
-      min: 0,
-      max: 100
-    },
-    logic: {
-      type: Number,
-      required: true,
-      min: 0,
-      max: 100
-    }
+    // math: {
+    //   type: Number,
+    //   required: true,
+    //   min: 0,
+    //   max: 100
+    // },
+    // verbal: {
+    //   type: Number,
+    //   required: true,
+    //   min: 0,
+    //   max: 100
+    // },
+    // logic: {
+    //   type: Number,
+    //   required: true,
+    //   min: 0,
+    //   max: 100
+    // }
   },
   timestamp: {
     type: Date,

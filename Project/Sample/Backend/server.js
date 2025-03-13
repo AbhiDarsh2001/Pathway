@@ -43,6 +43,7 @@ const TestRoutes=require("./routes/Test.js");
 const gemini=require("./routes/gemini.js");
 const questionRoutes = require("./routes/questionRoutes");
 const testRoutes = require('./routes/Test');
+const aptitudeRoutes = require("./routes/aptitudeRoutes");
 
 // Middleware for CORS
 
@@ -303,6 +304,7 @@ app.use('/institute',InstituteRoutes);
 app.use('/test', TestRoutes);
 app.use('/personal', questionRoutes);
 app.use('/career', testRoutes);
+app.use('/aptitude', aptitudeRoutes);
 
 
 

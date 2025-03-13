@@ -58,6 +58,9 @@ const Sidebar = () => {
         <button onClick={() => navigate('/personality-test')}>
           Personality Test
         </button>
+        <button onClick={() => navigate('/aptitude-test')}>
+          Aptitude Test
+        </button>
       
       <button className="logout-btn" onClick={() => navigate('/logout')}>
         <FontAwesomeIcon icon={faSignOutAlt} />

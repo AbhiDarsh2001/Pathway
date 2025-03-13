@@ -1,0 +1,21 @@
+.take-aptitude-test-container {
+  padding: 20px;
+}
+
+.timer-display {
+  font-size: 18px;
+  margin-bottom: 20px;
+}
+
+.test-section {
+  margin-bottom: 20px;
+}
+
+.input-group {
+  margin-bottom: 10px;
+}
+
+.error-message {
+  color: red;
+  margin-top: 10px;
+} 

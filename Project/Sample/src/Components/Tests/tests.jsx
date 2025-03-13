@@ -44,20 +44,20 @@ const Tests = () => {
         <div className="welcome-section">
           <h2>Psychometric & Aptitude Tests</h2>
           <div className="welcome-cards">
-            {/* <div className="info-card">
+            <div className="info-card">
               <h3>Personality Assessment</h3>
               <p>Discover your personality type and suitable career paths.</p>
-              <button className="action-button">Start Assessment</button>
-            </div> */}
+              <Link to="/take-personality-test" className="action-button">Start Assessment</Link>
+            </div>
             <div className="info-card">
-              <h3>Aptitude Test</h3>
+              <h3>Moke Test</h3>
               <p>Evaluate your skills and cognitive abilities.</p>
               <button className="action-button" onClick={handleStartTest}>Begin Test</button>
             </div>
             <div className="info-card">
-              <h3>Personality Test</h3>
+              <h3>Aptitude Test</h3>
               <p>Find career paths that match your interests.</p>
-              <Link to="/take-personality-test" className="action-button">Take Test</Link>
+              <Link to="/take-aptitude-test" className="action-button">Take Test</Link>
             </div>
           </div>
 

@@ -90,9 +90,9 @@ const TakeTest = () => {
       const submitData = {
         scores: {
           ...scores,
-          math: 0,    // These will be updated by a different test
-          verbal: 0,
-          logic: 0
+          // math: 0,    // These will be updated by a different test
+          // verbal: 0,
+          // logic: 0
         }
       };
 
