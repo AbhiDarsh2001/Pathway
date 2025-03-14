@@ -43,7 +43,7 @@ const DreamCareer = () => {
 
         // Fetch aptitude scores
         const aptitudeResponse = await fetch(
-          `${import.meta.env.VITE_URL}/test/results/${localStorage.getItem('email')}`,
+          `${import.meta.env.VITE_URL}/aptitude/results`,
           { headers: { Authorization: token } }
         );
 
@@ -52,26 +52,19 @@ const DreamCareer = () => {
           const aptitudeData = await aptitudeResponse.json();
 
           const personalityScores = personalityData.data.scores;
-          const aptitudeScores = {
+          let aptitudeScores = {
             math: 0,
             verbal: 0,
             logic: 0
           };
 
-          aptitudeData.forEach(result => {
-            if (result.testId && result.testId.title) {
-              const percentage = (result.score / result.testId.totalMarks) * 100;
-              const title = result.testId.title.toLowerCase();
-
-              if (title.includes('math')) {
-                aptitudeScores.math = percentage;
-              } else if (title.includes('verbal')) {
-                aptitudeScores.verbal = percentage;
-              } else if (title.includes('logic')) {
-                aptitudeScores.logic = percentage;
-              }
-            }
-          });
+          if (aptitudeData.success && aptitudeData.data && aptitudeData.data.scores) {
+            aptitudeScores = {
+              math: aptitudeData.data.scores.math,
+              verbal: aptitudeData.data.scores.verbal,
+              logic: aptitudeData.data.scores.logic
+            };
+          }
 
           setScores({
             extraversion: (personalityScores.extraversion * 2.5).toString(),
