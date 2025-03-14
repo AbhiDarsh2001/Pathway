@@ -9,7 +9,12 @@ const aptitudeQuestionSchema = new mongoose.Schema({
   },
   options: [{
     text: { type: String, required: true },
-    score: { type: Number, required: true }
+    score: { 
+      type: Number, 
+      required: true,
+      min: 0,  // Ensure score is non-negative
+      max: 100 // Allow scores up to 100
+    }
   }],
   createdAt: { type: Date, default: Date.now }
 });

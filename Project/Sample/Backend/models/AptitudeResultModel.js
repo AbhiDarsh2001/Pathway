@@ -7,6 +7,7 @@ const aptitudeResultSchema = new mongoose.Schema({
     verbal: { type: Number, required: true },
     logic: { type: Number, required: true }
   },
+  timeRemaining: { type: Number, default: 0 }, // Track time remaining when submitted
   timestamp: { type: Date, default: Date.now }
 });
 
