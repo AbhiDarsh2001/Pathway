@@ -34,39 +34,36 @@ const ManualCareerTest = () => {
                 `${import.meta.env.VITE_URL}/personal/results`,
                 { headers: { Authorization: token } }
             );
+            console.log('Personality response:', personalityResponse);
 
-            // Fetch aptitude test results
-            const aptitudeResponse = await axios.get(
-                `${import.meta.env.VITE_URL}/test/results/${localStorage.getItem('email')}`,
+            // Fetch aptitude test results using the correct endpoint
+            const aptitudeResponse = await fetch(
+                `${import.meta.env.VITE_URL}/aptitude/results`,
                 { headers: { Authorization: token } }
             );
+            
+            let aptitudeScores = {
+                math: 0,
+                verbal: 0,
+                logic: 0
+            };
+            
+            if (aptitudeResponse.ok) {
+                const aptitudeData = await aptitudeResponse.json();
+                console.log('Aptitude response:', aptitudeData);
+                
+                if (aptitudeData.success && aptitudeData.data && aptitudeData.data.scores) {
+                    aptitudeScores = {
+                        math: aptitudeData.data.scores.math,
+                        verbal: aptitudeData.data.scores.verbal,
+                        logic: aptitudeData.data.scores.logic
+                    };
+                }
+            }
 
             if (personalityResponse.data.success && personalityResponse.data.data) {
                 const personalityScores = personalityResponse.data.data.scores;
                 
-                // Process aptitude test results
-                const aptitudeScores = {
-                    math: 0,
-                    verbal: 0,
-                    logic: 0
-                };
-
-                // Calculate scores from aptitude tests
-                aptitudeResponse.data.forEach(result => {
-                    if (result.testId && result.testId.title) {
-                        const percentage = (result.score / result.testId.totalMarks) * 100;
-                        const title = result.testId.title.toLowerCase();
-                        
-                        if (title.includes('math')) {
-                            aptitudeScores.math = percentage;
-                        } else if (title.includes('verbal')) {
-                            aptitudeScores.verbal = percentage;
-                        } else if (title.includes('logic')) {
-                            aptitudeScores.logic = percentage;
-                        }
-                    }
-                });
-
                 // Set all scores
                 setScores({
                     extraversion: (personalityScores.extraversion * 2.5).toString(),

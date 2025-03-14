@@ -216,7 +216,7 @@ const DreamCareer = () => {
                   <form onSubmit={handleSubmit} className="career-search-form">
                     <input
                       type="text"
-                      placeholder="Enter your dream job"
+                      placeholder="Enter your dream Career"
                       value={dreamJob}
                       onChange={handleInputChange}
                       className="career-input"
