@@ -156,9 +156,9 @@ const BlogList = () => {
           <Link to="/blogs" className="nav-item">
             Blogs
           </Link>
-          <Link to="/tests" className="nav-item">
+          {/* <Link to="/tests" className="nav-item">
             Tests
-          </Link>
+          </Link> */}
         </div>
       </div>
 

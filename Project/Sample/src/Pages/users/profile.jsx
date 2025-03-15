@@ -235,9 +235,9 @@ function Profile() {
           <Link to="/blogs" className="nav-item">
             <i className="fas fa-book-open"></i> Blogs
           </Link>
-          <Link to="/tests" className="nav-item">
+          {/* <Link to="/tests" className="nav-item">
             <i className="fas fa-tasks"></i> Tests
-          </Link>
+          </Link> */}
         </div>
       </div>
 

@@ -14,49 +14,44 @@ const Header = ({ userName, userEmail }) => {
  
   return (
     <header className="header">
-      <div className="header-left">
-        <nav>
-          <Link to="/home" className="nav-link">Home</Link>
-          {/* <Link to="/about" className="nav-link">About Us</Link> */}
-          <a href="/Ujoblist" className="nav-link" id="viewjob">Job</a>
-          <a href="/Ucourselist" className="nav-link" id="viewcourse">Course</a>
-          <a href="/blogs" className="nav-link" id='viewblog'>Blog</a>
-          <a href="/chatBot" className="nav-link" id='chatBot'>ChatBot</a>
-          {/* <USearchEntrance /> */}
-        </nav>
-      </div>
-      
-      <div className="user-info">
-        {userName && (
-          <div className="user-name">
-            Welcome, {userName}
+      <div className="header-content">
+        <div className="header-left">
+          <div className="app-brand">Career Pathway</div>
+          <nav className="main-nav">
+            <Link to="/home" className="nav-link">Home</Link>
+            <a href="/Ujoblist" className="nav-link" id="viewjob">Job</a>
+            <a href="/Ucourselist" className="nav-link" id="viewcourse">Course</a>
+            <a href="/blogs" className="nav-link" id='viewblog'>Blog</a>
+            <a href="/chatBot" className="nav-link" id='chatBot'>ChatBot</a>
+          </nav>
+        </div>
+        
+        <div className="header-right">
+          <div className="user-welcome">
+            {userName && (
+              <div className="welcome-text">
+                Welcome {userName}
+              </div>
+            )}
           </div>
-        )}
-        {userEmail && (
-          <div className="user-email">
-            {userEmail}
-          </div>
-        )}
-      </div>
-      
-      <nav>
-        {/* Profile with Hover Dropdown */}
-        <div className="profile-container">
-          <span className="nav-link profile-link" id="profile">Profile</span>
+          
+          <div className="profile-container">
+            <span className="nav-link profile-link" id="profile">Profile</span>
 
-          <div className="profile-dropdown">
-            <Link to="/uprofile" className="dropdown-option" >
-              Profile
-            </Link>
-            <Link to="/add-blog" className="dropdown-option" id="addblog">
-              ADD-Blog
-            </Link>
-            <button onClick={handleLogout} className="dropdown-option logout-button">
-              Logout
-            </button>
+            <div className="profile-dropdown">
+              <Link to="/uprofile" className="dropdown-option">
+                Profile
+              </Link>
+              <Link to="/add-blog" className="dropdown-option" id="addblog">
+                ADD-Blog
+              </Link>
+              <button onClick={handleLogout} className="dropdown-option logout-button">
+                Logout
+              </button>
+            </div>
           </div>
         </div>
-      </nav>
+      </div>
     </header>
   );
 };

@@ -170,7 +170,7 @@ app.post("/login", async (req, res) => {
           name: "Admin",
           userId: "admin-id", // A placeholder ID for the admin
         },
-        token: "admin-token-placeholder", // You may choose to generate a token if needed
+        token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NmVmYmNjMjhlZjJkMjkyMzg1YWJlMmQiLCJlbWFpbCI6InNhY2hpbkBnbWFpbC5jb20iLCJpYXQiOjE3NDIwNTk1NjIsImV4cCI6MTc0MjA2MzE2Mn0.PwiTXH28VcQ6Yhefj6ai5gmlWxTAURLoTRmStFyszu8admin-token-placeholder", // You may choose to generate a token if needed
       });
     }
 
