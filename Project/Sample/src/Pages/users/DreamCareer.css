@@ -538,3 +538,425 @@
   padding: 1rem;
   background-color: transparent;
 }
+
+/* Add these styles to your DreamCareer.css file */
+
+.report-button {
+  margin: 1rem 0;
+  background-color: #4CAF50;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.report-button:hover {
+  background-color: #388E3C;
+}
+
+.report-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.5rem;
+  background: linear-gradient(135deg, #3498db, #2c3e50);
+  color: white;
+  border-radius: 8px 8px 0 0;
+  margin-bottom: 2rem;
+}
+
+.report-logo h1 {
+  font-size: 2rem;
+  margin: 0;
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+
+.report-title {
+  text-align: right;
+}
+
+.report-title h2 {
+  font-size: 1.5rem;
+  margin: 0;
+  font-weight: 600;
+}
+
+.report-title h3 {
+  font-size: 1.2rem;
+  margin: 0.5rem 0 0 0;
+  font-weight: 500;
+  color: #ecf0f1;
+}
+
+.report-user-info {
+  margin-bottom: 2rem;
+  padding: 1.5rem;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.report-user-info h3 {
+  margin-top: 0;
+  color: #2c3e50;
+  border-bottom: 2px solid #3498db;
+  padding-bottom: 0.5rem;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.report-icon {
+  color: #3498db;
+}
+
+.mini-icon {
+  font-size: 0.9em;
+  margin-right: 5px;
+  color: #3498db;
+}
+
+.user-info-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.user-info-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.info-label {
+  font-weight: 600;
+  color: #2c3e50;
+  min-width: 80px;
+  display: flex;
+  align-items: center;
+}
+
+.info-value {
+  color: #34495e;
+}
+
+.profile-summary {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+  border-top: 1px solid #eee;
+  padding-top: 1.5rem;
+}
+
+.scores-summary, 
+.academic-summary {
+  flex: 1;
+  min-width: 250px;
+}
+
+.scores-summary h4,
+.academic-summary h4 {
+  color: #2c3e50;
+  margin-top: 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.scores-grid,
+.academic-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 0.75rem;
+}
+
+.scores-grid div,
+.academic-grid div {
+  padding: 8px;
+  border-radius: 4px;
+  background-color: #f2f2f2;
+  display: flex;
+  justify-content: space-between;
+}
+
+.trait-label,
+.academic-label {
+  font-weight: 500;
+  color: #34495e;
+}
+
+.trait-value,
+.academic-value {
+  font-weight: 600;
+  color: #2980b9;
+}
+
+.career-path-analysis {
+  padding: 1.5rem;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+
+.career-path-analysis h3 {
+  color: #2c3e50;
+  margin-top: 0;
+  font-size: 1.4rem;
+  border-bottom: 2px solid #3498db;
+  padding-bottom: 0.5rem;
+}
+
+.analysis-date {
+  color: #7f8c8d;
+  font-size: 0.9rem;
+  margin-bottom: 1.5rem;
+  font-style: italic;
+}
+
+/* Style for PDF generation */
+.generating-pdf {
+  background-color: white !important;
+  padding: 20px !important;
+  box-shadow: none !important;
+  max-width: 100% !important;
+}
+
+.generating-pdf .section-header {
+  background-color: #f8fafc !important;
+  margin-top: 2rem !important;
+}
+
+/* Modal styling improvements */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.report-modal {
+  background-color: white;
+  padding: 2rem;
+  border-radius: 10px;
+  width: 90%;
+  max-width: 500px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+}
+
+.report-modal h3 {
+  margin-top: 0;
+  color: #2c3e50;
+  border-bottom: 2px solid #3498db;
+  padding-bottom: 0.8rem;
+}
+
+.report-options {
+  margin: 1.5rem 0;
+}
+
+.report-options label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 1rem;
+  padding: 0.5rem;
+  border-radius: 4px;
+  transition: background-color 0.2s;
+}
+
+.report-options label:hover {
+  background-color: #f5f5f5;
+}
+
+.report-options input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  accent-color: #3498db;
+}
+
+.modal-buttons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 1.5rem;
+}
+
+.modal-buttons button {
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.2s;
+}
+
+.modal-buttons button:first-child {
+  background-color: #3498db;
+  color: white;
+}
+
+.modal-buttons button:last-child {
+  background-color: #e0e0e0;
+  color: #333;
+}
+
+.modal-buttons button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+@media print {
+  .sidebar, .header, .career-search-section, .action-button, .modal-overlay {
+    display: none !important;
+  }
+  
+  #report-content {
+    padding: 20px !important;
+    margin: 0 !important;
+    box-shadow: none !important;
+  }
+  
+  .report-header {
+    break-inside: avoid;
+  }
+  
+  .report-user-info {
+    break-inside: avoid;
+  }
+  
+  .section-header {
+    break-inside: avoid;
+  }
+}
+
+/* Add these PDF-specific styles */
+
+.pdf-container {
+  position: absolute;
+  top: -9999px;
+  left: -9999px;
+  width: 800px;
+  background: white;
+  padding: 40px;
+  font-family: Arial, sans-serif;
+  box-shadow: none;
+  z-index: -1;
+}
+
+.report-content-for-pdf {
+  color: #333;
+  line-height: 1.6;
+}
+
+.report-header-pdf {
+  margin-bottom: 30px;
+  border-bottom: 2px solid #3498db;
+  padding-bottom: 15px;
+}
+
+.report-header-pdf h1 {
+  color: #2c3e50;
+  font-size: 28px;
+  margin: 0 0 10px 0;
+}
+
+.report-header-pdf h2 {
+  color: #3498db;
+  font-size: 20px;
+  margin: 0;
+  font-weight: 500;
+}
+
+.report-section {
+  margin-bottom: 25px;
+  page-break-inside: avoid;
+}
+
+.report-section h3 {
+  color: #2c3e50;
+  font-size: 18px;
+  margin: 0 0 15px 0;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 5px;
+}
+
+.user-info-pdf, .scores-pdf, .academics-pdf {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+}
+
+.user-info-pdf p, .scores-pdf p, .academics-pdf p {
+  margin: 5px 0;
+}
+
+.career-path-pdf {
+  margin-top: 15px;
+}
+
+.generated-date {
+  color: #7f8c8d;
+  font-size: 14px;
+  font-style: italic;
+  margin-bottom: 20px;
+}
+
+.career-steps {
+  margin-top: 15px;
+}
+
+.step-section-header {
+  margin: 25px 0 15px 0;
+  background: #f8f9fa;
+  padding: 8px 12px;
+  border-left: 4px solid #3498db;
+}
+
+.step-section-header h4 {
+  margin: 0;
+  color: #2c3e50;
+  font-size: 16px;
+}
+
+.step-list-item, .step-paragraph {
+  margin: 8px 0;
+  color: #34495e;
+}
+
+.step-list-item p {
+  margin: 4px 0;
+  padding-left: 15px;
+}
+
+.step-numbered {
+  display: flex;
+  align-items: flex-start;
+  margin: 12px 0;
+}
+
+.step-number {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 24px;
+  height: 24px;
+  background: #3498db;
+  color: white;
+  border-radius: 50%;
+  font-size: 12px;
+  margin-right: 10px;
+}
+
+.step-content {
+  flex: 1;
+  color: #34495e;
+}

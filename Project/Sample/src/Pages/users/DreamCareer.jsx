@@ -3,6 +3,9 @@ import axios from 'axios';
 import "./DreamCareer.css";
 import Header from "./Header";
 import { useNavigate } from "react-router-dom";
+import jsPDF from 'jspdf';
+import html2canvas from 'html2canvas';
+import { FaUser, FaEnvelope, FaPhone, FaGraduationCap, FaChartBar } from 'react-icons/fa';
 
 const DreamCareer = () => {
   const [dreamJob, setDreamJob] = useState("");
@@ -22,6 +25,17 @@ const DreamCareer = () => {
   const [academicDetails, setAcademicDetails] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
   const [editedScores, setEditedScores] = useState({});
+  const [showReportModal, setShowReportModal] = useState(false);
+  const [reportOptions, setReportOptions] = useState({
+    includeScores: true,
+    includeAcademics: true,
+    includeCareerPath: true
+  });
+  const [userProfile, setUserProfile] = useState({
+    name: '',
+    email: '',
+    phone: '',
+  });
 
   const token = localStorage.getItem('token');
   const navigate = useNavigate();
@@ -29,6 +43,17 @@ const DreamCareer = () => {
   useEffect(() => {
     const fetchDetails = async () => {
       try {
+        // Fetch user profile data
+        const profileResponse = await axios.get(`${import.meta.env.VITE_URL}/vuprofile`, {
+          headers: { Authorization: token }
+        });
+        
+        setUserProfile({
+          name: profileResponse.data.name || 'User',
+          email: profileResponse.data.email || 'Not provided',
+          phone: profileResponse.data.phone || 'Not provided',
+        });
+        
         // Fetch academic details
         const academicResponse = await axios.get(`${import.meta.env.VITE_URL}/vuprofile`, {
           headers: { Authorization: token }
@@ -172,6 +197,367 @@ const DreamCareer = () => {
     navigate("/blogs");
   };
 
+  const toggleReportModal = () => {
+    setShowReportModal(!showReportModal);
+  };
+
+  const handleReportOptionChange = (option) => {
+    setReportOptions(prev => ({
+      ...prev,
+      [option]: !prev[option]
+    }));
+  };
+
+  const generateReport = () => {
+    setIsLoading(true);
+    
+    // Check if we have career path data first
+    if (!careerPath || !careerPath.steps || careerPath.steps.length === 0) {
+      alert("No career path data to include in report.");
+      setIsLoading(false);
+      return;
+    }
+
+    // Close the modal during PDF generation
+    setShowReportModal(false);
+    
+    // Initialize the PDF document
+    const pdf = new jsPDF('p', 'mm', 'a4');
+    const pageWidth = pdf.internal.pageSize.getWidth();
+    const pageHeight = pdf.internal.pageSize.getHeight();
+    
+    // Set title styles
+    pdf.setFontSize(24);
+    pdf.setTextColor(44, 62, 80);
+    pdf.text('Career Path Report', pageWidth/2, 20, { align: 'center' });
+    
+    pdf.setFontSize(16);
+    pdf.setTextColor(52, 73, 94);
+    pdf.text(`${dreamJob}`, pageWidth/2, 30, { align: 'center' });
+    
+    // Add date
+    pdf.setFontSize(10);
+    pdf.setTextColor(100, 100, 100);
+    pdf.text(`Generated on: ${new Date().toLocaleDateString()}`, pageWidth/2, 38, { align: 'center' });
+
+    // Start Y position for content
+    let yPos = 45;
+    const contentMargin = 20; // Left and right margins
+    const availableWidth = pageWidth - (contentMargin * 2);
+    
+    // Add user info section to the first page
+    pdf.setDrawColor(52, 152, 219);
+    pdf.setFillColor(240, 248, 255);
+    pdf.rect(contentMargin - 5, yPos - 5, availableWidth + 10, 40, 'F');
+    pdf.setLineWidth(0.5);
+    pdf.line(contentMargin - 5, yPos - 5, contentMargin - 5 + availableWidth + 10, yPos - 5);
+    
+    pdf.setFontSize(14);
+    pdf.setFont('helvetica', 'bold');
+    pdf.setTextColor(44, 62, 80);
+    pdf.text('Personal Information', contentMargin, yPos + 5);
+    
+    pdf.setFontSize(10);
+    pdf.setFont('helvetica', 'normal');
+    pdf.setTextColor(60, 64, 67);
+    pdf.text(`Name: ${userProfile.name}`, contentMargin, yPos + 15);
+    pdf.text(`Email: ${userProfile.email}`, contentMargin, yPos + 22);
+    pdf.text(`Phone: ${userProfile.phone}`, contentMargin, yPos + 29);
+    
+    yPos += 45;
+    
+    // Add scores section if selected
+    if (reportOptions.includeScores) {
+      pdf.setDrawColor(52, 152, 219);
+      pdf.setFillColor(240, 248, 255);
+      pdf.rect(contentMargin - 5, yPos - 5, availableWidth + 10, 70, 'F');
+      pdf.setLineWidth(0.5);
+      pdf.line(contentMargin - 5, yPos - 5, contentMargin - 5 + availableWidth + 10, yPos - 5);
+      
+      pdf.setFontSize(14);
+      pdf.setFont('helvetica', 'bold');
+      pdf.setTextColor(44, 62, 80);
+      pdf.text('Personality & Aptitude Assessment', contentMargin, yPos + 5);
+      
+      pdf.setFontSize(10);
+      pdf.setFont('helvetica', 'normal');
+      pdf.setTextColor(60, 64, 67);
+      
+      let col1X = contentMargin;
+      let col2X = contentMargin + availableWidth/2;
+      
+      // Personality scores
+      pdf.text(`Extraversion: ${scores.extraversion}`, col1X, yPos + 18);
+      pdf.text(`Agreeableness: ${scores.agreeableness}`, col1X, yPos + 26);
+      pdf.text(`Openness: ${scores.openness}`, col1X, yPos + 34);
+      pdf.text(`Neuroticism: ${scores.neuroticism}`, col1X, yPos + 42);
+      pdf.text(`Conscientiousness: ${scores.conscientiousness}`, col1X, yPos + 50);
+      
+      // Aptitude scores
+      pdf.text(`Math: ${scores.math}`, col2X, yPos + 18);
+      pdf.text(`Verbal: ${scores.verbal}`, col2X, yPos + 26);
+      pdf.text(`Logic: ${scores.logic}`, col2X, yPos + 34);
+      
+      yPos += 75;
+    }
+    
+    // Add academic section if selected
+    if (reportOptions.includeAcademics && academicDetails) {
+      pdf.setDrawColor(52, 152, 219);
+      pdf.setFillColor(240, 248, 255);
+      pdf.rect(contentMargin - 5, yPos - 5, availableWidth + 10, 50, 'F');
+      pdf.setLineWidth(0.5);
+      pdf.line(contentMargin - 5, yPos - 5, contentMargin - 5 + availableWidth + 10, yPos - 5);
+      
+      pdf.setFontSize(14);
+      pdf.setFont('helvetica', 'bold');
+      pdf.setTextColor(44, 62, 80);
+      pdf.text('Academic Information', contentMargin, yPos + 5);
+      
+      pdf.setFontSize(10);
+      pdf.setFont('helvetica', 'normal');
+      pdf.setTextColor(60, 64, 67);
+      
+      let col1X = contentMargin;
+      let col2X = contentMargin + availableWidth/2;
+      let textY = yPos + 18;
+      
+      if (academicDetails.tenthMark > 0) {
+        pdf.text(`10th Mark: ${academicDetails.tenthMark}%`, col1X, textY);
+        textY += 8;
+      }
+      
+      if (academicDetails.twelthMark > 0) {
+        pdf.text(`12th Mark: ${academicDetails.twelthMark}%`, col1X, textY);
+        textY += 8;
+      }
+      
+      textY = yPos + 18;
+      
+      if (academicDetails.degreeMark > 0) {
+        pdf.text(`Degree Mark: ${academicDetails.degreeMark}%`, col2X, textY);
+        textY += 8;
+      }
+      
+      if (academicDetails.pgMark > 0) {
+        pdf.text(`PG Mark: ${academicDetails.pgMark}%`, col2X, textY);
+      }
+      
+      yPos += 55;
+    }
+    
+    // Start career path on a new page if it would overflow
+    if (yPos > 220 || !reportOptions.includeCareerPath) {
+      // Add footer to the first page
+      pdf.setFontSize(8);
+      pdf.setTextColor(150, 150, 150);
+      pdf.text(`Page 1 | Career Pathway - Your Journey to Success`, pageWidth/2, pageHeight - 10, { align: 'center' });
+    }
+    
+    // Add career path section if selected
+    if (reportOptions.includeCareerPath) {
+      let currentSection = "";
+      let pageCount = 1;
+      
+      // Start a new page for career path
+      if (yPos > 220) {
+        pdf.addPage();
+        pageCount++;
+        yPos = 20;
+      }
+      
+      pdf.setFontSize(16);
+      pdf.setFont('helvetica', 'bold');
+      pdf.setTextColor(44, 62, 80);
+      pdf.text(`Career Path Analysis: ${dreamJob}`, pageWidth/2, yPos, { align: 'center' });
+      
+      yPos += 10;
+      
+      pdf.setFontSize(9);
+      pdf.setFont('helvetica', 'italic');
+      pdf.setTextColor(100, 100, 100);
+      pdf.text(`The following analysis is based on your profile and test results`, pageWidth/2, yPos, { align: 'center' });
+      
+      yPos += 15;
+      
+      // Process each step in the career path
+      for (let i = 0; i < careerPath.steps.length; i++) {
+        const step = careerPath.steps[i];
+        
+        // Check if we need a new page
+        if (yPos > pageHeight - 30) {
+          pdf.setFontSize(8);
+          pdf.setTextColor(150, 150, 150);
+          pdf.text(`Page ${pageCount} | Career Pathway - Your Journey to Success`, pageWidth/2, pageHeight - 10, { align: 'center' });
+          
+          pdf.addPage();
+          pageCount++;
+          yPos = 20;
+          
+          // Add section header to new page for context
+          if (currentSection) {
+            pdf.setFontSize(12);
+            pdf.setFont('helvetica', 'bold');
+            pdf.setTextColor(44, 62, 80);
+            pdf.text(`${currentSection} (continued)`, contentMargin, yPos);
+            yPos += 10;
+          }
+        }
+        
+        // Format section headers
+        if (step.includes('1. A step-by-step') || 
+            step.includes('2. Required qualifications') ||
+            step.includes('3. Skills') ||
+            step.includes('4. Potential challenges') ||
+            step.includes('5. Alternative careers')) {
+            
+          const headerText = step.split('.')[1].trim();
+          currentSection = headerText;
+          
+          pdf.setFillColor(248, 250, 252);
+          pdf.rect(contentMargin - 5, yPos - 5, availableWidth + 10, 10, 'F');
+          
+          pdf.setFontSize(12);
+          pdf.setFont('helvetica', 'bold');
+          pdf.setTextColor(44, 62, 80);
+          pdf.text(headerText, contentMargin, yPos);
+          
+          yPos += 15;
+        }
+        // Format list items
+        else if (step.startsWith('-')) {
+          const content = step.substring(1).trim().replace(/\*\*([^*]+)\*\*/g, '$1');
+          
+          pdf.setFontSize(10);
+          pdf.setFont('helvetica', 'normal');
+          pdf.setTextColor(60, 64, 67);
+          
+          // Handle text wrapping for bullet points
+          const textLines = pdf.splitTextToSize(`• ${content}`, availableWidth - 5);
+          textLines.forEach(line => {
+            pdf.text(line, contentMargin + 5, yPos);
+            yPos += 6;
+            
+            // Check if we need a new page after adding a line
+            if (yPos > pageHeight - 30 && i < careerPath.steps.length - 1) {
+              pdf.setFontSize(8);
+              pdf.setTextColor(150, 150, 150);
+              pdf.text(`Page ${pageCount} | Career Pathway - Your Journey to Success`, pageWidth/2, pageHeight - 10, { align: 'center' });
+              
+              pdf.addPage();
+              pageCount++;
+              yPos = 20;
+              
+              // Add section header to new page for context
+              if (currentSection) {
+                pdf.setFontSize(12);
+                pdf.setFont('helvetica', 'bold');
+                pdf.setTextColor(44, 62, 80);
+                pdf.text(`${currentSection} (continued)`, contentMargin, yPos);
+                yPos += 10;
+              }
+            }
+          });
+          
+          yPos += 2; // Extra space after each bullet
+        }
+        // Format numbered steps
+        else if (step.match(/^\d+\./)) {
+          const parts = step.split('.');
+          const number = parts[0];
+          const content = parts.slice(1).join('.').trim().replace(/\*\*([^*]+)\*\*/g, '$1');
+          
+          pdf.setFontSize(10);
+          pdf.setTextColor(60, 64, 67);
+          
+          // Number in a circle
+          pdf.setFillColor(52, 152, 219);
+          pdf.circle(contentMargin + 5, yPos - 2, 4, 'F');
+          pdf.setFont('helvetica', 'bold');
+          pdf.setTextColor(255, 255, 255);
+          pdf.text(number, contentMargin + 5, yPos, { align: 'center' });
+          
+          // Text content
+          pdf.setFont('helvetica', 'normal');
+          pdf.setTextColor(60, 64, 67);
+          
+          // Handle text wrapping for numbered steps
+          const textLines = pdf.splitTextToSize(content, availableWidth - 15);
+          textLines.forEach((line, lineIndex) => {
+            pdf.text(line, contentMargin + 15, yPos + (lineIndex * 6));
+            
+            // Check if we need a new page after adding a line
+            if (yPos + (lineIndex * 6) > pageHeight - 30 && (lineIndex < textLines.length - 1 || i < careerPath.steps.length - 1)) {
+              pdf.setFontSize(8);
+              pdf.setTextColor(150, 150, 150);
+              pdf.text(`Page ${pageCount} | Career Pathway - Your Journey to Success`, pageWidth/2, pageHeight - 10, { align: 'center' });
+              
+              pdf.addPage();
+              pageCount++;
+              yPos = 20 - (lineIndex * 6);
+              
+              // Add section header to new page for context
+              if (currentSection) {
+                pdf.setFontSize(12);
+                pdf.setFont('helvetica', 'bold');
+                pdf.setTextColor(44, 62, 80);
+                pdf.text(`${currentSection} (continued)`, contentMargin, yPos);
+                yPos += 10;
+              }
+            }
+          });
+          
+          yPos += (textLines.length * 6) + 2; // Move Y position after all text lines
+        }
+        // Format regular paragraphs
+        else {
+          const content = step.replace(/\*\*([^*]+)\*\*/g, '$1');
+          
+          pdf.setFontSize(10);
+          pdf.setFont('helvetica', 'normal');
+          pdf.setTextColor(60, 64, 67);
+          
+          // Handle text wrapping for paragraphs
+          const textLines = pdf.splitTextToSize(content, availableWidth);
+          textLines.forEach((line, lineIndex) => {
+            pdf.text(line, contentMargin, yPos + (lineIndex * 6));
+            
+            // Check if we need a new page after adding a line
+            if (yPos + (lineIndex * 6) > pageHeight - 30 && (lineIndex < textLines.length - 1 || i < careerPath.steps.length - 1)) {
+              pdf.setFontSize(8);
+              pdf.setTextColor(150, 150, 150);
+              pdf.text(`Page ${pageCount} | Career Pathway - Your Journey to Success`, pageWidth/2, pageHeight - 10, { align: 'center' });
+              
+              pdf.addPage();
+              pageCount++;
+              yPos = 20 - (lineIndex * 6);
+              
+              // Add section header to new page for context
+              if (currentSection) {
+                pdf.setFontSize(12);
+                pdf.setFont('helvetica', 'bold');
+                pdf.setTextColor(44, 62, 80);
+                pdf.text(`${currentSection} (continued)`, contentMargin, yPos);
+                yPos += 10;
+              }
+            }
+          });
+          
+          yPos += (textLines.length * 6) + 4; // Move Y position after all text lines
+        }
+      }
+      
+      // Add footer to the last page
+      pdf.setFontSize(8);
+      pdf.setTextColor(150, 150, 150);
+      pdf.text(`Page ${pageCount} | Career Pathway - Your Journey to Success`, pageWidth/2, pageHeight - 10, { align: 'center' });
+    }
+    
+    // Save the PDF
+    pdf.save(`${userProfile.name}_${dreamJob || 'Career'}_Path_Report.pdf`);
+    setIsLoading(false);
+  };
+
   return (
     <div className="home-container">
       {/* Sidebar */}
@@ -308,54 +694,132 @@ const DreamCareer = () => {
                 {careerPath && (
                   <div className="career-path-container">
                     <h2>Career Path: {dreamJob}</h2>
-                    <div className="career-path-content">
-                      {careerPath.steps.map((step, index) => {
-                        // Updated function to convert text with asterisks to bold without showing asterisks
-                        const formatText = (text) => {
-                          if (!text) return '';
+                    
+                    <button onClick={toggleReportModal} className="action-button report-button">
+                      Generate Custom Report
+                    </button>
+                    
+                    <div id="report-content" className="career-path-content">
+                      {/* Report Header with User Info */}
+                      <div className="report-header">
+                        <div className="report-logo">
+                          <h1>Career Pathway</h1>
+                        </div>
+                        <div className="report-title">
+                          <h2>Career Path Analysis Report</h2>
+                          <h3>{dreamJob}</h3>
+                        </div>
+                      </div>
+                      
+                      {/* User Profile Information */}
+                      <div className="report-user-info">
+                        <h3><FaUser className="report-icon" /> Personal Information</h3>
+                        <div className="user-info-grid">
+                          <div className="user-info-item">
+                            <span className="info-label">Name:</span>
+                            <span className="info-value">{userProfile.name}</span>
+                          </div>
+                          <div className="user-info-item">
+                            <span className="info-label"><FaEnvelope className="mini-icon" /> Email:</span>
+                            <span className="info-value">{userProfile.email}</span>
+                          </div>
+                          <div className="user-info-item">
+                            <span className="info-label"><FaPhone className="mini-icon" /> Phone:</span>
+                            <span className="info-value">{userProfile.phone}</span>
+                          </div>
+                        </div>
+                        
+                        <div className="profile-summary">
+                          <div className="scores-summary">
+                            <h4><FaChartBar className="mini-icon" /> Personality & Aptitude Assessment</h4>
+                            <div className="scores-grid">
+                              <div><span className="trait-label">Extraversion:</span> <span className="trait-value">{scores.extraversion}</span></div>
+                              <div><span className="trait-label">Agreeableness:</span> <span className="trait-value">{scores.agreeableness}</span></div>
+                              <div><span className="trait-label">Openness:</span> <span className="trait-value">{scores.openness}</span></div>
+                              <div><span className="trait-label">Neuroticism:</span> <span className="trait-value">{scores.neuroticism}</span></div>
+                              <div><span className="trait-label">Conscientiousness:</span> <span className="trait-value">{scores.conscientiousness}</span></div>
+                              <div><span className="trait-label">Math:</span> <span className="trait-value">{scores.math}</span></div>
+                              <div><span className="trait-label">Verbal:</span> <span className="trait-value">{scores.verbal}</span></div>
+                              <div><span className="trait-label">Logic:</span> <span className="trait-value">{scores.logic}</span></div>
+                            </div>
+                          </div>
                           
-                          // Replace **text** with bold elements
-                          const parts = text.split(/(\*\*.*?\*\*)/g);
-                          
-                          return parts.map((part, i) => {
-                            if (part.startsWith('**') && part.endsWith('**')) {
-                              // Extract just the text between ** and make it bold
-                              const boldText = part.substring(2, part.length - 2);
-                              return <strong key={i}>{boldText}</strong>;
-                            }
-                            return part;
-                          });
-                        };
+                          {academicDetails && (
+                            <div className="academic-summary">
+                              <h4><FaGraduationCap className="mini-icon" /> Academic Information</h4>
+                              <div className="academic-grid">
+                                {academicDetails.tenthMark > 0 && (
+                                  <div><span className="academic-label">10th Mark:</span> <span className="academic-value">{academicDetails.tenthMark}%</span></div>
+                                )}
+                                {academicDetails.twelthMark > 0 && (
+                                  <div><span className="academic-label">12th Mark:</span> <span className="academic-value">{academicDetails.twelthMark}%</span></div>
+                                )}
+                                {academicDetails.degreeMark > 0 && (
+                                  <div><span className="academic-label">Degree Mark:</span> <span className="academic-value">{academicDetails.degreeMark}%</span></div>
+                                )}
+                                {academicDetails.pgMark > 0 && (
+                                  <div><span className="academic-label">PG Mark:</span> <span className="academic-value">{academicDetails.pgMark}%</span></div>
+                                )}
+                              </div>
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                      
+                      {/* Career Path Analysis */}
+                      <div className="career-path-analysis">
+                        <h3>Career Path Analysis: {dreamJob}</h3>
+                        <div className="analysis-date">Generated on: {new Date().toLocaleDateString()}</div>
+                        
+                        {/* Existing career path steps */}
+                        {careerPath.steps.map((step, index) => {
+                          // Updated function to convert text with asterisks to bold without showing asterisks
+                          const formatText = (text) => {
+                            if (!text) return '';
+                            
+                            // Replace **text** with bold elements
+                            const parts = text.split(/(\*\*.*?\*\*)/g);
+                            
+                            return parts.map((part, i) => {
+                              if (part.startsWith('**') && part.endsWith('**')) {
+                                // Extract just the text between ** and make it bold
+                                const boldText = part.substring(2, part.length - 2);
+                                return <strong key={i}>{boldText}</strong>;
+                              }
+                              return part;
+                            });
+                          };
 
-                        // Check for section headers
-                        if (step.includes('1. A step-by-step') || 
-                            step.includes('2. Required qualifications') ||
-                            step.includes('3. Skills') ||
-                            step.includes('4. Potential challenges') ||
-                            step.includes('5. Alternative careers')) {
+                          // Check for section headers
+                          if (step.includes('1. A step-by-step') || 
+                              step.includes('2. Required qualifications') ||
+                              step.includes('3. Skills') ||
+                              step.includes('4. Potential challenges') ||
+                              step.includes('5. Alternative careers')) {
+                            return (
+                              <div key={index} className="section-header">
+                                <h3>{formatText(step.split('.')[1])}</h3>
+                              </div>
+                            );
+                          }
+                          
+                          // Regular content
                           return (
-                            <div key={index} className="section-header">
-                              <h3>{formatText(step.split('.')[1])}</h3>
+                            <div key={index} className="career-step">
+                              {step.startsWith('-') ? (
+                                <li>{formatText(step.substring(1).trim())}</li>
+                              ) : step.match(/^\d+\./) ? (
+                                <div className="numbered-step">
+                                  <span className="step-number">{step.split('.')[0]}</span>
+                                  <span className="step-content">{formatText(step.split('.')[1])}</span>
+                                </div>
+                              ) : (
+                                <p>{formatText(step)}</p>
+                              )}
                             </div>
                           );
-                        }
-                        
-                        // Regular content
-                        return (
-                          <div key={index} className="career-step">
-                            {step.startsWith('-') ? (
-                              <li>{formatText(step.substring(1).trim())}</li>
-                            ) : step.match(/^\d+\./) ? (
-                              <div className="numbered-step">
-                                <span className="step-number">{step.split('.')[0]}</span>
-                                <span className="step-content">{formatText(step.split('.')[1])}</span>
-                              </div>
-                            ) : (
-                              <p>{formatText(step)}</p>
-                            )}
-                          </div>
-                        );
-                      })}
+                        })}
+                      </div>
                     </div>
                   </div>
                 )}
@@ -364,6 +828,44 @@ const DreamCareer = () => {
           </div>
         </div>
       </div>
+
+      {showReportModal && (
+        <div className="modal-overlay">
+          <div className="report-modal">
+            <h3>Generate Report</h3>
+            <div className="report-options">
+              <label>
+                <input 
+                  type="checkbox" 
+                  checked={reportOptions.includeScores} 
+                  onChange={() => handleReportOptionChange('includeScores')} 
+                />
+                Include Personality & Aptitude Scores
+              </label>
+              <label>
+                <input 
+                  type="checkbox" 
+                  checked={reportOptions.includeAcademics} 
+                  onChange={() => handleReportOptionChange('includeAcademics')} 
+                />
+                Include Academic Details
+              </label>
+              <label>
+                <input 
+                  type="checkbox" 
+                  checked={reportOptions.includeCareerPath} 
+                  onChange={() => handleReportOptionChange('includeCareerPath')} 
+                />
+                Include Career Path Details
+              </label>
+            </div>
+            <div className="modal-buttons">
+              <button onClick={generateReport}>Generate PDF</button>
+              <button onClick={toggleReportModal}>Cancel</button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
