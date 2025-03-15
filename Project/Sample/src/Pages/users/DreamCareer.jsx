@@ -226,26 +226,37 @@ const DreamCareer = () => {
     const pageWidth = pdf.internal.pageSize.getWidth();
     const pageHeight = pdf.internal.pageSize.getHeight();
     
-    // Set title styles
-    pdf.setFontSize(24);
-    pdf.setTextColor(44, 62, 80);
-    pdf.text('Career Path Report', pageWidth/2, 20, { align: 'center' });
+    // Create header rectangle with gradient-like appearance
+    pdf.setFillColor(52, 152, 219); // Main blue color
+    pdf.rect(0, 0, pageWidth, 30, 'F');
     
+    // Add title to the PDF header
+    pdf.setFontSize(20);
+    pdf.setTextColor(255, 255, 255);
+    pdf.text('Career Path Report', 20, 15);
+    
+    // Add user info to header
+    pdf.setFontSize(10);
+    pdf.setTextColor(230, 230, 230);
+    pdf.text(`Name: ${userProfile.name}`, pageWidth - 60, 10);
+    pdf.text(`Email: ${userProfile.email}`, pageWidth - 60, 16);
+    
+    // Add dream job and date below header
     pdf.setFontSize(16);
     pdf.setTextColor(52, 73, 94);
-    pdf.text(`${dreamJob}`, pageWidth/2, 30, { align: 'center' });
+    pdf.text(`Career Path: ${dreamJob}`, 20, 40);
     
     // Add date
     pdf.setFontSize(10);
     pdf.setTextColor(100, 100, 100);
-    pdf.text(`Generated on: ${new Date().toLocaleDateString()}`, pageWidth/2, 38, { align: 'center' });
+    pdf.text(`Generated on: ${new Date().toLocaleDateString()}`, pageWidth - 60, 40);
 
     // Start Y position for content
-    let yPos = 45;
+    let yPos = 50;
     const contentMargin = 20; // Left and right margins
     const availableWidth = pageWidth - (contentMargin * 2);
     
-    // Add user info section to the first page
+    // Add user info section to the first page (more details than the header)
     pdf.setDrawColor(52, 152, 219);
     pdf.setFillColor(240, 248, 255);
     pdf.rect(contentMargin - 5, yPos - 5, availableWidth + 10, 40, 'F');
@@ -488,10 +499,6 @@ const DreamCareer = () => {
             
             // Check if we need a new page after adding a line
             if (yPos + (lineIndex * 6) > pageHeight - 30 && (lineIndex < textLines.length - 1 || i < careerPath.steps.length - 1)) {
-              pdf.setFontSize(8);
-              pdf.setTextColor(150, 150, 150);
-              pdf.text(`Page ${pageCount} | Career Pathway - Your Journey to Success`, pageWidth/2, pageHeight - 10, { align: 'center' });
-              
               pdf.addPage();
               pageCount++;
               yPos = 20 - (lineIndex * 6);
@@ -524,10 +531,6 @@ const DreamCareer = () => {
             
             // Check if we need a new page after adding a line
             if (yPos + (lineIndex * 6) > pageHeight - 30 && (lineIndex < textLines.length - 1 || i < careerPath.steps.length - 1)) {
-              pdf.setFontSize(8);
-              pdf.setTextColor(150, 150, 150);
-              pdf.text(`Page ${pageCount} | Career Pathway - Your Journey to Success`, pageWidth/2, pageHeight - 10, { align: 'center' });
-              
               pdf.addPage();
               pageCount++;
               yPos = 20 - (lineIndex * 6);
@@ -551,6 +554,33 @@ const DreamCareer = () => {
       pdf.setFontSize(8);
       pdf.setTextColor(150, 150, 150);
       pdf.text(`Page ${pageCount} | Career Pathway - Your Journey to Success`, pageWidth/2, pageHeight - 10, { align: 'center' });
+    }
+    
+    // Add page header and footer to all pages
+    const totalPages = pdf.internal.getNumberOfPages();
+    for (let i = 1; i <= totalPages; i++) {
+      pdf.setPage(i);
+      
+      // Add header to each page
+      pdf.setFillColor(52, 152, 219);
+      pdf.rect(0, 0, pageWidth, 20, 'F');
+      
+      pdf.setFontSize(12);
+      pdf.setTextColor(255, 255, 255);
+      pdf.text('Career Pathway', 20, 13);
+      
+      // Add user info to each page's header
+      pdf.setFontSize(8);
+      pdf.text(`${userProfile.name} | ${userProfile.email}`, pageWidth - 60, 13);
+      
+      // Add footer with better styling
+      pdf.setFillColor(245, 245, 245); // Light gray background
+      pdf.rect(0, pageHeight - 15, pageWidth, 15, 'F');
+      
+      pdf.setFontSize(8);
+      pdf.setTextColor(80, 80, 80); // Darker text for better readability
+      pdf.text(`Page ${i} of ${totalPages}`, 20, pageHeight - 6);
+      pdf.text(`Career Pathway - Your Journey to Success`, pageWidth - 20, pageHeight - 6, { align: 'right' });
     }
     
     // Save the PDF
@@ -579,7 +609,7 @@ const DreamCareer = () => {
 
       {/* Main Content Area */}
       <div className="content">
-        <Header />
+        <Header userName={userProfile.name} userEmail={userProfile.email} />
         
         <div className="dream-career-content">
           <div className="welcome-section">

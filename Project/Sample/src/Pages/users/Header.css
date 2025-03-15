@@ -89,3 +89,21 @@
     color: #ffffff;
     background-color: #333; /* Optional: change background on hover */
 }
+
+.user-info {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    margin-right: 20px;
+}
+
+.user-name {
+    font-weight: 600;
+    color: #2c3e50;
+    font-size: 1rem;
+}
+
+.user-email {
+    font-size: 0.8rem;
+    color: #7f8c8d;
+}

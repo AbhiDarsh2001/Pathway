@@ -4,7 +4,7 @@ import USearchEntrance from '../../Components/search/search';
 import { Link, useNavigate } from 'react-router-dom';
 import './Header.css'; // Separate CSS file for the header
 
-const Header = () => {
+const Header = ({ userName, userEmail }) => {
   const navigate = useNavigate();
 
   const handleLogout = () => {
@@ -14,15 +14,32 @@ const Header = () => {
  
   return (
     <header className="header">
+      <div className="header-left">
+        <nav>
+          <Link to="/home" className="nav-link">Home</Link>
+          {/* <Link to="/about" className="nav-link">About Us</Link> */}
+          <a href="/Ujoblist" className="nav-link" id="viewjob">Job</a>
+          <a href="/Ucourselist" className="nav-link" id="viewcourse">Course</a>
+          <a href="/blogs" className="nav-link" id='viewblog'>Blog</a>
+          <a href="/chatBot" className="nav-link" id='chatBot'>ChatBot</a>
+          {/* <USearchEntrance /> */}
+        </nav>
+      </div>
+      
+      <div className="user-info">
+        {userName && (
+          <div className="user-name">
+            Welcome, {userName}
+          </div>
+        )}
+        {userEmail && (
+          <div className="user-email">
+            {userEmail}
+          </div>
+        )}
+      </div>
+      
       <nav>
-        <Link to="/home" className="nav-link">Home</Link>
-        {/* <Link to="/about" className="nav-link">About Us</Link> */}
-        <a href="/Ujoblist" className="nav-link" id="viewjob">Job</a>
-        <a href="/Ucourselist" className="nav-link" id="viewcourse">Course</a>
-        <a href="/blogs" className="nav-link" id='viewblog'>Blog</a>
-        <a href="/chatBot" className="nav-link" id='chatBot'>ChatBot</a>
-        {/* <USearchEntrance /> */}
-
         {/* Profile with Hover Dropdown */}
         <div className="profile-container">
           <span className="nav-link profile-link" id="profile">Profile</span>
