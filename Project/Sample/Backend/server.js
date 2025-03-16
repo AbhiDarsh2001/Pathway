@@ -17,7 +17,14 @@ const cors = require("cors");
 const nodemailer = require("nodemailer");
 const User = require("./models/RegisterModel.js");
 const app = express();
-const axios = require('axios');
+
+
+
+// const axios = require('axios');
+
+
+
+
 const { GoogleGenerativeAI } = require("@google/generative-ai");
 const paymentRoutes = require('./routes/paymentRoutes');
 const userRoutes = require('./routes/userRoutes');
