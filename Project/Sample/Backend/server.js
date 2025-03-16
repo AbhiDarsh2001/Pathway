@@ -20,7 +20,7 @@ const app = express();
 
 
 
-// const axios = require('axios');
+const axios = require('axios');
 
 
 
@@ -365,39 +365,39 @@ app.use('/career', TestRoutes);
 // Update the career prediction route handler
 
 
-// app.post('/career/predict-manual', async (req, res) => {
-//     try {
-//         console.log('Received prediction request:', req.body); // Debug log
+app.post('/career/predict-manual', async (req, res) => {
+    try {
+        console.log('Received prediction request:', req.body); // Debug log
 
-//         const response = await axios.post(
-//             'http://localhost:5000/predict-manual',
-//             req.body,
-//             {
-//                 headers: {
-//                     'Content-Type': 'application/json'
-//                 }
-//             }
-//         );
+        const response = await axios.post(
+            'http://localhost:5000/predict-manual',
+            req.body,
+            {
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            }
+        );
 
-//         console.log('ML API response:', response.data); // Debug log
+        console.log('ML API response:', response.data); // Debug log
 
-//         if (!response.data.success) {
-//             throw new Error(response.data.error || 'Prediction failed');
-//         }
+        if (!response.data.success) {
+            throw new Error(response.data.error || 'Prediction failed');
+        }
 
-//         res.json({
-//             success: true,
-//             careerRecommendations: response.data.careerRecommendations
-//         });
-//     } catch (error) {
-//         console.error('Prediction error:', error.response?.data || error.message);
-//         res.status(500).json({
-//             success: false,
-//             error: 'Failed to get career prediction',
-//             details: error.response?.data || error.message
-//         });
-//     }
-// });
+        res.json({
+            success: true,
+            careerRecommendations: response.data.careerRecommendations
+        });
+    } catch (error) {
+        console.error('Prediction error:', error.response?.data || error.message);
+        res.status(500).json({
+            success: false,
+            error: 'Failed to get career prediction',
+            details: error.response?.data || error.message
+        });
+    }
+});
 
 
 
