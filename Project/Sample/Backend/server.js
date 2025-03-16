@@ -49,19 +49,19 @@ const aptitudeRoutes = require("./routes/aptitudeRoutes");
 // Middleware for CORS
 
 // LOCAL HOST
-app.use(
-  cors({
-    origin: "http://localhost:5173",
-    methods: ["GET", "POST", "PUT", "DELETE"],
-  })
-);
-//SERVER
 // app.use(
 //   cors({
-//     origin: "https://pathway-1-frontend.onrender.com",
+//     origin: "http://localhost:5173",
 //     methods: ["GET", "POST", "PUT", "DELETE"],
 //   })
 // );
+//SERVER
+app.use(
+  cors({
+    origin: "https://pathway-1-frontend.onrender.com",
+    methods: ["GET", "POST", "PUT", "DELETE"],
+  })
+);
 
 
 // Load environment variables
