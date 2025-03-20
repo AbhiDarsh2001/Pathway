@@ -132,7 +132,7 @@ const Login = () => {
         <div className={styles.right}>
           <h1>New Here?</h1>
           <Link to="/signup">
-            <button type="button" className={styles.white_btn}>
+            <button type="button" className={styles.white_btn} id="signup">
               Sign Up
             </button>
           </Link>

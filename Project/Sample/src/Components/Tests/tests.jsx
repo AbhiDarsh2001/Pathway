@@ -95,7 +95,7 @@ const Tests = () => {
             <div className="test-card">
               <h3>Select your dream Career</h3>
               <p>Input your scores</p>
-              <Link to="/dreamcareer" className="test-button">
+              <Link to="/dreamcareer" className="test-button" id="Dream career" >
                 Manual Input
               </Link>
             </div>

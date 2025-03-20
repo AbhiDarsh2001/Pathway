@@ -611,6 +611,7 @@ router.get('/results/:email', verifyToken, async (req, res) => {
 });
 
 router.post('/predict-career', verifyToken, async (req, res) => {
+  console.log("hello")
     try {
         const {
             extraversion,

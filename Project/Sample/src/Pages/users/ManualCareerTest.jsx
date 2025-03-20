@@ -207,6 +207,7 @@ const ManualCareerTest = () => {
 
                     <button 
                         className="fetch-scores-button"
+                        id="fetch score"
                         onClick={fetchUserScores}
                         disabled={isLoading}
                     >

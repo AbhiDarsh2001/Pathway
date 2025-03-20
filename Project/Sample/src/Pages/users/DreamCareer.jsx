@@ -629,8 +629,9 @@ const DreamCareer = () => {
                       value={dreamJob}
                       onChange={handleInputChange}
                       className="career-input"
+                      id="PathBox"
                     />
-                    <button type="submit" className="action-button">Find Path</button>
+                    <button type="submit" className="action-button" id="FindPath">Find Path</button>
                   </form>
                 </div>
 
@@ -657,7 +658,7 @@ const DreamCareer = () => {
                             <span>Conscientiousness:</span> {scores.conscientiousness}
                           </div>
                           <div className="score-item">
-                            <span>Math:</span> {scores.math}
+                            <span id="math">Math:</span> {scores.math}
                           </div>
                           <div className="score-item">
                             <span>Verbal:</span> {scores.verbal}
@@ -666,7 +667,7 @@ const DreamCareer = () => {
                             <span>Logic:</span> {scores.logic}
                           </div>
                         </div>
-                        <button onClick={handleEditClick} className="action-button">Edit Scores</button>
+                        <button onClick={handleEditClick} className="action-button" id="edit score">Edit Scores</button>
                       </>
                     ) : (
                       <div className="edit-scores">
@@ -683,7 +684,7 @@ const DreamCareer = () => {
                           </div>
                         ))}
                         <div className="edit-buttons">
-                          <button onClick={handleSaveScores}>Save</button>
+                          <button onClick={handleSaveScores} id="save">Save</button>
                           <button onClick={() => setIsEditing(false)}>Cancel</button>
                         </div>
                       </div>

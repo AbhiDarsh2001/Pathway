@@ -124,6 +124,7 @@ const Signup = () => {
                             type="text"
                             placeholder="Name"
                             name="name"
+                            id="name"
                             onChange={handleChange}
                             value={data.name}
                             required
@@ -133,6 +134,7 @@ const Signup = () => {
                             type="email"
                             placeholder="Email"
                             name="email"
+                            id="email"
                             onChange={handleChange}
                             onBlur={() => handleBlur("email")}
                             value={data.email}
@@ -146,6 +148,7 @@ const Signup = () => {
                             type="password"
                             placeholder="Password"
                             name="password"
+                            id="password"
                             onChange={handleChange}
                             onBlur={() => handleBlur("password")}
                             value={data.password}
@@ -156,6 +159,7 @@ const Signup = () => {
                             type="password"
                             placeholder="Confirm Password"
                             name="confirmPassword"
+                            id="confirmpassword"
                             onChange={handleChange}
                             onBlur={() => handleBlur("confirmPassword")}
                             value={data.confirmPassword}
@@ -180,7 +184,7 @@ const Signup = () => {
                             </p>
                         </div>
 
-                        <button type="submit" className={styles.green_btn}>
+                        <button type="submit" className={styles.green_btn} id="signup">
                             Sign Up
                         </button>
                     </form>
