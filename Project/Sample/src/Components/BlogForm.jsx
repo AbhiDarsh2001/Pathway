@@ -2,6 +2,8 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import './blogForm.css';
+import Header from "../Pages/users/Header";
+
 const BlogForm = () => {
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
@@ -94,25 +96,28 @@ const BlogForm = () => {
     return <div>Loading...</div>;
   }
   return (
-    <form onSubmit={handleSubmit} className="blog-form">
-      <input
-        id='text'
-        type="text"
-        placeholder="Blog Title"
-        value={title}
-        onChange={(e) => setTitle(e.target.value)}
-        required
-      />
-      <textarea
-        id='content'
-        placeholder="Blog Content"
-        value={content}
-        onChange={(e) => setContent(e.target.value)}
-        required
-      />
-      <input type="file" onChange={handleImageChange} />
-      <button type="submit" id='submit'>Add Blog</button>
-    </form>
+    <>
+      <Header />
+      <form onSubmit={handleSubmit} className="blog-form">
+        <input
+          id='text'
+          type="text"
+          placeholder="Blog Title"
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
+          required
+        />
+        <textarea
+          id='content'
+          placeholder="Blog Content"
+          value={content}
+          onChange={(e) => setContent(e.target.value)}
+          required
+        />
+        <input type="file" onChange={handleImageChange} />
+        <button type="submit" id='submit'>Add Blog</button>
+      </form>
+    </>
   );
 };
 export default BlogForm;

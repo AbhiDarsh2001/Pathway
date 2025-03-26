@@ -45,7 +45,7 @@ const FilterComponent = ({ setFilters, type }) => {
 
   return (
     <div className="filter-container">
-      <h3>Filter by Category</h3>
+      <h3>Filter Courses</h3>
       <div className="filter-group">
         {categories.map((category) => (
           <div key={category._id} className="category-item">
@@ -60,13 +60,13 @@ const FilterComponent = ({ setFilters, type }) => {
               <div className="subcategories">
                 {category.subcategories.map((subcategory, index) => (
                   <div key={index} className="subcategory-item">
-                    <input
+                    {/* <input
                       type="checkbox"
                       id={`${category._id}-${subcategory}`}
                       checked={selectedSubcategories.includes(subcategory)}
                       onChange={() => handleSubcategoryChange(subcategory)}
-                    />
-                    <label htmlFor={`${category._id}-${subcategory}`}>{subcategory}</label>
+                    /> */}
+                    {/* <label htmlFor={`${category._id}-${subcategory}`}>{subcategory}</label> */}
                   </div>
                 ))}
               </div>
@@ -77,5 +77,4 @@ const FilterComponent = ({ setFilters, type }) => {
     </div>
   );
 };
-
 export default FilterComponent;
