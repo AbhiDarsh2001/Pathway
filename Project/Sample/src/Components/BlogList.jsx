@@ -114,13 +114,19 @@ const BlogList = () => {
   };
 
   const handleReportClick = async (blogId) => {
+    if (!currentUser) {
+      alert('Please log in to report blogs');
+      return;
+    }
+    
     try {
       const token = localStorage.getItem('token');
       const reportData = {
         blogId,
         reason: reportReason,
-        reportedBy: currentUser.id,
+        reportedBy: currentUser._id
       };
+      
       await axios.post(`${import.meta.env.VITE_URL}/report/submit`, reportData, {
         headers: { Authorization: token },
       });
