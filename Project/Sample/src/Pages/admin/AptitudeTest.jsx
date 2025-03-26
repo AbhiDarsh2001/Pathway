@@ -235,215 +235,217 @@ const AptitudeTest = () => {
 
   return (
     <div className="dashboard-container">
-      {/* <Sidebar /> */}
+      <Sidebar />
       <main className="aptitude-test-container">
         <h2 className="aptitude-test-header">Aptitude Test Management</h2>
         
-        <div className="test-settings-panel">
-          <div className="settings-display">
-            <h3>Test Settings</h3>
-            <div className="settings-info">
-              <p><strong>Title:</strong> {testSettings.title}</p>
-              <p><strong>Description:</strong> {testSettings.description}</p>
-              <p><strong>Duration:</strong> {testSettings.duration} minutes</p>
-            </div>
-            <button 
-              className="edit-settings-btn"
-              onClick={() => setShowSettingsModal(true)}
-            >
-              <FontAwesomeIcon icon={faClock} /> Edit Test Settings
-            </button>
-          </div>
-        </div>
-
-        <div className="question-form">
-          <h3>Add New Question</h3>
-          <form onSubmit={handleSubmit}>
-            {error && <div className="error-message">{error}</div>}
-            {success && <div className="success-message">{success}</div>}
-            
-            <div className="form-group">
-              <label htmlFor="question">Question</label>
-              <input
-                id="question"
-                type="text"
-                name="question"
-                placeholder="Enter question"
-                value={newQuestion.question}
-                onChange={handleQuestionChange}
-                required
-              />
-            </div>
-            
-            <div className="form-group">
-              <label htmlFor="trait">Trait</label>
-              <select
-                id="trait"
-                name="trait"
-                value={newQuestion.trait}
-                onChange={handleQuestionChange}
-                required
+        <div className="test-content-wrapper">
+          <div className="test-settings-panel">
+            <div className="settings-display">
+              <h3>Test Settings</h3>
+              <div className="settings-info">
+                <p><strong>Title:</strong> {testSettings.title}</p>
+                <p><strong>Description:</strong> {testSettings.description}</p>
+                <p><strong>Duration:</strong> {testSettings.duration} minutes</p>
+              </div>
+              <button 
+                className="edit-settings-btn"
+                onClick={() => setShowSettingsModal(true)}
               >
-                <option value="">Select Trait</option>
-                {aptitudeTraits.map((trait) => (
-                  <option key={trait} value={trait}>
-                    {trait}
-                  </option>
-                ))}
-              </select>
+                <FontAwesomeIcon icon={faClock} /> Edit Test Settings
+              </button>
             </div>
-            
-            <div className="options-group">
-              <h4>Options</h4>
-              {newQuestion.options.map((option, index) => (
-                <div key={index} className="option-item">
-                  <input
-                    type="text"
-                    placeholder="Option text"
-                    value={option.text}
-                    onChange={(e) => handleOptionChange(index, 'text', e.target.value)}
-                    required
-                  />
-                  <div className="option-score">
-                    <label>Score:</label>
+          </div>
+
+          <div className="question-form">
+            <h3>Add New Question</h3>
+            <form onSubmit={handleSubmit}>
+              {error && <div className="error-message">{error}</div>}
+              {success && <div className="success-message">{success}</div>}
+              
+              <div className="form-group">
+                <label htmlFor="question">Question</label>
+                <input
+                  id="question"
+                  type="text"
+                  name="question"
+                  placeholder="Enter question"
+                  value={newQuestion.question}
+                  onChange={handleQuestionChange}
+                  required
+                />
+              </div>
+              
+              <div className="form-group">
+                <label htmlFor="trait">Trait</label>
+                <select
+                  id="trait"
+                  name="trait"
+                  value={newQuestion.trait}
+                  onChange={handleQuestionChange}
+                  required
+                >
+                  <option value="">Select Trait</option>
+                  {aptitudeTraits.map((trait) => (
+                    <option key={trait} value={trait}>
+                      {trait}
+                    </option>
+                  ))}
+                </select>
+              </div>
+              
+              <div className="options-group">
+                <h4>Options</h4>
+                {newQuestion.options.map((option, index) => (
+                  <div key={index} className="option-item">
                     <input
-                      type="number"
-                      placeholder="Score"
-                      value={option.score}
-                      onChange={(e) => handleOptionChange(index, 'score', e.target.value)}
+                      type="text"
+                      placeholder="Option text"
+                      value={option.text}
+                      onChange={(e) => handleOptionChange(index, 'text', e.target.value)}
                       required
                     />
+                    <div className="option-score">
+                      <label>Score:</label>
+                      <input
+                        type="number"
+                        placeholder="Score"
+                        value={option.score}
+                        onChange={(e) => handleOptionChange(index, 'score', e.target.value)}
+                        required
+                      />
+                    </div>
                   </div>
-                </div>
-              ))}
-            </div>
-            
-            <button type="submit" className="submit-btn">Add Question</button>
-          </form>
-        </div>
+                ))}
+              </div>
+              
+              <button type="submit" className="submit-btn">Add Question</button>
+            </form>
+          </div>
 
-        <div className="question-management">
-          <h3>Existing Questions</h3>
-          <table className="questions-table">
-            <thead>
-              <tr>
-                <th>Question</th>
-                <th>Trait</th>
-                <th>Options</th>
-                <th>Action</th>
-              </tr>
-            </thead>
-            <tbody>
-              {questions.map((question) => (
-                <tr key={question._id}>
-                  <td>{question.question}</td>
-                  <td>{question.trait}</td>
-                  <td>
-                    {question.options.map((option, index) => (
-                      <div key={index} className="option-display">
-                        {option.text} (Score: {option.score})
-                      </div>
-                    ))}
-                  </td>
-                  <td>
-                    <button
-                      className="icon-delete-btn"
-                      onClick={() => initiateDelete(question)}
-                      title="Delete Question"
-                    >
-                      <FontAwesomeIcon icon={faTrash} />
-                    </button>
-                  </td>
+          <div className="question-management">
+            <h3>Existing Questions</h3>
+            <table className="questions-table">
+              <thead>
+                <tr>
+                  <th>Question</th>
+                  <th>Trait</th>
+                  <th>Options</th>
+                  <th>Action</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                {questions.map((question) => (
+                  <tr key={question._id}>
+                    <td>{question.question}</td>
+                    <td>{question.trait}</td>
+                    <td>
+                      {question.options.map((option, index) => (
+                        <div key={index} className="option-display">
+                          {option.text} (Score: {option.score})
+                        </div>
+                      ))}
+                    </td>
+                    <td>
+                      <button
+                        className="icon-delete-btn"
+                        onClick={() => initiateDelete(question)}
+                        title="Delete Question"
+                      >
+                        <FontAwesomeIcon icon={faTrash} />
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+
+          {/* Test Settings Modal */}
+          {showSettingsModal && (
+            <div className="modal-overlay">
+              <div className="settings-modal">
+                <button className="modal-close" onClick={() => setShowSettingsModal(false)}>
+                  <FontAwesomeIcon icon={faTimes} />
+                </button>
+                <div className="modal-content">
+                  <h3>Edit Test Settings</h3>
+                  <div className="settings-form">
+                    <div className="form-group">
+                      <label htmlFor="title">Test Title</label>
+                      <input
+                        id="title"
+                        name="title"
+                        type="text"
+                        value={testSettings.title}
+                        onChange={handleSettingsChange}
+                      />
+                    </div>
+                    <div className="form-group">
+                      <label htmlFor="description">Description</label>
+                      <textarea
+                        id="description"
+                        name="description"
+                        value={testSettings.description}
+                        onChange={handleSettingsChange}
+                      />
+                    </div>
+                    <div className="form-group">
+                      <label htmlFor="duration">Duration (minutes)</label>
+                      <input
+                        id="duration"
+                        name="duration"
+                        type="number"
+                        min="1"
+                        value={testSettings.duration}
+                        onChange={handleSettingsChange}
+                      />
+                    </div>
+                    <button 
+                      className="save-settings-btn" 
+                      onClick={saveTestSettings}
+                    >
+                      Save Settings
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* Delete Confirmation Modal */}
+          {showDeleteModal && (
+            <div className="modal-overlay">
+              <div className="delete-modal">
+                <button className="modal-close" onClick={() => setShowDeleteModal(false)}>
+                  <FontAwesomeIcon icon={faTimes} />
+                </button>
+                <div className="modal-content">
+                  <div className="modal-icon">
+                    <FontAwesomeIcon icon={faTrash} />
+                  </div>
+                  <h3>Confirm Delete</h3>
+                  <p>Are you sure you want to delete this question?</p>
+                  <div className="modal-question">"{selectedQuestion?.question}"</div>
+                  <div className="modal-buttons">
+                    <button 
+                      className="cancel-btn"
+                      onClick={() => setShowDeleteModal(false)}
+                    >
+                      Cancel
+                    </button>
+                    <button 
+                      className="confirm-delete-btn"
+                      onClick={handleDelete}
+                    >
+                      Delete
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
         </div>
-
-        {/* Test Settings Modal */}
-        {showSettingsModal && (
-          <div className="modal-overlay">
-            <div className="settings-modal">
-              <button className="modal-close" onClick={() => setShowSettingsModal(false)}>
-                <FontAwesomeIcon icon={faTimes} />
-              </button>
-              <div className="modal-content">
-                <h3>Edit Test Settings</h3>
-                <div className="settings-form">
-                  <div className="form-group">
-                    <label htmlFor="title">Test Title</label>
-                    <input
-                      id="title"
-                      name="title"
-                      type="text"
-                      value={testSettings.title}
-                      onChange={handleSettingsChange}
-                    />
-                  </div>
-                  <div className="form-group">
-                    <label htmlFor="description">Description</label>
-                    <textarea
-                      id="description"
-                      name="description"
-                      value={testSettings.description}
-                      onChange={handleSettingsChange}
-                    />
-                  </div>
-                  <div className="form-group">
-                    <label htmlFor="duration">Duration (minutes)</label>
-                    <input
-                      id="duration"
-                      name="duration"
-                      type="number"
-                      min="1"
-                      value={testSettings.duration}
-                      onChange={handleSettingsChange}
-                    />
-                  </div>
-                  <button 
-                    className="save-settings-btn" 
-                    onClick={saveTestSettings}
-                  >
-                    Save Settings
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-        )}
-
-        {/* Delete Confirmation Modal */}
-        {showDeleteModal && (
-          <div className="modal-overlay">
-            <div className="delete-modal">
-              <button className="modal-close" onClick={() => setShowDeleteModal(false)}>
-                <FontAwesomeIcon icon={faTimes} />
-              </button>
-              <div className="modal-content">
-                <div className="modal-icon">
-                  <FontAwesomeIcon icon={faTrash} />
-                </div>
-                <h3>Confirm Delete</h3>
-                <p>Are you sure you want to delete this question?</p>
-                <div className="modal-question">"{selectedQuestion?.question}"</div>
-                <div className="modal-buttons">
-                  <button 
-                    className="cancel-btn"
-                    onClick={() => setShowDeleteModal(false)}
-                  >
-                    Cancel
-                  </button>
-                  <button 
-                    className="confirm-delete-btn"
-                    onClick={handleDelete}
-                  >
-                    Delete
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-        )}
       </main>
     </div>
   );

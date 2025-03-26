@@ -43,62 +43,75 @@ const Tests = () => {
         {/* Tests Section */}
         <div className="welcome-section">
           <h2>Psychometric & Aptitude Tests</h2>
-          <div className="welcome-cards">
-            <div className="info-card">
+          
+          {/* Main Test Categories */}
+          <div className="tests-grid">
+            <div className="test-card">
               <h3>Personality Assessment</h3>
               <p>Discover your personality type and suitable career paths.</p>
-              <Link to="/take-personality-test" className="action-button">Start Assessment</Link>
+              <div className="button-container">
+                <Link to="/take-personality-test" className="test-button">Start Assessment</Link>
+              </div>
             </div>
-            <div className="info-card">
-              <h3>Moke Test</h3>
+            
+            <div className="test-card">
+              <h3>Mock Test</h3>
               <p>Evaluate your skills and cognitive abilities.</p>
-              <button className="action-button" onClick={handleStartTest}>Begin Test</button>
+              <div className="button-container">
+                <button className="test-button" onClick={handleStartTest}>Begin Test</button>
+              </div>
             </div>
-            <div className="info-card">
+            
+            <div className="test-card">
               <h3>Aptitude Test</h3>
               <p>Find career paths that match your interests.</p>
-              <Link to="/take-aptitude-test" className="action-button">Take Test</Link>
+              <div className="button-container">
+                <Link to="/take-aptitude-test" className="test-button">Take Test</Link>
+              </div>
             </div>
-          </div>
 
-          {/* Additional Test Categories */}
-          <div className="welcome-cards">
-            {/* <div className="info-card">
-              <h3>IQ Assessment</h3>
-              <p>Test your problem-solving and analytical skills.</p>
-              <button className="action-button">Start IQ Test</button>
-            </div>
-            <div className="info-card">
-              <h3>Emotional Intelligence</h3>
-              <p>Measure your emotional intelligence quotient (EQ).</p>
-              <button className="action-button">Begin EQ Test</button>
-            </div>
-            <div className="info-card">
-              <h3>Skills Assessment</h3>
-              <p>Evaluate your technical and soft skills.</p>
-              <button className="action-button">Start Assessment</button>
-            </div> */}
-          </div>
-        </div>
-
-        <div className="tests-container">
-          <div className="tests-grid">
             <div className="test-card">
               <h3>Manual Career Assessment</h3>
               <p>Input your scores manually for quick career suggestions</p>
-              <Link to="/manual-career-test" className="test-button" id="Manual Career Assessment" >
-                Manual Input
-              </Link>
+              <div className="button-container">
+                <Link to="/manual-career-test" className="test-button">Manual Input</Link>
+              </div>
             </div>
-          </div>
-          <div className="tests-grid">
+
             <div className="test-card">
-              <h3>Select your dream Career</h3>
-              <p>Input your scores</p>
-              <Link to="/dreamcareer" className="test-button" id="Dream career" >
-                Manual Input
-              </Link>
+              <h3>Select Your Dream Career</h3>
+              <p>Explore and select your ideal career path</p>
+              <div className="button-container">
+                <Link to="/dreamcareer" className="test-button">Get Started</Link>
+              </div>
             </div>
+            
+            {/* Additional test cards can be uncommented if needed */}
+            {/*
+            <div className="test-card">
+              <h3>IQ Assessment</h3>
+              <p>Test your problem-solving and analytical skills.</p>
+              <div className="button-container">
+                <button className="test-button">Start IQ Test</button>
+              </div>
+            </div>
+            
+            <div className="test-card">
+              <h3>Emotional Intelligence</h3>
+              <p>Measure your emotional intelligence quotient (EQ).</p>
+              <div className="button-container">
+                <button className="test-button">Begin EQ Test</button>
+              </div>
+            </div>
+            
+            <div className="test-card">
+              <h3>Skills Assessment</h3>
+              <p>Evaluate your technical and soft skills.</p>
+              <div className="button-container">
+                <button className="test-button">Start Assessment</button>
+              </div>
+            </div>
+            */}
           </div>
         </div>
       </div>

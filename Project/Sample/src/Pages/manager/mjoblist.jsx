@@ -53,7 +53,7 @@ const MJobList = () => {
                                 <div className="job-card-content">
                                     <h3>{job.name}</h3>
                                     <p className="job-description">{job.description}</p>
-                                    <p className="job-category">Category: {job.category ? job.category.name : 'N/A'}</p>
+                                    {/* <p className="job-category">Category: {job.category ? job.category.name : 'N/A'}</p> */}
                                     <Link to={`/mviewjob/${job._id}`}>
                                         <button className="view-details-btn">View Details</button>
                                     </Link>

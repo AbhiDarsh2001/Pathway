@@ -154,17 +154,6 @@ const MJobForm = () => {
               placeholder="e.g., industry1, industry2"
             />
           </div>
-          <div>
-            <label htmlFor="category">Category:</label>
-            <select
-              name="category"
-              id="category"
-              value={formData.category}
-              onChange={handleChange}
-              required
-            >
-            </select>
-          </div>
           <button type="submit" disabled={loading}>
             {loading ? 'Submitting...' : id ? 'Update' : 'Submit'}
           </button>

@@ -63,7 +63,7 @@ const MVJobDetails = () => {
                 <p><strong>Description:</strong> {job.description}</p>
                 {job.eligibility && <p><strong>Eligibility:</strong> {job.eligibility.join(', ')}</p>}
                 {job.industry && <p><strong>Industry:</strong> {job.industry.join(', ')}</p>}
-                <p><strong>Category:</strong> {job.category ? job.category.name : 'N/A'}</p>
+                {/* <p><strong>Category:</strong> {job.category ? job.category.name : 'N/A'}</p> */}
                 <div className="button-container">
                     <button className="back-button" onClick={() => navigate(-1)}>Back</button>
                     <button className="edit-button" onClick={() => navigate(`/meditjob/${id}`)}>Edit</button>
