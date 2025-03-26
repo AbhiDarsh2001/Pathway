@@ -468,7 +468,7 @@ Based on their academic performance, personality traits, and aptitude scores, pl
 
 Please format the response in clear, numbered points.`;
 
-      console.log('Sending prompt to Gemini API:', prompt); // Debug log
+      console.log('Sending prompt to API:', prompt); // Debug log
 
       // Generate content with safety settings
       const result = await model.generateContent({
