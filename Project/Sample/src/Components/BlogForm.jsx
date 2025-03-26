@@ -61,14 +61,25 @@ const BlogForm = () => {
       alert('User not found. Please log in.');
       return;
     }
+    
+    const token = localStorage.getItem('token');
+    if (!token) {
+      alert('Authentication token not found. Please log in again.');
+      return;
+    }
+    
     const formData = new FormData();
     formData.append('title', title);
     formData.append('content', content);
     formData.append('image', image);
     formData.append('author', authorid);
+    
     try {
       await axios.post(`${import.meta.env.VITE_URL}/blog/add`, formData, {
-        headers: { 'Content-Type': 'multipart/form-data' },
+        headers: { 
+          'Content-Type': 'multipart/form-data',
+          'Authorization': token 
+        },
       });
       alert('Blog added successfully!');
       setTitle('');
