@@ -57,12 +57,13 @@ const BlogList = () => {
   };
 
   const handleDelete = async (id) => {
-    if (window.confirm('Are you sure you want to delete this blog?')) {
+    if (window.confirm('Are you sure you want to delete this blog? This action cannot be undone.')) {
       try {
         const token = localStorage.getItem('token');
         await axios.delete(`${import.meta.env.VITE_URL}/blog/delete/${id}`, {
           headers: { Authorization: token },
         });
+        alert('Blog deleted successfully');
         fetchBlogs();
       } catch (error) {
         console.error('Error deleting blog:', error);
@@ -105,6 +106,8 @@ const BlogList = () => {
         },  
       });
 
+      alert('Blog updated successfully');
+      
       handleCancelEdit();
       fetchBlogs();
     } catch (error) {
@@ -188,14 +191,18 @@ const BlogList = () => {
                         type="text"
                         value={editTitle}
                         onChange={(e) => setEditTitle(e.target.value)}
+                        placeholder="Blog Title"
                       />
                       <textarea
                         value={editContent}
                         onChange={(e) => setEditContent(e.target.value)}
+                        placeholder="Blog Content"
                       />
                       <input type="file" onChange={handleImageChange} />
-                      <button onClick={handleSaveEdit}>Save</button>
-                      <button onClick={handleCancelEdit}>Cancel</button>
+                      <div className="edit-buttons">
+                        <button onClick={handleSaveEdit} className="submit-btn">Submit Changes</button>
+                        <button onClick={handleCancelEdit} className="cancel-btn">Cancel</button>
+                      </div>
                     </div>
                   ) : (
                     <>
@@ -211,7 +218,7 @@ const BlogList = () => {
                       <p>{blog.content}</p>
 
                       <div className="action-section">
-                        {currentUser && currentUser.id === blog.author._id ? (
+                        {currentUser && (currentUser._id === blog.author._id || currentUser.id === blog.author._id) ? (
                           <>
                             <button onClick={() => handleEdit(blog)}>
                               <FaEdit /> Edit
